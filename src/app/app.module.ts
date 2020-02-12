@@ -7,6 +7,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { LocationComponentComponent } from './location-component/location-component.component';
 import { ContentWeatherComponent } from './content-weather/content-weather.component';
+import { ContentPaypalComponent } from './content-paypal/content-paypal.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ContentWeatherComponent } from './content-weather/content-weather.compo
     LandingPageComponent,
     NavigationBarComponent,
     LocationComponentComponent,
-    ContentWeatherComponent
+    ContentWeatherComponent,
+    ContentPaypalComponent
   ],
   imports: [
     BrowserModule,
