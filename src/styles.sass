@@ -1,4 +1,4 @@
-$background-color: #121212
+@import "variables.sass"
 
 body, html
     margin: 0
@@ -14,17 +14,20 @@ body, html
     padding: 5% 0
     justify-content: center
     align-items: center
-    background: $background-color
+    background: $color-background
     flex-wrap: wrap
 
 .contentdiv
     margin: 20px 20px
     padding: 10px
     border-radius: 2px
-    min-width: 400px
-    max-width: 70vw
-    background: beige
+    width: 400px
+    background: #deaa87
+    
     h1 
+        text-align: center
+
+    h2 
         text-align: center
    
 .contenttilediv
