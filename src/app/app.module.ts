@@ -7,7 +7,6 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { LocationComponentComponent } from './location-component/location-component.component';
 import { ContentWeatherComponent } from './content-weather/content-weather.component';
-import { ContentPaypalComponent } from './content-paypal/content-paypal.component';
 import { ContentSocialMediaComponent } from './content-social-media/content-social-media.component';
 import { ContentContactComponent } from './content-contact/content-contact.component';
 
@@ -18,7 +17,6 @@ import { ContentContactComponent } from './content-contact/content-contact.compo
     NavigationBarComponent,
     LocationComponentComponent,
     ContentWeatherComponent,
-    ContentPaypalComponent,
     ContentSocialMediaComponent,
     ContentContactComponent
   ],
