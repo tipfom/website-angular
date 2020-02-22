@@ -9,6 +9,7 @@ import { LocationComponentComponent } from './location-component/location-compon
 import { ContentWeatherComponent } from './content-weather/content-weather.component';
 import { ContentSocialMediaComponent } from './content-social-media/content-social-media.component';
 import { ContentContactComponent } from './content-contact/content-contact.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ContentContactComponent } from './content-contact/content-contact.compo
     LocationComponentComponent,
     ContentWeatherComponent,
     ContentSocialMediaComponent,
-    ContentContactComponent
+    ContentContactComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
