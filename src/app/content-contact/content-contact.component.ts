@@ -12,4 +12,7 @@ export class ContentContactComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  gotoMedia(link: string): void {
+    window.open(link, "_blank");
+  }
 }
