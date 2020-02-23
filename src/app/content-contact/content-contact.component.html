@@ -1,46 +1,37 @@
 <div class="backgrounddiv">
-    <div class="contentdiv">
-        <h1>Kontakt</h1>
-        <table id="externaltable">
-            <tr>
-                <th>
-                    <button id="emailbutton" onclick="location.href='mailto:timpokart@outlook.de'">E-Mail</button>
-                </th>
-                <th>
-                    <button id="telegrambutton">Telegram</button>
-                </th>
-            </tr>
-        </table>
-        <h2>Kontaktformular</h2>
-        <table>
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    <input>        
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    E-Mail
-                </th>
-                <th>
-                    <input>        
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    Firma
-                </th>
-                <th>
-                    <input>        
-                </th>
-            </tr>
-        </table>
-        Nachricht
-        <input>        
-        <p>
-        <button>Senden</button>
+    <div class="contenttilediv" id="reddittile" onclick="location.href='https://www.reddit.com/u/tipfom'">
+        <img src="../../assets/images/Reddit_Mark_OnWhite.svg">
+    </div>
+    <div class="contenttilediv" id="githubtile" onclick="location.href='https://www.github.com/tipfom'">
+        <img src="../../assets/images/GitHub-Mark-120px-plus.png">
+    </div>
+    <div class="contenttilediv" id="instagramtile" onclick="location.href='https://www.instagram.com/tipfom'">
+        <img src="../../assets/images/IG_Glyph_Fill.png">
+    </div>
+    <div class="contenttilediv" id="emaildiv">
+        <span>E-Mail</span>
+    </div>
+    <div class="contenttilediv" id="telegramdiv">
+        <span>Telegram</span>
+    </div>
 </div>
+<div class="backgrounddiv">
+    <div class="contentdiv">
+        <h2>Kontaktformular</h2>
+        <div class="contact-group-div">
+            <input class="contact-group-input" id="nameinput" placeholder="Name">
+            <label class="contact-group-label">Name</label>
+        </div>
+        <div class="contact-group-div">
+            <input class="contact-group-input" id="emailinput" placeholder="E-Mail">
+            <label class="contact-group-label">E-Mail</label>
+        </div>
+        <div class="contact-group-div">
+            <textarea class="contact-group-input" id="messageinput" placeholder="Nachricht"></textarea>
+            <label class="contact-group-label">Nachricht</label>
+        </div>
+        <div id="cdiv">
+            <button>Senden</button>
+        </div>
+    </div>
 </div>

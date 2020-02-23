@@ -1,3 +1,29 @@
+@import "../../variables"
+
+#emaildiv
+    background: white
+
+#telegramdiv
+    background: white
+
+#reddittile
+    background: white
+    img
+        width: 100%
+
+#githubtile
+    background: white
+    img
+        width: 50%
+        
+#instagramtile
+    background: white
+    img
+        width: 80%
+
+#cdiv
+    text-align: center
+
 table
     width: 100%
 
@@ -5,9 +31,72 @@ button
     font-size: 20px
     padding: 5px
     width: 150px
-    background: white
-    border-radius: 4px
-    border-width: 1px
+    background: $color-light
+    color: $color-darkbrown
+    border-radius: 3px
+    border-width: 0px
+    outline-color:$color-light 
+    outline-width: 1px
+    box-shadow: 0px 1.5px 1px $color-darkbrown
 
-input
-    width: 100%
+button:hover
+    background: $color-darkbrown
+    color: $color-accent
+
+button:focus
+    outline: 0
+
+.contact-group-div
+    position: relative
+
+.contact-group-input
+    width: calc(100% - 10px)
+    background: $color-lightbrown
+    color: $color-darkbrown
+    outline: 0
+    border-color: $color-darkbrown
+    border-width: 1.5px
+    border-style: solid
+    border-radius: 2px
+    padding: 2px 5px
+    margin: 30px 0 0 0
+    font-size: 20px
+
+    &::placeholder
+        color: $color-darkbrown
+
+    &:not(:placeholder-shown) ~ label 
+        position: absolute
+        top: 10px
+        color: $color-darkbrown
+    
+    &:placeholder-shown ~ label 
+        position: absolute
+        top: 0px
+        color: transparent
+
+.contact-group-input:hover
+    border-color: $color-accent
+    color: $color-accent
+
+    &::placeholder
+        color: $color-accent
+    
+    &:not(:placeholder-shown) ~ label 
+        color: $color-accent
+
+.contact-group-input:focus
+    border-color: $color-darkbrown
+    color: $color-darkbrown
+
+    &::placeholder
+        color: $color-darkbrown
+
+    &:not(:placeholder-shown) ~ label 
+        color: $color-darkbrown
+        font-weight: bold
+
+#messageinput
+    resize: vertical        
+    min-height: 100px
+    font-family: inherit
