@@ -8,6 +8,7 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { ContentContactComponent } from './content-contact/content-contact.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContentAboutmeComponent } from './content-aboutme/content-aboutme.component';
+import { SiteAboutmeComponent } from './site-aboutme/site-aboutme.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { ContentAboutmeComponent } from './content-aboutme/content-aboutme.compo
     ContentContactComponent,
     FooterComponent,
     ContentAboutmeComponent,
-    ContentAboutmeComponent
+    SiteAboutmeComponent
   ],
   imports: [
     BrowserModule,
