@@ -1,76 +1,123 @@
-// ----------------  THE BASICS
+@import "src/variables"
 
-@import url('https://fonts.googleapis.com/css?family=Oswald|Roboto:400,700')
-
-body 
-	font-size: 14px
-	line-height: 1.5
-
-
-// ----------------  THE FONTS
-
-h1, h2, h3, h4, h5, h6 
-	font-family: 'Oswald', sans-serif
-
-
-h1 
-	font-size: 2rem
-	margin-bottom: .5em
-
-
-p 
-	font-family: 'Roboto', sans-serif
-	font-size: .8rem
+h1
+	color: $color-textondark
 
 
 // ----------------  LAYOUT
 
-.container 
-	max-width: 1024px
+#modulatedcontent 
+	max-width: 800px
 	width: 90%
 	margin: 0 auto
+	padding: 10px 5%
 
 
 // ----------------  THE FONTS
 
-$border-color: rgba(black, .3)
+$border-color: rgba($color-light, .3)
 
 .timeline-item 
-	padding: 3em 2em 2em
+	padding: 0.5em
 	position: relative
-	color: rgba(black, .7)
 	border-left: 2px solid $border-color
-	
-	p 
-		font-size: 1rem
-	
-	
-	&::before 
-		content: attr(date-is)
-		position: absolute
-		left: 2em
-		font-weight: bold
-		top: 1em
-		display: block
-		font-family: 'Roboto', sans-serif
-		font-weight: 700
-		font-size: .785rem
+
 	
 
 	&::after 
 		width: 10px
 		height: 10px
 		display: block
-		top: 1em
+		top: 50%
 		position: absolute
-		left: -7px
+		left: -8px
 		border-radius: 10px
 		content: ''
 		border: 2px solid $border-color
-		background: white
-	
+		background: $color-light
+
+	&:hover
+		
+		&::after
+			background: $color-accent-secondary
+		
+		.headerdiv
+			background: $color-accent-secondary
+
 
 	&:last-child 
 		border-image: linear-gradient(to bottom, $border-color 60%, rgba($border-color, 0)) 1 100%
+
+	&:first-child
+		border-image: linear-gradient(to top, $border-color 60%, rgba($border-color, 0)) 1 100%
 		
+
 	
+.contentdiv
+	padding:0
+	width: auto
+
+.datep
+	padding: 10px
+	padding-bottom: 4px
+	margin: 0
+	font-size: 13px
+
+.descriptionp
+	padding: 10px
+	padding-top:0px
+	margin: 0
+	font-size: 1.1rem
+	line-height: 1.5
+
+.headerdiv
+	width: 100%
+	background: $color-accent
+	padding: 5px 0px
+	border-top-left-radius: 3px
+	border-top-right-radius: 3px
+
+	h2
+		margin: 10px
+		text-align: left
+		color: $color-textondark
+
+#currentdiv
+	display: flex
+	overflow-y: hidden
+	overflow-x: scroll
+	flex-wrap: nowrap
+	scroll-padding: 0 100px 0 0 
+	width: auto
+	margin: 25px 50px
+
+
+	&::-webkit-scrollbar 
+		height: 0 !important
+
+
+.currententrydiv
+	display: flex
+	justify-content: center
+	align-content: center
+	height: 125px
+	min-width: 250px
+	max-width: 250px
+	background: $color-light
+	overflow-wrap: anywhere
+	word-wrap: break-word
+	hyphens: auto
+	border-radius: 3px
+
+	h2
+		text-align: center
+		color: $color-textonlight
+	
+	img
+		width: 70%
+		margin: auto 15%
+
+	&:not(:first-child) 
+		&:not(:last-child)
+			margin: 0 10px
+

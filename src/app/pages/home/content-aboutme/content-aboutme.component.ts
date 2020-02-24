@@ -14,5 +14,4 @@ export class ContentAboutmeComponent implements OnInit {
   ngOnInit(): void {
     weatherwidget_io_invoke();
   }
-
 }
