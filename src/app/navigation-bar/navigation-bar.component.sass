@@ -1,51 +1,43 @@
 @import "../../variables.sass"
     
-div
+#footer_div
     position: sticky
     top: 0
     background: $color-background
     z-index: 20
-
-.svg_form
-    width: max(20px, 3vh)
-    height: max(20px, 3vh)
-
-ul
-    list-style-type: none
     display: flex
     height: fit-content
     justify-content: center
     width: 90%
-    margin: 0 5% 
-    padding: 5px 0
+    padding: 5px 5%
     flex-wrap: wrap
 
-    li
+
+.icon_svg
+    width: max(20px, 3vh)
+    height: max(20px, 3vh)
+    vertical-align: middle
+    g
+        fill: $color-textondark
+
+.entry_div
+    display: inline-block
+    font-family: "Roboto", sans-serif
+    margin: 0.5vw 4vw
+    min-width: fit-content
+    color: $color-textondark
+    cursor: pointer
+    
+    &:hover
+        color: $color-accentlight
+    
+    &:hover > .icon_svg
+        g
+            fill: $color-accentlight
+
+    span
         display: inline-block
-        font-family: "Roboto", sans-serif
-        margin: 0.5vw 4vw
-        min-width: fit-content
-        color: $color-textondark
-        cursor: pointer
-        
-        span
-            display: inline-block
-            line-height: max(30px, 10%)
-            vertical-align: middle
-            font-size: max(15px, 2vh)
-            margin: 0 5px
-
-        svg
-            display: inline-block
-            line-height: max(30px, 10%)
-            vertical-align: middle
-            height: 100%
-
-        a
-            color: $color-textondark
-            text-decoration: none
-            display: inline-block
-            min-width: fit-content
-
-g
-    fill: $color-textondark
+        line-height: max(30px, 10%)
+        vertical-align: middle
+        font-size: max(15px, 2vh)
+        margin: 0 5px
