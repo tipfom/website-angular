@@ -5,9 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-import { LocationComponentComponent } from './location-component/location-component.component';
-import { ContentWeatherComponent } from './content-weather/content-weather.component';
-import { ContentSocialMediaComponent } from './content-social-media/content-social-media.component';
 import { ContentContactComponent } from './content-contact/content-contact.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContentAboutmeComponent } from './content-aboutme/content-aboutme.component';
@@ -17,11 +14,9 @@ import { ContentAboutmeComponent } from './content-aboutme/content-aboutme.compo
     AppComponent,
     LandingPageComponent,
     NavigationBarComponent,
-    LocationComponentComponent,
-    ContentWeatherComponent,
-    ContentSocialMediaComponent,
     ContentContactComponent,
     FooterComponent,
+    ContentAboutmeComponent,
     ContentAboutmeComponent
   ],
   imports: [
