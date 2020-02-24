@@ -9,6 +9,7 @@ import { ContentContactComponent } from './content-contact/content-contact.compo
 import { FooterComponent } from './footer/footer.component';
 import { ContentAboutmeComponent } from './content-aboutme/content-aboutme.component';
 import { SiteAboutmeComponent } from './site-aboutme/site-aboutme.component';
+import { SiteHomeComponent } from './site-home/site-home.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SiteAboutmeComponent } from './site-aboutme/site-aboutme.component';
     ContentContactComponent,
     FooterComponent,
     ContentAboutmeComponent,
-    SiteAboutmeComponent
+    SiteAboutmeComponent,
+    SiteHomeComponent
   ],
   imports: [
     BrowserModule,
