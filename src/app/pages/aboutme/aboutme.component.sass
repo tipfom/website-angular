@@ -17,16 +17,16 @@ h1
 
 $border-color: rgba($color-light, .3)
 
+
 .timeline-item 
 	padding: 0.5em
 	position: relative
 	border-left: 2px solid $border-color
 
-	
-
 	&::after 
 		width: 10px
 		height: 10px
+		opacity: 1.0
 		display: block
 		top: 50%
 		position: absolute
@@ -50,29 +50,37 @@ $border-color: rgba($color-light, .3)
 
 	&:first-child
 		border-image: linear-gradient(to top, $border-color 60%, rgba($border-color, 0)) 1 100%
-		
+	
+	.contentdiv
+		padding:0
+		width: auto
+
+.timeline-highlight
+	.headerdiv
+		background: $color-accent
 
 	
-.contentdiv
-	padding:0
-	width: auto
 
 .datep
 	padding: 10px
-	padding-bottom: 4px
+	padding-bottom: 6px
 	margin: 0
 	font-size: 13px
 
-.descriptionp
+.descriptiondiv
 	padding: 10px
 	padding-top:0px
 	margin: 0
 	font-size: 1.1rem
 	line-height: 1.5
+	p 
+		margin: 0
+	ul
+		margin: 2px 0 5px 0
 
 .headerdiv
 	width: 100%
-	background: $color-accent
+	background: $color-accent-faded
 	padding: 5px 0px
 	border-top-left-radius: 3px
 	border-top-right-radius: 3px
