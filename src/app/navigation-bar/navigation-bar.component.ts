@@ -12,10 +12,6 @@ export class NavigationBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  gotoHome(): void {
-    location.href = "";
-  }
-
   gotoContact(): void {
     location.href = "#contact";
   }
