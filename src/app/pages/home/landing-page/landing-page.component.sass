@@ -30,8 +30,6 @@
     height: 35%
     position: absolute
     display: block
-    margin-left: auto
-    margin-right: auto
     z-index: 1
     bottom: 17%
 
@@ -41,17 +39,25 @@
     width: 100%
     flex-flow: column
 
+h1
+    color: $color-textonlight
+
 @media (min-width: 700px) 
     h1
-        color: $color-textonlight
         text-align: center
         font-size: 14vh
         margin: 20px 10%
 
 @media not all and (min-width: 700px) 
     h1
-        color: $color-textonlight
         text-align: left
         font-size: 10vh
-        line-height: 10vh
         margin: 20px 40px 0px 25px
+
+    #walrusdiv
+        justify-content: flex-end
+    
+    #walrusimg
+        right: -200px
+    
+
