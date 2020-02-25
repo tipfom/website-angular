@@ -12,11 +12,4 @@ export class NavigationBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  hrefClick(loc: string): void {
-    location.href = "#" + loc;
-  }
-
-  gotoPaypal(): void {
-    window.open("https://paypal.me/timpokart", "_blank");
-  }
 }
