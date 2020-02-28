@@ -11,6 +11,10 @@ import { ContentAboutmeComponent } from './pages/home/content-aboutme/content-ab
 import { AboutmeComponent } from './pages/aboutme/aboutme.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { CmsComponent } from './pages/admin/cms/cms.component';
+import { LoginService } from './services/login.service';
+import { HttpClientModule } from '@angular/common/http'; 
 
 @NgModule({
   declarations: [
@@ -22,10 +26,13 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
     ContentAboutmeComponent,
     AboutmeComponent,
     HomeComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    AdminComponent,
+    CmsComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],
