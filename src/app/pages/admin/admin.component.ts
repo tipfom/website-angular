@@ -13,7 +13,7 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  log():void{
-    this.loginService.login("a@b.c","defg");
+  log(): void {
+    this.loginService.login("a@b.c", "defg").subscribe((r) => console.info(r));
   }
 }

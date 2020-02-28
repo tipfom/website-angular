@@ -1,5 +1,4 @@
 export interface MilestoneEntry {
-    name: string;
-    timespan: string;
-  }
-  
+  name: string;
+  timespan: string;
+}
