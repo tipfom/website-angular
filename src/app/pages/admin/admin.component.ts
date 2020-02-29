@@ -7,7 +7,6 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./admin.component.sass']
 })
 export class AdminComponent implements OnInit {
-
   constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {

@@ -1,1 +1,13 @@
-<p>cms works!</p>
+<div>
+    <h2>Create Link CMS</h2>
+    <form [formGroup]="cmsLinkForm" (ngSubmit)="onCmsLinkFormSubmit()">
+        Link: <input formControlName="link"  placeholder="Enter URL">
+        <button type="submit">Submit</button> 
+     </form>
+</div>
+
+<div>
+    <h2>Create Img CMS</h2>
+    Images: <input type="file" id="photofiles" (change)="detectFiles($event)" multiple="true" accept="image/png, image/jpeg">
+    <button type="submit">Submit</button> 
+</div>
