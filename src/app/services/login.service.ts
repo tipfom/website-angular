@@ -10,9 +10,9 @@ export class LoginService {
 
   constructor(private httpClient: HttpClient) { }
 
-  login(email: string, password: string) {
-    console.info("checking login");
-    return this.httpClient.post<LoginToken>('http://localhost:5764', { email, password }).pipe(tap(res => {
+  login(password: string) {
+    return this.httpClient.post<LoginToken>('http://localhost:5764', { password })
+    .pipe(tap(res => {
       localStorage.setItem("token", res.token);
     }));
   }

@@ -13,7 +13,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { CmsComponent } from './pages/admin/cms/cms.component';
-import { LoginService } from './services/login.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component'; 
 
@@ -35,7 +35,9 @@ import { LoginComponent } from './pages/login/login.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
