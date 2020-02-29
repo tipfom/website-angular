@@ -8,8 +8,13 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
+  }
+  
+  onLogout(): void {
+    this.loginService.logout();
+    location.reload();
   }
 }
