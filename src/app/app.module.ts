@@ -14,7 +14,8 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { AdminComponent } from './pages/admin/admin.component';
 import { CmsComponent } from './pages/admin/cms/cms.component';
 import { LoginService } from './services/login.service';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './pages/login/login.component'; 
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     NavigationBarComponent,
     AdminComponent,
-    CmsComponent
+    CmsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

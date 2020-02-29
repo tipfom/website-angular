@@ -17,6 +17,10 @@ export class LoginService {
     }));
   }
 
+  isLoggedIn() : boolean {
+    return localStorage.getItem('token') != null;
+  }
+
   logout() {
     localStorage.removeItem('token');
   }  

@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { AboutmeComponent } from './pages/aboutme/aboutme.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AdminGuardService } from './services/admin-guard.service';
 
 const routes: Routes = [
   {
@@ -16,8 +18,13 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: AdminComponent
-  }
+    component: AdminComponent,
+    canActivate: [AdminGuardService]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
 ];
 
 @NgModule({

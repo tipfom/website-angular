@@ -8,12 +8,8 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  log(): void {
-    this.loginService.login("a@b.c", "defg").subscribe((r) => console.info(r));
   }
 }
