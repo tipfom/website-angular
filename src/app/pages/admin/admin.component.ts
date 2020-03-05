@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-admin',
@@ -7,13 +7,13 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./admin.component.sass']
 })
 export class AdminComponent implements OnInit {
-  constructor(private loginService: LoginService) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
   }
   
   onLogout(): void {
-    this.loginService.logout();
+    this.apiService.logout();
     location.reload();
   }
 }

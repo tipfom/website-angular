@@ -6,12 +6,12 @@ import { LoginToken } from '../structures/login-token';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
   login(password: string) {
-    return this.httpClient.post<LoginToken>('http://localhost:5764', { password })
+    return this.httpClient.post<LoginToken>('http://localhost:5764/login', { password })
     .pipe(tap(res => {
       localStorage.setItem("token", res.token);
     }));
@@ -24,4 +24,8 @@ export class LoginService {
   logout() {
     localStorage.removeItem('token');
   }  
+
+  postResource(type: string, files: string[]){
+    return this.httpClient.post('http://localhost:5764/resource', { token: localStorage.getItem("token"), type, files }, {responseType: "text"});
+  }
 }

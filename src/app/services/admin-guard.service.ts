@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoginService } from './login.service';
+import { ApiService } from './api.service';
 import { CanActivate, Router } from '@angular/router';
 
 @Injectable({
@@ -7,10 +7,10 @@ import { CanActivate, Router } from '@angular/router';
 })
 export class AdminGuardService implements CanActivate {
 
-  constructor(public loginService: LoginService, public router: Router) { }
+  constructor(public apiService: ApiService, public router: Router) { }
 
   canActivate(): boolean {
-    if (!this.loginService.isLoggedIn()) {
+    if (!this.apiService.isLoggedIn()) {
       this.router.navigate(['login']);
       return false;
     }

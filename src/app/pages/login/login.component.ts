@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
+import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
@@ -17,13 +17,13 @@ export class LoginComponent implements OnInit {
     password: new FormControl(''),
   })
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onPasswordFormSubmit(): void {
-    this.loginService.login(this.passwordForm.get("password").value)
+    this.apiService.login(this.passwordForm.get("password").value)
     .pipe(catchError((error)=>{
       console.error('error getting password', error);
       return of();

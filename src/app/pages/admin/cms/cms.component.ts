@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-cms',
@@ -11,14 +12,17 @@ export class CmsComponent implements OnInit {
     link: new FormControl(''),
   })
 
-  constructor() {
+  constructor(private apiService: ApiService) {
   }
 
   ngOnInit(): void {
   }
 
   onCmsLinkFormSubmit(): void {
-
+    this.apiService.postResource("links", [this.cmsLinkForm.get("link").value]).subscribe(r => {
+      console.info(r);
+      window.alert(r);
+    });
   }
 
   detectFiles(event): void {
