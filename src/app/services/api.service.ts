@@ -12,20 +12,25 @@ export class ApiService {
 
   login(password: string) {
     return this.httpClient.post<LoginToken>('http://localhost:5764/login', { password })
-    .pipe(tap(res => {
-      localStorage.setItem("token", res.token);
-    }));
+      .pipe(tap(res => {
+        localStorage.setItem("token", res.token);
+      }));
   }
 
-  isLoggedIn() : boolean {
+  isLoggedIn(): boolean {
     return localStorage.getItem('token') != null;
   }
 
   logout() {
     localStorage.removeItem('token');
-  }  
+  }
 
-  postResource(type: string, files: string[]){
-    return this.httpClient.post('http://localhost:5764/resource', { token: localStorage.getItem("token"), type, files }, {responseType: "text"});
+  postResource(type: string, files: string[]) {
+    return this.httpClient.post('http://localhost:5764/resource', { token: localStorage.getItem("token"), type, files }, { responseType: "text" });
+  }
+
+  uploadFile(file: File) {
+    console.info(file);
+    return this.httpClient.post('http://localhost:5764/upload/', file);
   }
 }
