@@ -16,17 +16,28 @@ export class ResourceComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.apiService.getResource(id).subscribe(res => {
       let lines = res.split("\n");
-      let count = 0;
-      if (lines[0] == "links") {
-        for (var i = 1; i < lines.length; i++) {
-          if (lines[i].trim()) {
-            if (count == 0) location.href = lines[i];
-            else window.open(lines[i], "_blank");
-            count++;
+      switch (lines[0]) {
+        case "links":
+          for (var i = 1; i < lines.length; i++) {
+            if (i == lines.length - 1) location.href = lines[i];
+            else window.open(lines[i]);
           }
-        }
+          break;
+
+        case "images":
+          for (var i = 1; i < lines.length; i++) {
+            this.openImage(i == lines.length - 1, lines[i]);
+          }
+          break;
       }
     });
   }
 
+  openImage(last: boolean, name: string) {
+    this.apiService.getImage(name).subscribe(res => {
+      let url = URL.createObjectURL(res.body);
+      if (last) location.href = url;
+      else window.open(url);
+    });
+  }
 }

@@ -27,6 +27,16 @@ export class CmsComponent implements OnInit {
 
   detectFiles(event): void {
     let files = event.target.files;
-    this.apiService.uploadFile(files[0]).subscribe();
+    let serverfiles = [];
+    for(var i = 0; i < files.length; i++){
+      this.apiService.uploadFile(files[i], files[i].name).subscribe(filename => {
+        serverfiles.push(filename);
+        if(serverfiles.length == files.length){
+          this.apiService.postResource("images", serverfiles).subscribe(resourceid => {
+            window.alert(resourceid);
+          });
+        }
+      });
+    }
   }
 }

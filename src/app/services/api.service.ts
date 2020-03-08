@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { LoginToken } from '../structures/login-token';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,15 @@ export class ApiService {
     return this.httpClient.post('http://localhost:5764/resource', { token: localStorage.getItem("token"), type, files }, { responseType: "text" });
   }
 
-  getResource(id: string){
+  getResource(id: string) {
     return this.httpClient.get('http://localhost:5764/resource/' + id, { responseType: "text" });
   }
 
-  uploadFile(file: File) {
-    console.info(file);
-    return this.httpClient.post('http://localhost:5764/upload/', file);
+  getImage(id: string) {
+    return this.httpClient.get('http://localhost:5764/file/' + id, { observe: "response", responseType: "blob" });
+  }
+
+  uploadFile(file: File, wishname: string) {
+    return this.httpClient.post('http://localhost:5764/upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file, { responseType: "text" });
   }
 }
