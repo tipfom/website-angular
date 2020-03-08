@@ -29,6 +29,10 @@ export class ApiService {
     return this.httpClient.post('http://localhost:5764/resource', { token: localStorage.getItem("token"), type, files }, { responseType: "text" });
   }
 
+  getResource(id: string){
+    return this.httpClient.get('http://localhost:5764/resource/' + id, { responseType: "text" });
+  }
+
   uploadFile(file: File) {
     console.info(file);
     return this.httpClient.post('http://localhost:5764/upload/', file);

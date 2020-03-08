@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminGuardService } from './services/admin-guard.service';
+import { ResourceComponent } from './pages/resource/resource.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+  {
+    path: 'res/:id',
+    component: ResourceComponent
+  }
 ];
 
 @NgModule({

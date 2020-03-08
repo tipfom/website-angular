@@ -15,7 +15,8 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { CmsComponent } from './pages/admin/cms/cms.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './pages/login/login.component'; 
+import { LoginComponent } from './pages/login/login.component';
+import { ResourceComponent } from './pages/resource/resource.component'; 
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { LoginComponent } from './pages/login/login.component';
     NavigationBarComponent,
     AdminComponent,
     CmsComponent,
-    LoginComponent
+    LoginComponent,
+    ResourceComponent
   ],
   imports: [
     BrowserModule,
