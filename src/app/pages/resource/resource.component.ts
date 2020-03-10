@@ -31,7 +31,7 @@ export class ResourceComponent implements OnInit {
           break;
         case "files":
           for (var i = 1; i < lines.length; i++) {
-            window.open(this.apiService.getDownloadLink(lines[i]));
+            location.href = this.apiService.getDownloadLink(lines[i]);
           }
           break;
       }
