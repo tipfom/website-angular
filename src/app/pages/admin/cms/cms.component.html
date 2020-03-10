@@ -11,3 +11,9 @@
     Images: <input type="file" id="photofiles" (change)="detectFiles($event)" multiple="true" accept="image/png, image/jpeg">
     <button type="submit">Submit</button> 
 </div>
+
+<div>
+    <h2>Upload File CMS</h2>
+    File: <input type="file" id="file_select">
+    <button type="submit" (click)="uploadSelectedFiles()">Submit</button> 
+</div>

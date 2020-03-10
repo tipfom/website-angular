@@ -29,6 +29,11 @@ export class ResourceComponent implements OnInit {
             this.openImage(i == lines.length - 1, lines[i]);
           }
           break;
+        case "files":
+          for (var i = 1; i < lines.length; i++) {
+            window.open()
+          }
+          break;
       }
     });
   }

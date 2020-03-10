@@ -28,15 +28,25 @@ export class CmsComponent implements OnInit {
   detectFiles(event): void {
     let files = event.target.files;
     let serverfiles = [];
-    for(var i = 0; i < files.length; i++){
+    for (var i = 0; i < files.length; i++) {
       this.apiService.uploadFile(files[i], files[i].name).subscribe(filename => {
         serverfiles.push(filename);
-        if(serverfiles.length == files.length){
+        if (serverfiles.length == files.length) {
           this.apiService.postResource("images", serverfiles).subscribe(resourceid => {
             window.alert(resourceid);
           });
         }
       });
     }
+  }
+
+  uploadSelectedFiles(): void {
+    let file_select = <HTMLInputElement>document.getElementById("file_select");
+    let file = file_select.files[0];
+    this.apiService.uploadFile(file, file.name).subscribe(filename => {
+      this.apiService.postResource("files", [filename]).subscribe(resourceid => {
+        window.alert(resourceid);
+      });
+    });
   }
 }

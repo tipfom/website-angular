@@ -38,6 +38,10 @@ export class ApiService {
     return this.httpClient.get('http://localhost:5764/file/' + id, { observe: "response", responseType: "blob" });
   }
 
+  downloadFile(id: string){
+    location.href = 'http://localhost:5764/file/' + id;
+  }
+
   uploadFile(file: File, wishname: string) {
     return this.httpClient.post('http://localhost:5764/upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file, { responseType: "text" });
   }
