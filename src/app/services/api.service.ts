@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 import { LoginToken } from '../structures/login-token';
 import { Observable } from 'rxjs';
@@ -9,10 +9,12 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
+  private server_address = "http://localhost:5764/";
+
   constructor(private httpClient: HttpClient) { }
 
   login(password: string) {
-    return this.httpClient.post<LoginToken>('http://localhost:5764/login', { password })
+    return this.httpClient.post<LoginToken>(this.server_address + 'login', { password })
       .pipe(tap(res => {
         localStorage.setItem("token", res.token);
       }));
@@ -27,22 +29,27 @@ export class ApiService {
   }
 
   postResource(type: string, files: string[]) {
-    return this.httpClient.post('http://localhost:5764/resource', { token: localStorage.getItem("token"), type, files }, { responseType: "text" });
+    let headers = new HttpHeaders();
+    headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
+    console.info(headers);
+    return this.httpClient.post(this.server_address + 'resource', { type, files }, { headers: headers, responseType: "text" });
   }
 
   getResource(id: string) {
-    return this.httpClient.get('http://localhost:5764/resource/' + id, { responseType: "text" });
+    return this.httpClient.get(this.server_address + 'resource/' + id, { responseType: "text" });
   }
 
   getImage(id: string) {
-    return this.httpClient.get('http://localhost:5764/file/' + id, { observe: "response", responseType: "blob" });
+    return this.httpClient.get(this.server_address + 'file/' + id, { observe: "response", responseType: "blob" });
   }
 
-  getDownloadLink(id: string){
-    return 'http://localhost:5764/file/' + id;
+  getDownloadLink(id: string) {
+    return this.server_address + 'file/' + id;
   }
 
   uploadFile(file: File, wishname: string) {
-    return this.httpClient.post('http://localhost:5764/upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file, { responseType: "text" });
+    let headers = new HttpHeaders();
+    headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
+    return this.httpClient.post(this.server_address + 'upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file, { headers: headers, responseType: "text" });
   }
 }
