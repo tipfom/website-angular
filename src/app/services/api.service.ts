@@ -38,8 +38,8 @@ export class ApiService {
     return this.httpClient.get('http://localhost:5764/file/' + id, { observe: "response", responseType: "blob" });
   }
 
-  downloadFile(id: string){
-    location.href = 'http://localhost:5764/file/' + id;
+  getDownloadLink(id: string){
+    return 'http://localhost:5764/file/' + id;
   }
 
   uploadFile(file: File, wishname: string) {
