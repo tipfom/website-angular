@@ -20,8 +20,15 @@ export class ApiService {
       }));
   }
 
-  isLoggedIn(): boolean {
-    return localStorage.getItem('token') != null;
+  isLoggedIn() {
+    let token = localStorage.getItem('token');
+    if (token == null) return new Observable<boolean>(observer => observer.next(false));
+
+    let headers = new HttpHeaders();
+    headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
+    return this.httpClient.get(this.server_address + 'authorized', { headers: headers, responseType: "text" }).pipe(
+      map<string, boolean>(s => s == "True")
+    );
   }
 
   logout() {
@@ -31,7 +38,6 @@ export class ApiService {
   postResource(type: string, files: string[]) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    console.info(headers);
     return this.httpClient.post(this.server_address + 'resource', { type, files }, { headers: headers, responseType: "text" });
   }
 
