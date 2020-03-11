@@ -24,36 +24,33 @@
     margin: 0
     padding: 0
 
-#contentdiv
+#markdowndiv
     margin: 20px 0
 
-
-:host p::ng-deep
-    color:red
-
-:host #contentdiv::ng-deep
+:host #markdowndiv::ng-deep
     color: $color-textonlight
 
-    .articleimg
-        text-align: center
-        
-        img
-            border-radius: 3px
-            border-width: 1px
-            border-color: $color-accent
-            border-style: solid
-
-        p
-            text-size: 12px
-            margin-top: 5px
     
-    .quote
+    .centerp
+        text-align: center
+
+    img
+        border-radius: 3px
+        border-width: 1px
+        border-color: $color-accent
+        border-style: solid
+        margin: 3px auto
+        align-items: center
+        display: block
+   
+    blockquote
         font-style: italic
         margin: 0 10px
         padding: 3px 10px
         border-left: 3px solid $color-accent
         background: $color-lightshadow
         border-radius: 1px
+
         p 
             margin: 0
 
