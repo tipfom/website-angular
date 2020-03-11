@@ -19,7 +19,7 @@ export class CmsComponent implements OnInit {
   }
 
   onCmsLinkFormSubmit(): void {
-    this.apiService.postResource("links", [this.cmsLinkForm.get("link").value]).subscribe(r => {
+    this.apiService.postResource("link", [this.cmsLinkForm.get("link").value]).subscribe(r => {
       console.info(r);
       window.alert(r);
     });
@@ -32,7 +32,7 @@ export class CmsComponent implements OnInit {
       this.apiService.uploadFile(files[i], files[i].name).subscribe(filename => {
         serverfiles.push(filename);
         if (serverfiles.length == files.length) {
-          this.apiService.postResource("images", serverfiles).subscribe(resourceid => {
+          this.apiService.postResource("image", serverfiles).subscribe(resourceid => {
             window.alert(resourceid);
           });
         }
@@ -44,7 +44,7 @@ export class CmsComponent implements OnInit {
     let file_select = <HTMLInputElement>document.getElementById("file_select");
     let file = file_select.files[0];
     this.apiService.uploadFile(file, file.name).subscribe(filename => {
-      this.apiService.postResource("files", [filename]).subscribe(resourceid => {
+      this.apiService.postResource("file", [filename]).subscribe(resourceid => {
         window.alert(resourceid);
       });
     });

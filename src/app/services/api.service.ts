@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
 import { LoginToken } from '../structures/login-token';
 import { Observable } from 'rxjs';
+import { ResourceEntry } from '../structures/resource-entry';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,8 @@ export class ApiService {
     return this.httpClient.post(this.server_address + 'resource', { type, files }, { headers: headers, responseType: "text" });
   }
 
-  getResource(id: string) {
-    return this.httpClient.get(this.server_address + 'resource/' + id, { responseType: "text" });
+  getResources(id: string) {
+    return this.httpClient.get<ResourceEntry[]>(this.server_address + 'resource/' + id, { responseType: "json" });
   }
 
   getImage(id: string) {

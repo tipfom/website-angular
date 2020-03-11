@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { stringify } from 'querystring';
+import { Observable } from 'rxjs';
+import { ResourceEntry } from 'src/app/structures/resource-entry';
 
 @Component({
   selector: 'app-resource',
@@ -9,31 +11,28 @@ import { stringify } from 'querystring';
   styleUrls: ['./resource.component.sass']
 })
 export class ResourceComponent implements OnInit {
+  resources: Observable<ResourceEntry[]>;
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.apiService.getResource(id).subscribe(res => {
-      let lines = res.split("\n");
-      switch (lines[0]) {
-        case "links":
-          for (var i = 1; i < lines.length; i++) {
-            if (i == lines.length - 1) location.href = lines[i];
-            else window.open(lines[i]);
-          }
-          break;
+    this.resources = this.apiService.getResources(id);
+    this.resources.subscribe(res => {
+      for (var i = 0; i < res.length; i++) {
+        switch (res[i].type) {
+          case "link":
+            if (i == res.length - 1) location.href = res[i].path;
+            else window.open(res[i].path);
+            break;
 
-        case "images":
-          for (var i = 1; i < lines.length; i++) {
-            this.openImage(i == lines.length - 1, lines[i]);
-          }
-          break;
-        case "files":
-          for (var i = 1; i < lines.length; i++) {
-            location.href = this.apiService.getDownloadLink(lines[i]);
-          }
-          break;
+          case "image":
+            this.openImage(i == res.length - 1, res[i].path);
+            break;
+          case "file":
+            location.href = this.apiService.getDownloadLink(res[i].path);
+            break;
+        }
       }
     });
   }
