@@ -27,21 +27,14 @@ export class ResourceComponent implements OnInit {
             break;
 
           case "image":
-            this.openImage(i == res.length - 1, res[i].path);
+            if (i == res.length - 1) location.href = this.apiService.getDownloadLink(res[i].path);
+            else window.open(this.apiService.getDownloadLink(res[i].path));
             break;
           case "file":
             location.href = this.apiService.getDownloadLink(res[i].path);
             break;
         }
       }
-    });
-  }
-
-  openImage(last: boolean, name: string) {
-    this.apiService.getImage(name).subscribe(res => {
-      let url = URL.createObjectURL(res.body);
-      if (last) location.href = url;
-      else window.open(url);
     });
   }
 }
