@@ -1,0 +1,68 @@
+@import "src/variables"
+
+#stretchydiv
+    display: flex
+    height: 100vh
+    flex-direction: column
+
+.backgrounddiv
+    justify-content: start
+    flex-direction: column
+    flex-grow: 1
+
+.contentdiv
+    max-width: 1000px
+
+#headlineh, #sub-headlineh
+    text-align: left
+    margin-bottom: 0
+    line-height: 100%
+
+#editedspan
+    font-size: 12px
+    width: 100%
+    margin: 0
+    padding: 0
+
+#contentdiv
+    margin: 20px 0
+
+
+:host p::ng-deep
+    color:red
+
+:host #contentdiv::ng-deep
+    color: $color-textonlight
+
+    .articleimg
+        text-align: center
+        
+        img
+            border-radius: 3px
+            border-width: 1px
+            border-color: $color-accent
+            border-style: solid
+
+        p
+            text-size: 12px
+            margin-top: 5px
+    
+    .quote
+        font-style: italic
+        margin: 0 10px
+        padding: 3px 10px
+        border-left: 3px solid $color-accent
+        background: $color-lightshadow
+        border-radius: 1px
+        p 
+            margin: 0
+
+    a
+        text-decoration: none
+        color: $color-accent
+        font-weight: bold
+
+        &:hover
+            color: $color-accent-secondary
+
+

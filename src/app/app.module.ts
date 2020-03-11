@@ -16,7 +16,8 @@ import { CmsComponent } from './pages/admin/cms/cms.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
-import { ResourceComponent } from './pages/resource/resource.component'; 
+import { ResourceComponent } from './pages/resource/resource.component';
+import { ArticleComponent } from './pages/article/article.component'; 
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ResourceComponent } from './pages/resource/resource.component';
     AdminComponent,
     CmsComponent,
     LoginComponent,
-    ResourceComponent
+    ResourceComponent,
+    ArticleComponent
   ],
   imports: [
     BrowserModule,

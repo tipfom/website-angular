@@ -7,6 +7,7 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminGuardService } from './services/admin-guard.service';
 import { ResourceComponent } from './pages/resource/resource.component';
+import { ArticleComponent } from './pages/article/article.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'res/:id',
     component: ResourceComponent
+  },
+  {
+    path: 'article/:id',
+    component: ArticleComponent
   }
 ];
 
