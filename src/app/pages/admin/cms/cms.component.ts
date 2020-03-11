@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cms',
@@ -29,12 +30,16 @@ export class CmsComponent implements OnInit {
     let files = event.target.files;
     let serverfiles = [];
     for (var i = 0; i < files.length; i++) {
-      this.apiService.uploadFile(files[i], files[i].name).subscribe(filename => {
-        serverfiles.push(filename);
-        if (serverfiles.length == files.length) {
-          this.apiService.postResource("image", serverfiles).subscribe(resourceid => {
-            window.alert(resourceid);
-          });
+      this.apiService.uploadFile(files[i], files[i].name).subscribe(event => {
+        if (event.type == HttpEventType.UploadProgress) {
+          console.info(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          serverfiles.push(event.body);
+          if (serverfiles.length == files.length) {
+            this.apiService.postResource("image", serverfiles).subscribe(resourceid => {
+              window.alert(resourceid);
+            });
+          }
         }
       });
     }
@@ -43,10 +48,14 @@ export class CmsComponent implements OnInit {
   uploadSelectedFiles(): void {
     let file_select = <HTMLInputElement>document.getElementById("file_select");
     let file = file_select.files[0];
-    this.apiService.uploadFile(file, file.name).subscribe(filename => {
-      this.apiService.postResource("file", [filename]).subscribe(resourceid => {
-        window.alert(resourceid);
-      });
+    this.apiService.uploadFile(file, file.name).subscribe(event => {
+      if (event.type == HttpEventType.UploadProgress) {
+        console.info(100 * event.loaded / event.total);
+      } else if (event instanceof HttpResponse) {
+        this.apiService.postResource("file", [event.body]).subscribe(resourceid => {
+          window.alert(resourceid);
+        });
+      }
     });
   }
 }

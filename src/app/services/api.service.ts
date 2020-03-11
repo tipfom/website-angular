@@ -57,6 +57,7 @@ export class ApiService {
   uploadFile(file: File, wishname: string) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file, { headers: headers, responseType: "text" });
+    return this.httpClient.post(this.server_address + 'upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file,
+      { headers: headers, responseType: "text", reportProgress: true, observe: "events" });
   }
 }
