@@ -1,11 +1,22 @@
 @import "../../variables"
 
-div
+#containerdiv
     display: flex
     justify-content: space-between
-    padding: 10px 0 20px 0
+    padding: 10px 0
     background: $color-background
+    flex-wrap: wrap
+
+#aboutdiv
+    margin: 5px 0
+
+#copyrightspan
+    flex-grow: 1
+    padding: 0 0 0 20px
 
 span
     color: $color-textondark
-    padding: 0 20px
+    padding: 0 20px 0 0
+    font-size: 15px
+    display: inline-flex
+    align-items: center
