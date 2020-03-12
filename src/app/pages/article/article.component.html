@@ -3,7 +3,7 @@
     <div class="backgrounddiv">
         <div class="contentdiv">
             <span id="warningspan" *ngIf="isOldVersion">Achtung, <a [href]="newestVersionHref">hier</a> ist eine neuere Version dieses Artikels verfügbar</span>
-            <markdown [data]="content" id="markdowndiv" (load)="onMarkdownLoad()" lineNumbers ></markdown>
+            <markdown [data]="content" id="markdowndiv" [load]="onMarkdownLoad()" lineNumbers ></markdown>
             <span id="editedspan">Erstellt: {{lastChanged}} <a *ngIf="previousVersionHref" [href]="previousVersionHref">Vorherige Version</a></span>
         </div>
     </div>
