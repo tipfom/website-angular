@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'article/:name',
     component: ArticleComponent
+  },
+  {
+    path: 'article/:name/:version',
+    component: ArticleComponent
   }
 ];
 

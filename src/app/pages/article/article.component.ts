@@ -1,6 +1,5 @@
 import { Component, OnInit, Version } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -11,24 +10,36 @@ import { ApiService } from 'src/app/services/api.service';
 export class ArticleComponent implements OnInit {
 
   articlehref: string;
+  previousVersionHref: string;
+  newestVersionHref: string;
+  lastChanged: string;
+  isOldVersion: boolean;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
-
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute, private apiService: ApiService) {
     const name = this.route.snapshot.paramMap.get('name');
+    this.newestVersionHref = "article/" + name;
+
     this.route.queryParams.subscribe(params => {
       let versions_observer = this.apiService.getArticleVersions(name);
       versions_observer.subscribe(versions => {
-        let version = +params["version"];
-        if (params["version"] == undefined) version = versions.length-1;
-  
+        let version = +this.route.snapshot.paramMap.get('version');
+        if (this.route.snapshot.paramMap.get('version') == undefined) version = versions.length - 1;
+
         if (versions[version] != undefined) {
           this.articlehref = this.apiService.getArticleContentUrl(versions[version].file);
+          this.lastChanged = versions[version].creation_time;
+          this.isOldVersion = version != versions.length - 1;
+          if (versions[version - 1] != undefined) {
+            this.previousVersionHref = "article/" + name + "/" + (version - 1);
+          }
         } else {
           console.info("404");
         }
       });
     });
+  }
+
+  ngOnInit(): void {
   }
 
   onMarkdownLoad() {
