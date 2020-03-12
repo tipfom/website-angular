@@ -1,7 +1,7 @@
 @import "src/variables"
 
 h1
-	color: $color-textondark
+	color: $color-headerondark
 
 
 // ----------------  LAYOUT
@@ -15,7 +15,7 @@ h1
 
 // ----------------  THE FONTS
 
-$border-color: rgba($color-light, .3)
+$border-color: rgba($color-light, .7)
 
 
 .timeline-item 
@@ -36,15 +36,6 @@ $border-color: rgba($color-light, .3)
 		border: 2px solid $border-color
 		background: $color-light
 
-	&:hover
-		
-		&::after
-			background: $color-accent-secondary
-		
-		.headerdiv
-			background: $color-accent-secondary
-
-
 	&:last-child 
 		border-image: linear-gradient(to bottom, $border-color 60%, rgba($border-color, 0)) 1 100%
 
@@ -55,10 +46,7 @@ $border-color: rgba($color-light, .3)
 		padding:0
 		width: auto
 		max-width: none
-
-.timeline-highlight
-	.headerdiv
-		background: $color-accent
+		color: $color-textonlight
 
 	
 
@@ -89,7 +77,7 @@ $border-color: rgba($color-light, .3)
 	h2
 		margin: 10px
 		text-align: left
-		color: $color-textondark
+		color: $color-headerondark
 
 #currentdiv
 	display: flex
@@ -119,7 +107,7 @@ $border-color: rgba($color-light, .3)
 
 	h2
 		text-align: center
-		color: $color-textonlight
+		color: $color-headeronlight
 	
 	img
 		width: 70%
@@ -200,7 +188,7 @@ $halfcirclesize: $circlesize / 2
 	width: $circlesize*13/15
 	height: $circlesize*13/15
 	border-radius: 50%
-	background: #fff
+	background: $color-light
 	margin-top: $circlesize/15
 	margin-left: $circlesize/15
 	text-align: center
@@ -212,6 +200,7 @@ $halfcirclesize: $circlesize / 2
 	z-index: 100
 	font-weight: 700
 	font-size: 20px
+	color: $color-textonlight
 
 
 #communicationtable
@@ -220,6 +209,7 @@ $halfcirclesize: $circlesize / 2
 	max-width: 500px
 	font-size: 16px
 	font-weight: bold
+	color: $color-textonlight
 
 .langprogbarbackground
 	background: $color-lightshadow
@@ -236,7 +226,7 @@ $halfcirclesize: $circlesize / 2
 		line-height: 30px
 		margin-left: 5px
 		font-weight: normal
-		color: $color-accent-secondary
+		color: $color-textondark
 	
 #germanlangprogbar
 	--progpercent: 100%
