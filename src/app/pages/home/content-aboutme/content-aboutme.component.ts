@@ -23,9 +23,11 @@ export class ContentAboutmeComponent implements OnInit {
 
   constructor() {
     setInterval(() => {
-      this.index++;
-      if (this.index == this.additionalMilestones.length) this.index = 0;
-      this.scrollToIndex();
+      if (document.hasFocus()) {
+        this.index++;
+        if (this.index == this.additionalMilestones.length) this.index = 0;
+        this.scrollToIndex();
+      }
     }, 10000);
   }
 
@@ -53,6 +55,6 @@ export class ContentAboutmeComponent implements OnInit {
   }
 
   scrollProgress(progress: number): number {
-    return 0.5*(1 - Math.cos(progress * Math.PI));
+    return 0.5 * (1 - Math.cos(progress * Math.PI));
   }
 }
