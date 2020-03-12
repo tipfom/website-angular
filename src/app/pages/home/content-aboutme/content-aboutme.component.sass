@@ -29,11 +29,41 @@ iframe
     opacity: 0.9
     z-index: -3
 
-#shuffleeventsdiv
-    margin: 10px 10px
-    padding: 5px 
-    height: 70px
+//#shuffleeventsdiv
+//    margin: 10px 10px
+//    padding: 5px 
+//
+//    span
+//        font-size: 13px
+//        color: $color-textonlight
 
-    span
-        font-size: 13px
-        color: $color-textonlight
+#shuffleeventsdiv
+    display: flex
+    overflow-y: hidden
+    overflow-x: scroll
+    flex-wrap: nowrap
+    scroll-padding: 0 100px 0 0 
+    width: auto
+    margin: 7px
+
+    &::-webkit-scrollbar 
+        height: 0 !important
+
+
+.shuffleentrydiv
+    display: flex
+    flex-flow: column
+    background: $color-lightshadow
+    min-width: calc(100% - 10px)
+    max-width: calc(100% - 10px)
+    padding: 5px
+    border-radius: 3px
+
+    .centernamediv
+        flex-grow: 1
+        text-align: center
+        display: flex
+        align-items: center
+
+    &:not(:first-child) 
+        margin: 0  0 0 10px
