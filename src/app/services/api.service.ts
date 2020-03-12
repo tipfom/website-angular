@@ -5,13 +5,14 @@ import { LoginToken } from '../structures/login-token';
 import { Observable } from 'rxjs';
 import { ResourceEntry } from '../structures/resource-entry';
 import { ArticleEntry } from '../structures/article-entry';
+import { isDevMode } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private server_address = "http://localhost:5764/";
+  private server_address = isDevMode() ? "http://localhost:5764/" : "https://api.timpokart.de/";
 
   constructor(private httpClient: HttpClient) { }
 
