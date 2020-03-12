@@ -1,0 +1,16 @@
+<div class="backgrounddiv">
+    <div class="contentdiv">
+        <h2>Spotlight</h2>
+        <table>
+            <tr *ngFor="let spotlightArticle of spotlightArticles">
+                <div>
+                    <a [href]="'article/' + spotlightArticle['name']">
+                        <h3> {{spotlightArticle["title"]}} </h3>
+                        <p>{{spotlightArticle["subtitle"]}}</p>
+                    </a>
+                </div>
+            </tr>
+        </table>
+        <div class="learnmorediv"><a routerLink="/aboutme">Alle Artikel anzeigen</a></div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+@import "src/variables"
+
+.learnmorediv
+    text-align: right
+
+table
+    width: 100%
+
+tr
+    
+    div
+        padding: 3px
+    
+    &:not(:last-child)
+        div
+            border-bottom: 1px dotted $color-accent
+            margin-bottom: 5px
+
+    h3
+        margin: 3px 0 0 0 
+        text-align: left
+        color: $color-accent
+
+    &:hover
+        h3
+            color: $color-accent-secondary
+    
+    p 
+        margin: 5px 0 0 0 
+        color: $color-textonlight
+        font-weight: normal
+
