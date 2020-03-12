@@ -2,7 +2,7 @@
     <app-navigation-bar></app-navigation-bar>
     <div class="backgrounddiv">
         <div class="contentdiv">
-            <markdown [src]="content" id="markdowndiv" (load)="onMarkdownLoad()" lineNumbers ></markdown>
+            <markdown [src]="articlehref" id="markdowndiv" (load)="onMarkdownLoad()" lineNumbers ></markdown>
             <span id="editedspan">zuletzt geändert: 2020-03-11T23:00 <a href="google.de">Vorherige Version</a></span>
         </div>
     </div>

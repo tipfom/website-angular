@@ -32,7 +32,7 @@ const routes: Routes = [
     component: ResourceComponent
   },
   {
-    path: 'article/:id',
+    path: 'article/:name',
     component: ArticleComponent
   }
 ];

@@ -4,6 +4,7 @@ import { tap, map } from 'rxjs/operators';
 import { LoginToken } from '../structures/login-token';
 import { Observable } from 'rxjs';
 import { ResourceEntry } from '../structures/resource-entry';
+import { ArticleEntry } from '../structures/article-entry';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,24 @@ export class ApiService {
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
     return this.httpClient.post(this.server_address + 'upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file,
       { headers: headers, responseType: "text", reportProgress: true, observe: "events" });
+  }
+
+  getAllArticles() {
+    return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/all', { responseType: "json" });
+  }
+
+  getArticleVersions(name: string) {
+    return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/versions/' + name, { responseType: "json" });
+  }
+
+  getArticleContentUrl(file: string) {
+    return this.server_address + 'articles/content/' + file;
+  }
+
+  uploadArticle(name: string, file: File) {
+    let headers = new HttpHeaders();
+    headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
+    return this.httpClient.post(this.server_address + 'article/?name=' + name, file,
+      { headers: headers, responseType: "text" });
   }
 }

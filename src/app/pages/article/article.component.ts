@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Version } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-article',
@@ -7,11 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArticleComponent implements OnInit {
 
-  content: string = `./assets/articles/202020.md`;
+  articlehref: string;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
+    const name = this.route.snapshot.paramMap.get('name');
+    this.route.queryParams.subscribe(params => {
+      let versions_observer = this.apiService.getArticleVersions(name);
+      versions_observer.subscribe(versions => {
+        let version = +params["version"];
+        if (params["version"] == undefined) version = versions.length-1;
+  
+        if (versions[version] != undefined) {
+          this.articlehref = this.apiService.getArticleContentUrl(versions[version].file);
+        } else {
+          console.info("404");
+        }
+      });
+    });
   }
 
   onMarkdownLoad() {

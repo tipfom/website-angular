@@ -58,4 +58,10 @@ export class CmsComponent implements OnInit {
       }
     });
   }
+
+  uploadArticle() : void{
+    let name = (<HTMLInputElement>document.getElementById("article_name_input")).value;
+    let file = (<HTMLInputElement>document.getElementById("article_file_input")).files[0];
+    this.apiService.uploadArticle(name, file).subscribe(s => console.info(s));
+  }
 }
