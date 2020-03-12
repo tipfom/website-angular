@@ -9,7 +9,7 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class ArticleComponent implements OnInit {
 
-  articlehref: string;
+  content: string;
   previousVersionHref: string;
   newestVersionHref: string;
   lastChanged: string;
@@ -26,7 +26,7 @@ export class ArticleComponent implements OnInit {
         if (this.route.snapshot.paramMap.get('version') == undefined) version = versions.length - 1;
 
         if (versions[version] != undefined) {
-          this.articlehref = this.apiService.getArticleContentUrl(versions[version].file);
+          this.apiService.getArticleContent(versions[version].file).subscribe(r => this.content = r);
           this.lastChanged = versions[version].creation_time;
           this.isOldVersion = version != versions.length - 1;
           if (versions[version - 1] != undefined) {

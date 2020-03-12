@@ -74,6 +74,10 @@ export class ApiService {
     return this.server_address + 'articles/content/' + file;
   }
 
+  getArticleContent(file: string) {
+    return this.httpClient.get(this.getArticleContentUrl(file), { responseType: "text" });
+  }
+
   uploadArticle(name: string, file: File) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
