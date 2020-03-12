@@ -1,0 +1,18 @@
+<div id="stretchydiv">
+    <app-navigation-bar></app-navigation-bar>
+    <div class="backgrounddiv">
+        <div class="contentdiv">
+            <h2>Artikel</h2>
+            <table>
+                <tr *ngFor="let article of articles | async">
+                    <div>
+                        <a [href]="'article/' + article.name">
+                            <h3> {{article.title}} </h3><span>{{article.creation_time}}</span>
+                            <p>{{article.description}}</p>
+                        </a>
+                    </div>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

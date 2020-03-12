@@ -8,6 +8,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { AdminGuardService } from './services/admin-guard.service';
 import { ResourceComponent } from './pages/resource/resource.component';
 import { ArticleComponent } from './pages/article/article.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: 'article/:name/:version',
     component: ArticleComponent
+  },
+  {
+    path: 'articles',
+    component: ArticlesComponent
   }
 ];
 

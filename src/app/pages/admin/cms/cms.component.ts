@@ -61,7 +61,9 @@ export class CmsComponent implements OnInit {
 
   uploadArticle() : void{
     let name = (<HTMLInputElement>document.getElementById("article_name_input")).value;
+    let title = (<HTMLInputElement>document.getElementById("article_title_input")).value;
+    let description = (<HTMLInputElement>document.getElementById("article_description_input")).value;
     let file = (<HTMLInputElement>document.getElementById("article_file_input")).files[0];
-    this.apiService.uploadArticle(name, file).subscribe(s => console.info(s));
+    this.apiService.uploadArticle(name, title, description, file).subscribe(s => console.info(s));
   }
 }

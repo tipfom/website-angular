@@ -20,6 +20,7 @@ import { ResourceComponent } from './pages/resource/resource.component';
 import { ArticleComponent } from './pages/article/article.component'; 
 import { MarkdownModule } from 'ngx-markdown';
 import { ContentSpotlightComponent } from './pages/home/content-spotlight/content-spotlight.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ContentSpotlightComponent } from './pages/home/content-spotlight/conten
     LoginComponent,
     ResourceComponent,
     ArticleComponent,
-    ContentSpotlightComponent
+    ContentSpotlightComponent,
+    ArticlesComponent
   ],
   imports: [
     BrowserModule,

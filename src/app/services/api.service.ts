@@ -78,10 +78,10 @@ export class ApiService {
     return this.httpClient.get(this.getArticleContentUrl(file), { responseType: "text" });
   }
 
-  uploadArticle(name: string, file: File) {
+  uploadArticle(name: string, title: string, description: string, file: File) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'article/?name=' + name, file,
+    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&title="+title + "&description="+description , file,
       { headers: headers, responseType: "text" });
   }
 }
