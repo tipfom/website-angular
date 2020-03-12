@@ -29,13 +29,15 @@
             ],
             "styles": [
               "src/styles.sass",
-              "node_modules/prismjs/themes/prism-vs.css"
+              "node_modules/prismjs/themes/prism-vs.css",
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
             ],
             "scripts": [
               "src/assets/js/weatherwidget-io-script.js",
               "node_modules/marked/lib/marked.js",
               "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js" 
+              "node_modules/prismjs/components/prism-csharp.min.js" ,
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
             ]
           },
           "configurations": {
