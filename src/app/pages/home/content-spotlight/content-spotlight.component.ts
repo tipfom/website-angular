@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticleEntry } from '../../../structures/article-entry';
+import { Observable } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-content-spotlight',
@@ -8,20 +10,11 @@ import { ArticleEntry } from '../../../structures/article-entry';
 })
 export class ContentSpotlightComponent implements OnInit {
 
-  spotlightArticles = [
-    {
-      name: "beispiel-artikel",
-      title: "Beispiel Artikel",
-      subtitle: "Hier werden alle möglichen Formattierungen eines Artikels aufgezeigt"
-    },
-    {
-      name: "about-this-site",
-      title: "Über diese Website",
-      subtitle: "Eine Beschreibung des Aufbaus der Website"
-    }
-  ];
+  spotlightArticles : Observable<ArticleEntry[]>;
 
-  constructor() { }
+  constructor(private apiService: ApiService) { 
+    this.spotlightArticles = apiService.getSpotlightArticles();
+  }
 
   ngOnInit(): void {
   }

@@ -2,11 +2,11 @@
     <div class="contentdiv">
         <h2>Spotlight</h2>
         <table>
-            <tr *ngFor="let spotlightArticle of spotlightArticles">
+            <tr *ngFor="let spotlightArticle of spotlightArticles | async">
                 <div>
-                    <a [href]="'article/' + spotlightArticle['name']">
-                        <h3> {{spotlightArticle["title"]}} </h3>
-                        <p>{{spotlightArticle["subtitle"]}}</p>
+                    <a [href]="'article/' + spotlightArticle.name">
+                        <h3> {{spotlightArticle.title}} </h3>
+                        <p>{{spotlightArticle.description}}</p>
                     </a>
                 </div>
             </tr>

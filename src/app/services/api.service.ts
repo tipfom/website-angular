@@ -66,6 +66,10 @@ export class ApiService {
     return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/all', { responseType: "json" });
   }
 
+  getSpotlightArticles() {
+    return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/spotlight', { responseType: "json" });
+  }
+
   getArticleVersions(name: string) {
     return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/versions/' + name, { responseType: "json" });
   }
