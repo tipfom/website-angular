@@ -23,7 +23,6 @@ export class ContentAboutmeComponent implements OnInit {
     setInterval(()=>{
       this.index++;
       if(this.index >= ADDITIONAL_MILESTONES.length) this.index = 0;
-      console.info(this.index);
       observer.next(ADDITIONAL_MILESTONES[this.index]);
     },6000);
   });
