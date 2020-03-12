@@ -1,3 +1,5 @@
+@import "src/variables"
+
 #stretchydiv
     display: flex
     height: 100vh
@@ -10,3 +12,36 @@
 
 .contentdiv
     max-width: 1000px
+
+table
+    width: 100%
+
+    div
+        padding: 5px
+
+        &:hover
+            h3
+                color: $color-accent-secondary
+
+    tr
+        &:not(:last-child)
+            div
+                border-bottom: 1px dotted $color-accent
+
+    h3 
+        color: $color-accent
+        text-align: left
+        width: 100%
+        margin-top: 0
+
+    span
+        text-align: right
+        float: right
+        color: $color-textonlight
+        font-size: 12px
+        font-weight: normal
+
+    p
+        margin: 0
+        color: $color-textonlight
+        font-weight: normal

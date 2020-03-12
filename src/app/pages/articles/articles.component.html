@@ -7,7 +7,7 @@
                 <tr *ngFor="let article of articles | async">
                     <div>
                         <a [href]="'article/' + article.name">
-                            <h3> {{article.title}} </h3><span>{{article.creation_time}}</span>
+                            <h3> {{article.title}} <span>{{article.creation_time}}</span></h3>
                             <p>{{article.description}}</p>
                         </a>
                     </div>
