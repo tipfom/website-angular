@@ -13,11 +13,6 @@
 .contentdiv
     max-width: 1000px
 
-#headlineh, #sub-headlineh
-    text-align: left
-    margin-bottom: 0
-    line-height: 100%
-
 #editedspan
     font-size: 12px
     width: 100%
@@ -30,6 +25,10 @@
 :host #markdowndiv::ng-deep
     color: $color-textonlight
 
+    h1, h2
+        text-align: left
+        margin: 0
+        line-height: 100%
     
     .centerp
         text-align: center
@@ -70,6 +69,11 @@
         overflow-x: hidden
         white-space: pre-wrap
         overflow-wrap: break-word
+        margin-left: 20px
+        margin-right: 20px
+
+    ol, ul
+        margin: 0
 
 
 
