@@ -6,15 +6,17 @@ import { Observable } from 'rxjs';
 import { ResourceEntry } from '../structures/resource-entry';
 import { ArticleEntry } from '../structures/article-entry';
 import { isDevMode } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private server_address = isDevMode() ? "http://localhost:5764/" : "https://api.timpokart.de/";
+  private server_address = environment.production ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
   login(password: string) {
     return this.httpClient.post<LoginToken>(this.server_address + 'login', { password })
@@ -86,7 +88,7 @@ export class ApiService {
   uploadArticle(name: string, title: string, description: string, file: File) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&title="+title + "&description="+description , file,
+    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&title=" + title + "&description=" + description, file,
       { headers: headers, responseType: "text" });
   }
 }
