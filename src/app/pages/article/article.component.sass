@@ -42,6 +42,7 @@
         margin: 3px auto
         align-items: center
         display: block
+        max-width: calc(100% - 10px)
    
     blockquote
         font-style: italic
@@ -61,5 +62,14 @@
 
         &:hover
             color: $color-accent-secondary
+
+    pre
+        background: $color-lightshadow
+        border-radius: 3px
+        border: 1px solid $color-accent
+        overflow-x: hidden
+        code
+            white-space: pre-line
+            overflow-wrap: break-word
 
 

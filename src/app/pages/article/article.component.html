@@ -2,9 +2,9 @@
     <app-navigation-bar></app-navigation-bar>
     <div class="backgrounddiv">
         <div class="contentdiv">
-            <h2 id="headlineh">Überschrift</h2>
-            <h3 id="sub-headlineh">Unterschrift</h3>
-            <markdown [src]="content" id="markdowndiv" (load)="onMarkdownLoad()"></markdown>
+            <h2 id="headlineh">Titel</h2>
+            <h3 id="sub-headlineh">Untertitel</h3>
+            <markdown [src]="content" id="markdowndiv" (load)="onMarkdownLoad()" ></markdown>
             <span id="editedspan">zuletzt geändert: 2020-03-11T23:00 <a href="google.de">Vorherige Version</a></span>
         </div>
     </div>

@@ -28,11 +28,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "node_modules/prismjs/themes/prism-vs.css"
             ],
             "scripts": [
               "src/assets/js/weatherwidget-io-script.js",
-              "node_modules/marked/lib/marked.js"
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-csharp.min.js" 
             ]
           },
           "configurations": {
