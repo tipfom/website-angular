@@ -9,6 +9,7 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class ArticleComponent implements OnInit {
 
+  title: string;
   content: string;
   previousVersionHref: string;
   newestVersionHref: string;
@@ -27,6 +28,7 @@ export class ArticleComponent implements OnInit {
 
         if (versions[version] != undefined) {
           this.apiService.getArticleContent(versions[version].file).subscribe(r => this.content = r);
+          this.title = versions[version].title;
           this.lastChanged = versions[version].creation_time;
           this.isOldVersion = version != versions.length - 1;
           if (versions[version - 1] != undefined) {
