@@ -1,0 +1,92 @@
+{
+    "pages": {
+        "home": {
+            "nav-bar": {
+                "about-me": "Über mich",
+                "paypal": "PayPal",
+                "contact": "Kontakt"
+            },
+            "about-me": {
+                "learn-more": "Erfahre mehr",
+                "thats-me": "Das bin ich, Tim",
+                "studying-at": "Ich studiere Physik an der",
+                "working-at": "Nebenbei arbeite ich bei der",
+                "living-in": "Aktuell lebe ich in",
+                "dresden": "Dresden",
+                "dresden-description": ",der Landeshauptstadt des Freistaats Sachsen",
+                "weather": "Das aktuelle Wetter",
+                "more": "Mehr über mich"
+            },
+            "contact": {
+                "contact-form": "Kontaktformular",
+                "name": "Name",
+                "e-mail": "E-Mail",
+                "message": "Nachricht",
+                "send": "Senden"
+            },
+            "spotlight": {
+                "spotlight": "Rampenlicht",
+                "show-all": "Alle Artikel anzeigen"
+            }
+        },
+        "aboutme": {
+            "currently": {
+                "title": "Aktuell"
+            },
+            "skills": {
+                "title": "Fähigkeiten",
+                "software-development": "Softwareentwicklung",
+                "communication": "Kommunikation",
+                "lang-de": "Deutsch",
+                "lang-de-skill": "Muttersprachler",
+                "lang-en": "Englisch",
+                "lang-en-skill": "Flüssig (C1 / B2)"
+            },
+            "experience":{
+                "title": "Erfahrung",
+                "entries":{
+                    "hzdr":{
+                        "title":"Wissenschaftliche Hilfskraft am HZDR",
+                        "date": "seit Oktober 2019"
+                    },
+                    "iws":{
+                        "title":"Wissenschaftliche Hilfskraft am Fraunhofer IWS",
+                        "date": "März - August 2019"
+                    },
+                    "tu-dresden":{
+                        "title":"Physikstudent an der TU Dresden",
+                        "date": "seit Oktober 2018"
+                    },
+                    "ipho":{
+                        "title":"Teil der deutschen Mannschaft zur Internationalen Physikolympiade 2018",
+                        "date": "21. - 29. Juli 2018"
+                    },
+                    "abitur":{
+                        "title":"Abitur am Max-Steenbeck-Gymnasium",
+                        "date": "22.06.2018"
+                    },
+                    "physics-olympiad":{
+                        "title":"Landessieger bei der Brandenburger Physikolympiade",
+                        "date": "2014, 2015, 2016, 2018"
+                    }
+                }
+            }
+        },
+        "article":{
+            "deprecated-warning":"Achtung, <a href=\"{{newestVersionHref}}\">hier</a> ist eine neuere Version dieses Artikels verfügbar",
+            "created": "Erstellt: {{lastChanged}}",
+            "previous-version": "Vorherige Version"
+        },
+        "articles": {
+            "title": "Artikel"
+        }
+    },
+    "footer": {
+        "privacy-note": "Datenschutzerklärung",
+        "about-this-site": "Über diese Seite"
+    },
+    "nav-bar": {
+        "go-home": "Startseite",
+        "go-contact": "Kontakt"
+    }
+}
