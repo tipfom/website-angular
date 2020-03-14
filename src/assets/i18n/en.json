@@ -1,0 +1,92 @@
+{
+    "pages": {
+        "home": {
+            "nav-bar": {
+                "about-me": "About me",
+                "paypal": "PayPal",
+                "contact": "Contact"
+            },
+            "about-me": {
+                "learn-more": "Learn more",
+                "thats-me": "That's me, Tim",
+                "studying-at": "I am studying physics at",
+                "working-at": "I work at",
+                "living-in": "I currently live in",
+                "dresden": "Dresden",
+                "dresden-description": "the state capitol of the Free State of Saxony",
+                "weather": "The current weather",
+                "more": "More about me"
+            },
+            "contact": {
+                "contact-form": "Contact form",
+                "name": "name",
+                "e-mail": "e-mail",
+                "message": "message",
+                "send": "send"
+            },
+            "spotlight": {
+                "spotlight": "Spotlight",
+                "show-all": "Show all articles"
+            }
+        },
+        "aboutme": {
+            "currently": {
+                "title": "Currently"
+            },
+            "skills": {
+                "title": "Skills",
+                "software-development": "Software Engineering",
+                "communication": "Communication",
+                "lang-de": "German",
+                "lang-de-skill": "Native speaker",
+                "lang-en": "English",
+                "lang-en-skill": "Fluent (C1 / B2)"
+            },
+            "experience":{
+                "title": "Experience",
+                "entries":{
+                    "hzdr":{
+                        "title":"Research assistant at HZDR",
+                        "date": "since October 2019"
+                    },
+                    "iws":{
+                        "title":"Research assistant at Fraunhofer IWS",
+                        "date": "March - August 2019"
+                    },
+                    "tu-dresden":{
+                        "title":"Physics student at TU Dresden",
+                        "date": "since October 2018"
+                    },
+                    "ipho":{
+                        "title":"Member of the German team at the International Physics Olympiad 2018",
+                        "date": "21. - 29. July 2018"
+                    },
+                    "abitur":{
+                        "title":"Highschool graduate at Max-Steenbeck-Gymnasium",
+                        "date": "22.06.2018"
+                    },
+                    "physics-olympiad":{
+                        "title":"Winner at the Brandenburger Phyics Olympiad",
+                        "date": "2014, 2015, 2016, 2018"
+                    }
+                }
+            }
+        },
+        "article":{
+            "deprecated-warning":"Please note: There is a newer version of this article available <a href=\"{{newestVersionHref}}\">here</a>",
+            "created": "Published: {{lastChanged}}",
+            "previous-version": "Previous version"
+        },
+        "articles": {
+            "title": "Articles"
+        }
+    },
+    "footer": {
+        "privacy-note": "Privacy note",
+        "about-this-site": "About this site"
+    },
+    "nav-bar": {
+        "go-home": "Home",
+        "go-contact": "Contact"
+    }
+}
