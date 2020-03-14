@@ -17,6 +17,7 @@ export class LanguagePopupComponent implements OnInit {
 
   selectLanguage(lang: string) {
     this.translateService.setDefaultLang(lang);
+    localStorage.setItem("lang", lang);
     this.close();
   }
 
