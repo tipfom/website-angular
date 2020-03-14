@@ -2,7 +2,7 @@
     <app-navigation-bar></app-navigation-bar>
     <div class="backgrounddiv">
         <div class="contentdiv-large">
-            <span id="warningspan" [innerHTML]="'pages.article.deprecated-warning' | translate:{newestVersionHref: newestVersionHref}"></span>
+            <span id="warningspan" *ngIf="isOldVersion" [innerHTML]="'pages.article.deprecated-warning' | translate:{newestVersionHref: newestVersionHref}"></span>
             <h1>{{title}}</h1>
             <markdown [data]="content" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers ></markdown>
             <span id="editedspan" translate [translateParams]="{lastChanged: lastChanged}">pages.article.created <a *ngIf="previousVersionHref" [href]="previousVersionHref" translate>pages.article.previous-version</a></span>
