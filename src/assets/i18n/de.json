@@ -79,6 +79,9 @@
         },
         "articles": {
             "title": "Artikel"
+        },
+        "404":{
+            "description": "Dies ist ein Fehler:<br/>Anscheinend wurde versucht etwas Unbekanntes oder Vergessenes zu öffnen."
         }
     },
     "popups":{

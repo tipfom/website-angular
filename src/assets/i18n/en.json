@@ -79,6 +79,9 @@
         },
         "articles": {
             "title": "Articles"
+        },
+        "404":{
+            "description": "This is an error:<br/>It seems like you tried to open something long forgotten or even unknown."
         }
     },
     "popups":{

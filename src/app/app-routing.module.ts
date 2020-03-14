@@ -9,10 +9,12 @@ import { AdminGuardService } from './services/admin-guard.service';
 import { ResourceComponent } from './pages/resource/resource.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
+import { Error404Component } from './pages/error404/error404.component';
 
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: HomeComponent
   },
   {
@@ -43,6 +45,14 @@ const routes: Routes = [
   {
     path: 'articles',
     component: ArticlesComponent
+  },
+  {
+    path: '404',
+    component: Error404Component
+  },
+  {
+    path: '**',
+    redirectTo: '404'
   }
 ];
 

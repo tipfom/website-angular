@@ -23,6 +23,7 @@ import { LandingPageComponent } from './pages/home/landing-page/landing-page.com
 import { LoginComponent } from './pages/login/login.component';
 import { ResourceComponent } from './pages/resource/resource.component';
 import { LanguagePopupComponent } from './popups/language-popup/language-popup.component';
+import { Error404Component } from './pages/error404/error404.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { LanguagePopupComponent } from './popups/language-popup/language-popup.c
     ArticleComponent,
     ContentSpotlightComponent,
     ArticlesComponent,
-    LanguagePopupComponent
+    LanguagePopupComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,

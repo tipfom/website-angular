@@ -1,5 +1,5 @@
 import { Component, OnInit, Version } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class ArticleComponent implements OnInit {
   lastChanged: string;
   isOldVersion: boolean;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) {
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
     const name = this.route.snapshot.paramMap.get('name');
     this.newestVersionHref = "article/" + name;
 
@@ -35,10 +35,10 @@ export class ArticleComponent implements OnInit {
             this.previousVersionHref = "article/" + name + "/" + (version - 1);
           }
         } else {
-          console.info("404");
+          this.router.navigate(['404']);
         }
-      });
-    });
+      }, (error) => this.router.navigate(['404']));
+    }, (error) => this.router.navigate(['404']));
   }
 
   ngOnInit(): void {
