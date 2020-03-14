@@ -13,7 +13,7 @@
                 "working-at": "Nebenbei arbeite ich bei der",
                 "living-in": "Aktuell lebe ich in",
                 "dresden": "Dresden",
-                "dresden-description": ",der Landeshauptstadt des Freistaats Sachsen",
+                "dresden-description": "der Landeshauptstadt des Freistaats Sachsen",
                 "weather": "Das aktuelle Wetter",
                 "more": "Mehr über mich"
             },
@@ -79,6 +79,13 @@
         },
         "articles": {
             "title": "Artikel"
+        }
+    },
+    "popups":{
+        "language":{
+            "title": "Sprachauswahl",
+            "lang-de": "Deutsch",
+            "lang-en": "English"
         }
     },
     "footer": {

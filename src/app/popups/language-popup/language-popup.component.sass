@@ -1,0 +1,62 @@
+@import "src/variables.sass"
+
+#popupbackground.hidden
+    display: none
+
+#popupbackground
+    position: fixed
+    left: 0px
+    top: 0px
+    width: 100%
+    height: 100%
+    background: rgba($color-accent-faded, 0.6)
+    z-index: 100
+    display: flex
+    align-content: center
+    align-items: center
+
+#popup
+    background: $color-light
+    padding: 10px
+    width: 300px
+    border-radius: 3px        
+    margin: auto
+    color: $color-textonlight
+
+#headerdiv
+    display: flex
+    margin-bottom: 20px
+    h2
+        font-size: 25px
+        flex-grow: 1
+        margin: 0
+        
+
+#close
+    line-height: 30px
+    margin-top: -5px
+    font-size: 30px
+    font-weight: bold
+    color: $color-accent
+    cursor: pointer
+
+    &:hover
+        color: $color-accent-secondary
+
+#contentdiv
+    table
+        text-align: left
+        margin: 0 auto
+        font-size: 20px
+
+        td
+            display: inline-flex
+            align-items: center
+            cursor: pointer
+            &:hover
+                color: $color-accent-secondary
+
+    img
+        margin: -3px 0
+        height: 30px
+        width: 30px

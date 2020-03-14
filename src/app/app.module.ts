@@ -22,6 +22,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LandingPageComponent } from './pages/home/landing-page/landing-page.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ResourceComponent } from './pages/resource/resource.component';
+import { LanguagePopupComponent } from './popups/language-popup/language-popup.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ResourceComponent } from './pages/resource/resource.component';
     ResourceComponent,
     ArticleComponent,
     ContentSpotlightComponent,
-    ArticlesComponent
+    ArticlesComponent,
+    LanguagePopupComponent
   ],
   imports: [
     BrowserModule,

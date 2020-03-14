@@ -1,0 +1,28 @@
+<div id="popupbackground" [ngClass]="{'hidden': !isVisible}" (click)="close()">
+    <div id="popup" (click)="catchClick($event)">
+        <div id="headerdiv">
+            <h2 translate>popups.language.title</h2>
+            <span id="close" (click)="close()">&times;</span>
+        </div>
+        <div id="contentdiv">
+            <table>
+                <tr (click)="selectLanguage('de')">
+                    <td>
+                        <img src="./assets/images/flag-germany.png">
+                    </td>
+                    <td translate>
+                        popups.language.lang-de
+                    </td>
+                </tr>
+                <tr (click)="selectLanguage('en')">
+                    <td>
+                        <img src="./assets/images/flag-great-britain.png">
+                    </td>
+                    <td translate>
+                        popups.language.lang-en
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

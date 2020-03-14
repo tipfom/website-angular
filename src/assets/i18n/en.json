@@ -81,6 +81,13 @@
             "title": "Articles"
         }
     },
+    "popups":{
+        "language":{
+            "title": "Select your language",
+            "lang-de": "German",
+            "lang-en": "English"
+        }
+    },
     "footer": {
         "privacy-note": "Privacy note",
         "about-this-site": "About this site"

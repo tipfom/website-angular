@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { LanguagePopupComponent } from 'src/app/popups/language-popup/language-popup.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
+  @ViewChild(LanguagePopupComponent) languagePopup;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  showLanguagePopup(){
+    this.languagePopup.show();
+  }
 }
