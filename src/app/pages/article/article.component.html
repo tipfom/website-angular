@@ -1,7 +1,7 @@
 <div id="stretchydiv">
     <app-navigation-bar></app-navigation-bar>
     <div class="backgrounddiv">
-        <div class="contentdiv">
+        <div class="contentdiv-large">
             <span id="warningspan" [innerHTML]="'pages.article.deprecated-warning' | translate:{newestVersionHref: newestVersionHref}"></span>
             <h1>{{title}}</h1>
             <markdown [data]="content" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers ></markdown>

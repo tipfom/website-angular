@@ -38,14 +38,30 @@ body, html
     justify-content: center
     align-items: center
     width: 100%
-    max-width: 440px
+    max-width: 460px
 
-.contentdiv
-    margin: 20px 20px
-    padding: 10px
-    border-radius: 3px
+.contentdiv-small
     max-width: 400px
     width: calc(100% - 60px)
+    margin: 20px 20px
+
+    
+@media (min-width: 600px) 
+    .contentdiv-large
+        width: calc(100% - 60px)
+        margin: 20px 20px
+
+@media (max-width: 600px) 
+    .contentdiv-large
+        width: calc(100% - 20px)
+        margin: 20px 0
+
+.contentdiv-large
+    max-width: 1000px
+    
+.contentdiv-small, .contentdiv-large
+    padding: 10px
+    border-radius: 3px
     background: $color-light
     
     h1 
