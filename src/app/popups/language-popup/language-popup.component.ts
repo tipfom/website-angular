@@ -10,13 +10,13 @@ export class LanguagePopupComponent implements OnInit {
 
   isVisible: boolean = false;
 
-  constructor(private translateService: TranslateService) { }
+  constructor(public translateService: TranslateService) { }
 
   ngOnInit(): void {
   }
 
   selectLanguage(lang: string) {
-    this.translateService.setDefaultLang(lang);
+    this.translateService.use(lang);
     localStorage.setItem("lang", lang);
     this.close();
   }

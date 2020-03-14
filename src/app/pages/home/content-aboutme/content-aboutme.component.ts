@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MilestoneEntry } from 'src/app/structures/milestone-entry'
 import { Observable } from 'rxjs';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 declare function weatherwidget_io_invoke(): any;
 
@@ -21,7 +22,7 @@ export class ContentAboutmeComponent implements OnInit {
   ];
   headerHeight: string;
 
-  constructor() {
+  constructor(public translateService: TranslateService) {
     setInterval(() => {
       if (document.hasFocus()) {
         this.index++;
@@ -32,7 +33,15 @@ export class ContentAboutmeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    weatherwidget_io_invoke();
+    this.translateService.onLangChange.subscribe((e: LangChangeEvent) => this.updateWeatherWidget());
+    this.updateWeatherWidget();
+  }
+
+  updateWeatherWidget(){
+      let lang = this.translateService.currentLang;
+      if (lang == undefined) lang = this.translateService.defaultLang;
+      (<HTMLLinkElement>document.getElementsByClassName("weatherwidget-io")[0]).href = "https://forecast7.com/" + lang + "/51d0513d74/dresden/";
+      weatherwidget_io_invoke();
   }
 
   scrollToIndex(): void {
