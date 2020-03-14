@@ -6,12 +6,11 @@ h1
 
 // ----------------  LAYOUT
 
-#modulatedcontent 
+#timeline 
 	max-width: 800px
 	width: 100%
 	margin: 0 auto
-	padding: 10px 0 10px 5%
-
+	padding: 10px
 
 // ----------------  THE FONTS
 
@@ -19,36 +18,50 @@ $border-color: rgba($color-light, .7)
 
 
 .timeline-item 
-	padding: 0.5em
-	padding-right: 0
 	position: relative
-	border-left: 2px solid $border-color
-
-	&::after 
-		width: 10px
-		height: 10px
-		opacity: 1.0
-		display: block
-		top: 50%
-		position: absolute
-		left: -8px
-		border-radius: 10px
-		content: ''
-		border: 2px solid $border-color
-		background: $color-light
-
-	&:last-child 
-		border-image: linear-gradient(to bottom, $border-color 60%, rgba($border-color, 0)) 1 100%
-
-	&:first-child
-		border-image: linear-gradient(to top, $border-color 60%, rgba($border-color, 0)) 1 100%
 	
 	.timeline-content
 		padding:0
 		width: auto
 		max-width: none
 		color: $color-textonlight
+		background: $color-light
+		border-radius: 3px
 
+@media (min-width: 600px) 
+	.timeline-item
+		border-left: 2px solid $border-color
+		margin-right: -10px
+		padding: 5px	
+		
+		&::after 
+			width: 10px
+			height: 10px
+			opacity: 1.0
+			display: block
+			top: 50%
+			position: absolute
+			left: -8px
+			border-radius: 10px
+			content: ''
+			border: 2px solid $border-color
+			background: $color-light
+		
+		&:last-child 
+			border-image: linear-gradient(to bottom, $border-color 60%, rgba($border-color, 0)) 1 100%
+
+		&:first-child
+			border-image: linear-gradient(to top, $border-color 60%, rgba($border-color, 0)) 1 100%
+
+		.timeline-content
+			margin: 10px 20px 10px 10px
+
+@media (max-width: 600px) 
+	.timeline-item
+		border-left: none
+		padding: 10px
+		.timeline-content
+			margin: 0
 	
 
 .datep
