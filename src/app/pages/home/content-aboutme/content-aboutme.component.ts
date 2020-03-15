@@ -15,10 +15,10 @@ export class ContentAboutmeComponent implements OnInit {
   index = 0;
 
   additionalMilestones: MilestoneEntry[] = [
-    { name: 'Wissenschaftliche Hilfskraft am Fraunhofer IWS', timespan: 'März - August 2019' },
-    { name: 'Teil der deutschen Mannschaft zur Internationalen Physikolympiade 2018', timespan: '21. - 29. Juli 2018' },
-    { name: 'Abitur am Max-Steenbeck-Gymnasium', timespan: '22.06.2018' },
-    { name: 'Landessieger bei der Brandenburger Physikolympiade', timespan: '2014, 2015, 2016, 2018' },
+    { name: 'pages.aboutme.experience.entries.iws.title', timespan: 'pages.aboutme.experience.entries.iws.date' },
+    { name: 'pages.aboutme.experience.entries.ipho.title', timespan: 'pages.aboutme.experience.entries.ipho.date' },
+    { name: 'pages.aboutme.experience.entries.abitur.title', timespan: 'pages.aboutme.experience.entries.abitur.date' },
+    { name: 'pages.aboutme.experience.entries.physics-olympiad.title', timespan: 'pages.aboutme.experience.entries.physics-olympiad.date' },
   ];
   headerHeight: string;
 
