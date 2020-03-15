@@ -42,50 +42,56 @@
                 "lang-en": "English",
                 "lang-en-skill": "Fluent (C1 / B2)"
             },
-            "experience":{
+            "experience": {
                 "title": "Experience",
-                "entries":{
-                    "hzdr":{
-                        "title":"Research assistant at HZDR",
-                        "date": "since October 2019"
+                "entries": {
+                    "hzdr": {
+                        "title": "Research assistant at HZDR",
+                        "date": "since October 2019",
+                        "description": "As a research assistant at the Helmholtzzentrum Dresden-Rossendorf I worked in the department concerning nuclear astrophysics at the Felsenkeller laboratory in Dresden.<p>During my work I was tasked to develop a software to handle data acquisition with a beam profile monitor. To measure the profile of the ion beam in the particle accelerator one could use a plain oscilloscope, but this technique renders several issues: It is hard to compare the beam at different stages of the particle accelerator and qualitative assessment of the signal is hard and would require manual labor. The developed software solves all these problems by processing the raw signal acquired from an digital oscilloscope, presenting it in real time and computing several characteristic measures of the beam. Therefore the work to calibrate the beam could be reduced."
                     },
-                    "iws":{
-                        "title":"Research assistant at Fraunhofer IWS",
-                        "date": "March - August 2019"
+                    "iws": {
+                        "title": "Research assistant at Fraunhofer IWS",
+                        "date": "March - August 2019",
+                        "description": "As a research assistant at the Fraunhofer Institute for  Material and Beam Technology IWS I worked in the department researching carbon coating technologies.<p>More specifically in the process of coating with diamond like taC-coatings the dynamics inside a vacuum chamber were to be studied using a mass spectrometer. During my research I explored different settings  of the mass spectrometer, different ways to present the results and developed scripts to enable faster analyzation."
                     },
-                    "tu-dresden":{
-                        "title":"Physics student at TU Dresden",
-                        "date": "since October 2018"
+                    "tu-dresden": {
+                        "title": "Physics student at TU Dresden",
+                        "date": "since October 2018",
+                        "description": "After graduating high school I decided to study physics at the Technical University Dresden with computer science as a minor."
                     },
-                    "ipho":{
-                        "title":"Member of the German team at the International Physics Olympiad 2018",
-                        "date": "21. - 29. July 2018"
+                    "ipho": {
+                        "title": "Member of the German team at the International Physics Olympiad 2018",
+                        "date": "21. - 29. July 2018",
+                        "description": "In my twelfth year at high school I qualified to be part of the German team at the International Physics Olympiad 2018 in Portugal. I archieved an honourable mention."
                     },
-                    "abitur":{
-                        "title":"Highschool graduate at Max-Steenbeck-Gymnasium",
-                        "date": "22.06.2018"
+                    "abitur": {
+                        "title": "Highschool graduate at Max-Steenbeck-Gymnasium",
+                        "date": "22.06.2018",
+                        "description": "I graduated highschool at Max-Steenbeck-Gymnasium in Cottbus, Germany with mark 1.0."
                     },
-                    "physics-olympiad":{
-                        "title":"Winner at the Brandenburger Phyics Olympiad",
-                        "date": "2014, 2015, 2016, 2018"
+                    "physics-olympiad": {
+                        "title": "Winner at the Brandenburger Phyics Olympiad",
+                        "date": "2014, 2015, 2016, 2018",
+                        "description": "Since eight grade I have been taking part in my homestates physics Olympiad Brandenburg and have been the winner regularly."
                     }
                 }
             }
         },
-        "article":{
-            "deprecated-warning":"Please note: There is a newer version of this article available <a href=\"{{newestVersionHref}}\">here</a>",
+        "article": {
+            "deprecated-warning": "Please note: There is a newer version of this article available <a href=\"{{newestVersionHref}}\">here</a>",
             "created": "Published: {{lastChanged}}",
             "previous-version": "Previous version"
         },
         "articles": {
             "title": "Articles"
         },
-        "404":{
+        "404": {
             "description": "This is an error:<br/>It seems like you tried to open something long forgotten or even unknown."
         }
     },
-    "popups":{
-        "language":{
+    "popups": {
+        "language": {
             "title": "Select your language",
             "lang-de": "German",
             "lang-en": "English"

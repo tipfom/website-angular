@@ -42,50 +42,56 @@
                 "lang-en": "Englisch",
                 "lang-en-skill": "Flüssig (C1 / B2)"
             },
-            "experience":{
+            "experience": {
                 "title": "Erfahrung",
-                "entries":{
-                    "hzdr":{
-                        "title":"Wissenschaftliche Hilfskraft am HZDR",
-                        "date": "seit Oktober 2019"
+                "entries": {
+                    "hzdr": {
+                        "title": "Wissenschaftliche Hilfskraft am HZDR",
+                        "date": "seit Oktober 2019",
+                        "description": "Als Wissenschaftliche Hilfskraft am Helmholtzzentrum Dresden-Rossendorf arbeite ich in der Abteilung Nukleare Astrophysik am Felsenkeller-Beschleuniger in Dresden.<p> Während meiner Arbeit war ich dabei unter anderem mit der <b>Entwicklung einer Software zur Datenerfassung mittels Strahlprofil Monitoren</b> betraut. Diese haben als Aufgabe das Profil des Ionenstrahls im Beschleuniger zu vermessen. Dieses lässt sich mit einem Oszilloskop auslesen, mit einem einfachen Oszilloskop stellen sich einem hierbei allerdings verschiedene Probleme: Unter anderem kann man schlecht Strahlprofile an unterschiedlichen Stellen des Beschleunigers vergleichen, außerdem kann man mit dem Auge die Position nicht qualitativ beurteilen und Auswertungsschritte benötigen viel menschliche Leistung. Die entwickelte Software behebt genau diese Probleme:   Sie verarbeitet das Rohsignal und gibt dieses stabil wieder, außerdem wird durch die Berechnung verschiedener Kenngrößen eine qualitative Beurteilung des Strahlprofils möglich und dem Operator des Teilchenbeschleunigers wird die Protokollierung der Beschleunigerkenndaten durch Automatisierung stark erleichtert."
                     },
-                    "iws":{
-                        "title":"Wissenschaftliche Hilfskraft am Fraunhofer IWS",
-                        "date": "März - August 2019"
+                    "iws": {
+                        "title": "Wissenschaftliche Hilfskraft am Fraunhofer IWS",
+                        "date": "März - August 2019",
+                        "description": "Als Wissenschaftliche Hilfskraft am Fraunhofer-Institut für Werkstoff- und Strahltechnik IWS arbeite ich in der Abteilung für Kohlenstoffschichten.<p>Dort wurde unter anderem die Beschichtung von Bauteilen mit taC-Schichten untersucht und zu einem besseren Verständnis der Dynamik in der Beschichtungskammer sollte ein Massenspektrometer eingesetzt werden. Meine Aufgabe war es verschiedene Einstellungen des Massenspektrometers zu untersuchen, Darstellungsmöglichkeiten und Skripte zur Auswertung zu erstellen und zum Abschluss ein Handbuch für nachfolgende Nutzungen zu erstellen."
                     },
-                    "tu-dresden":{
-                        "title":"Physikstudent an der TU Dresden",
-                        "date": "seit Oktober 2018"
+                    "tu-dresden": {
+                        "title": "Physikstudent an der TU Dresden",
+                        "date": "seit Oktober 2018",
+                        "description": "Nach meinem Abitur entschied ich mich an der Technischen Universität Dresden Physik zu studieren. Als Nebenfach habe ich Informatik belegt."
                     },
-                    "ipho":{
-                        "title":"Teil der deutschen Mannschaft zur Internationalen Physikolympiade 2018",
-                        "date": "21. - 29. Juli 2018"
+                    "ipho": {
+                        "title": "Teil der deutschen Mannschaft zur Internationalen Physikolympiade 2018",
+                        "date": "21. - 29. Juli 2018",
+                        "description": "In der 12. Klasse habe ich mich im Rahmen des Auswahlwettbewerbs zur Internationalen Physikolympiade qualifiert einer der fünf Vertreter Deutschland bei der Internationalen Physikolympiade zu sein. Diese fand in Portugal statt und als Ergebnis habe ich eine Anerkennung erhalten."
                     },
-                    "abitur":{
-                        "title":"Abitur am Max-Steenbeck-Gymnasium",
-                        "date": "22.06.2018"
+                    "abitur": {
+                        "title": "Abitur am Max-Steenbeck-Gymnasium",
+                        "date": "22.06.2018",
+                        "description": "Ich habe mein Abitur mit 1.0 am Max-Steenbeck-Gymnasium in Cottbus abgeschlossen."
                     },
-                    "physics-olympiad":{
-                        "title":"Landessieger bei der Brandenburger Physikolympiade",
-                        "date": "2014, 2015, 2016, 2018"
+                    "physics-olympiad": {
+                        "title": "Landessieger bei der Brandenburger Physikolympiade",
+                        "date": "2014, 2015, 2016, 2018",
+                        "description": "Seit der achten Klasse habe ich regelmäßig an der Physikolympiade meines Heimatlandes Brandenburg teilgenommen. Dort war ist regelmäßig der Landessieger."
                     }
                 }
             }
         },
-        "article":{
-            "deprecated-warning":"Achtung, <a href=\"{{newestVersionHref}}\">hier</a> ist eine neuere Version dieses Artikels verfügbar",
+        "article": {
+            "deprecated-warning": "Achtung, <a href=\"{{newestVersionHref}}\">hier</a> ist eine neuere Version dieses Artikels verfügbar",
             "created": "Erstellt: {{lastChanged}}",
             "previous-version": "Vorherige Version"
         },
         "articles": {
             "title": "Artikel"
         },
-        "404":{
+        "404": {
             "description": "Dies ist ein Fehler:<br/>Anscheinend wurde versucht etwas Unbekanntes oder Vergessenes zu öffnen."
         }
     },
-    "popups":{
-        "language":{
+    "popups": {
+        "language": {
             "title": "Sprachauswahl",
             "lang-de": "Deutsch",
             "lang-en": "English"
