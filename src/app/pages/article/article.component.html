@@ -8,10 +8,10 @@
                 *ngIf="translateService.currentLang == 'de' || (translateService.currentLang == undefined && translateService.defaultLang == 'de'); then germanBlock else englishBlock">
             </div>
             <ng-template #germanBlock>
-                <h1>{{article.title_de}}</h1>
+                <h1 class="titleheader">{{article.title_de}}</h1>
             </ng-template>
             <ng-template #englishBlock>
-                <h1>{{article.title_en}}</h1>
+                <h1 class="titleheader">{{article.title_en}}</h1>
             </ng-template>
             <span *ngIf="!languageAvailable" id="languageinfospan" [innerHTML]="'pages.article.language-not-available' | translate"></span>
             <markdown [data]="content" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers></markdown>

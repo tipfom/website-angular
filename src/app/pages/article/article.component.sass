@@ -10,12 +10,28 @@
     flex-direction: column
     flex-grow: 1
 
+.titleheader
+    overflow-wrap: break-word
+    margin-top: 0
+
+@media (min-width: 600px) 
+    .titleheader
+        font-size: 45px
+
+@media (max-width: 600px) 
+    .titleheader
+        font-size: 30px
+        text-align: left
+        white-space: pre-wrap
+    
+
 #warningspan, #languageinfospan
+    margin: 0 10px 10px 10px
     display: inline-block
     color: $color-warn
     font-weight: bolder
     text-align: center
-    width: 100%
+    width: calc(100% - 20px)
 
 #editedspan
     font-size: 12px
