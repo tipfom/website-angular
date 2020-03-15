@@ -1,6 +1,9 @@
 import { Component, OnInit, Version } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ArticleFile } from 'src/app/structures/article-file';
+import { ArticleEntry } from 'src/app/structures/article-entry';
 
 @Component({
   selector: 'app-article',
@@ -9,39 +12,53 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class ArticleComponent implements OnInit {
 
-  title: string;
   content: string;
   previousVersionHref: string;
   newestVersionHref: string;
-  lastChanged: string;
   isOldVersion: boolean;
+  article: ArticleEntry;
+  articleVersion: number;
+  languageAvailable: boolean = true;
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, public translateService: TranslateService) {
     const name = this.route.snapshot.paramMap.get('name');
     this.newestVersionHref = "article/" + name;
 
-    this.route.queryParams.subscribe(params => {
-      let versions_observer = this.apiService.getArticleVersions(name);
-      versions_observer.subscribe(versions => {
-        let version = +this.route.snapshot.paramMap.get('version');
-        if (this.route.snapshot.paramMap.get('version') == undefined) version = versions.length - 1;
+    this.apiService.getArticle(name).subscribe(r => {
+      this.article = r;
 
-        if (versions[version] != undefined) {
-          this.apiService.getArticleContent(versions[version].file).subscribe(r => this.content = r);
-          this.title = versions[version].title;
-          this.lastChanged = versions[version].creation_time;
-          this.isOldVersion = version != versions.length - 1;
-          if (versions[version - 1] != undefined) {
-            this.previousVersionHref = "article/" + name + "/" + (version - 1);
-          }
-        } else {
-          this.router.navigate(['404']);
-        }
-      }, (error) => this.router.navigate(['404']));
+      let lang = this.translateService.currentLang;
+      if (lang == undefined) lang = this.translateService.defaultLang;
+
+      if (this.route.snapshot.paramMap.get('version') == undefined) this.articleVersion = this.article.files.length - 1;
+      else this.articleVersion = +this.route.snapshot.paramMap.get('version');
+
+      this.isOldVersion = this.articleVersion != this.article.files.length - 1;
+
+      this.loadArticle(lang);
     }, (error) => this.router.navigate(['404']));
+
+    this.translateService.onLangChange.subscribe((e: LangChangeEvent) => this.loadArticle(e.lang));
   }
 
   ngOnInit(): void {
+  }
+
+  loadArticle(lang: string) {
+    if (this.article.files != undefined) {
+      let file = this.article.files[this.articleVersion].find(x => x.lang == lang);
+      if (file == undefined) {
+        file = this.article.files[this.articleVersion][0];
+        this.languageAvailable = false;
+      }
+
+      this.apiService.getArticleContent(file.path).subscribe(r => this.content = r);
+      if (this.article.files[this.articleVersion - 1] != undefined) {
+        this.previousVersionHref = "article/" + name + "/" + (this.articleVersion - 1);
+      }
+    } else {
+      this.router.navigate(['404']);
+    }
   }
 
   onMarkdownLoad() {

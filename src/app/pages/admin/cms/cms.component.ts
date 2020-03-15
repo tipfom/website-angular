@@ -59,11 +59,26 @@ export class CmsComponent implements OnInit {
     });
   }
 
-  uploadArticle() : void{
+  uploadArticle(): void {
     let name = (<HTMLInputElement>document.getElementById("article_name_input")).value;
-    let title = (<HTMLInputElement>document.getElementById("article_title_input")).value;
-    let description = (<HTMLInputElement>document.getElementById("article_description_input")).value;
+    let title_de = (<HTMLInputElement>document.getElementById("article_title_de_input")).value;
+    let description_de = (<HTMLInputElement>document.getElementById("article_description_de_input")).value;
+    let title_en = (<HTMLInputElement>document.getElementById("article_title_en_input")).value;
+    let description_en = (<HTMLInputElement>document.getElementById("article_description_en_input")).value;
+    let lang = (<HTMLInputElement>document.getElementById("article_lang_input")).value;
+    let refversion = (<HTMLInputElement>document.getElementById("article_refversion_input")).value;
     let file = (<HTMLInputElement>document.getElementById("article_file_input")).files[0];
-    this.apiService.uploadArticle(name, title, description, file).subscribe(s => console.info(s));
+    let operation = (<HTMLSelectElement>document.getElementById("article_operation")).value;
+    switch (operation) {
+      case "new_article":
+        this.apiService.uploadNewArticle(name, title_de, description_de, title_en, description_en, lang, file).subscribe(r => console.info(r));
+        break;
+      case "new_version":
+        this.apiService.uploadArticle(name, lang, file).subscribe(r => console.info(r));
+        break;
+      case "append_language":
+        this.apiService.attachArticleVersion(name, lang, refversion, file).subscribe(r => console.info(r));
+        break;
+    }
   }
 }

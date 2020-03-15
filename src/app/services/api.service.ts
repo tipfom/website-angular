@@ -7,13 +7,14 @@ import { ResourceEntry } from '../structures/resource-entry';
 import { ArticleEntry } from '../structures/article-entry';
 import { isDevMode } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { ArticleFile } from '../structures/article-file';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private server_address = !environment.production ? "https://api.timpokart.de/" : "http://localhost:5764/";
+  private server_address = environment.production ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
   constructor(private httpClient: HttpClient) {
   }
@@ -73,8 +74,8 @@ export class ApiService {
     return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/spotlight', { responseType: "json" });
   }
 
-  getArticleVersions(name: string) {
-    return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/versions/' + name, { responseType: "json" });
+  getArticle(name: string) {
+    return this.httpClient.get<ArticleEntry>(this.server_address + 'articles/detail/' + name, { responseType: "json" });
   }
 
   getArticleContentUrl(file: string) {
@@ -85,10 +86,24 @@ export class ApiService {
     return this.httpClient.get(this.getArticleContentUrl(file), { responseType: "text" });
   }
 
-  uploadArticle(name: string, title: string, description: string, file: File) {
+  uploadNewArticle(name: string, title_de: string, description_de: string, title_en: string, description_en: string, lang: string, file: File) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&title=" + title + "&description=" + description, file,
+    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&title_de=" + title_de + "&description_de=" + description_de + "&title_en=" + title_en + "&description_en=" + description_en + "&lang=" + lang, file,
+      { headers: headers, responseType: "text" });
+  }
+
+  uploadArticle(name: string, lang: string, file: File) {
+    let headers = new HttpHeaders();
+    headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
+    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&lang=" + lang, file,
+      { headers: headers, responseType: "text" });
+  }
+
+  attachArticleVersion(name: string, lang: string, version_id: string, file: File) {
+    let headers = new HttpHeaders();
+    headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
+    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&lang=" + lang + "&version_id=" + version_id, file,
       { headers: headers, responseType: "text" });
   }
 }

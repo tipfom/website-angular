@@ -6,10 +6,21 @@
             <table>
                 <tr *ngFor="let article of articles | async">
                     <div>
-                        <a [href]="'article/' + article.name">
-                            <h3> {{article.title}} <span>{{article.creation_time}}</span></h3>
-                            <p>{{article.description}}</p>
-                        </a>
+                        <div
+                            *ngIf="translateService.currentLang == 'de' || (translateService.currentLang == undefined && translateService.defaultLang == 'de'); then germanBlock else englishBlock">
+                        </div>
+                        <ng-template #germanBlock>
+                            <a [href]="'article/' + article.name" >
+                                <h3>{{article.title_de}}<span>{{article.creation_time}}</span></h3>
+                                <p>{{article.description_de}}</p>
+                            </a>
+                        </ng-template>
+                        <ng-template #englishBlock>
+                            <a [href]="'article/' + article.name" >
+                                <h3>{{article.title_en}}<span>{{article.creation_time}}</span></h3>
+                                <p>{{article.description_en}}</p>
+                            </a>
+                        </ng-template>
                     </div>
                 </tr>
             </table>

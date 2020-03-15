@@ -5,8 +5,17 @@
             <tr *ngFor="let spotlightArticle of spotlightArticles | async">
                 <div>
                     <a [href]="'article/' + spotlightArticle.name">
-                        <h3> {{spotlightArticle.title}} </h3>
-                        <p>{{spotlightArticle.description}}</p>
+                        <div
+                            *ngIf="translateService.currentLang == 'de' || (translateService.currentLang == undefined && translateService.defaultLang == 'de'); then germanBlock else englishBlock">
+                        </div>
+                        <ng-template #germanBlock>
+                            <h3> {{spotlightArticle.title_de}} </h3>
+                            <p>{{spotlightArticle.description_de}}</p>
+                        </ng-template>
+                        <ng-template #englishBlock>
+                            <h3> {{spotlightArticle.title_en}} </h3>
+                            <p>{{spotlightArticle.description_en}}</p>
+                        </ng-template>
                     </a>
                 </div>
             </tr>

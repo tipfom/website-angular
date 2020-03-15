@@ -21,8 +21,17 @@
 <div>
     <h2>Upload Article CMS</h2>
     <input id="article_name_input"  placeholder="Enter Name">
-    <input id="article_title_input"  placeholder="Enter Title">
-    <input id="article_description_input"  placeholder="Enter Description">
+    <input id="article_title_de_input"  placeholder="Enter German Title">
+    <input id="article_description_de_input"  placeholder="Enter German Description">
+    <input id="article_title_en_input"  placeholder="Enter English Title">
+    <input id="article_description_en_input"  placeholder="Enter English Description">
+    <input id="article_lang_input" placeholder="Enter File Language">
+    <input id="article_refversion_input" placeholder="Enter Reference Version Nr">
+    <select id="article_operation">
+        <option value="new_article">New Article</option>
+        <option value="new_version">New Version</option>
+        <option value="append_language">Append Language</option>
+    </select>
     File: <input type="file" id="article_file_input" accept="text/markdown">
     <button type="submit" (click)="uploadArticle()">Submit</button> 
 </div>

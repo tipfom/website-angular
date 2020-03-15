@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArticleEntry } from '../../../structures/article-entry';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-spotlight',
@@ -12,7 +13,7 @@ export class ContentSpotlightComponent implements OnInit {
 
   spotlightArticles : Observable<ArticleEntry[]>;
 
-  constructor(private apiService: ApiService) { 
+  constructor(private apiService: ApiService, public translateService: TranslateService) { 
     this.spotlightArticles = apiService.getSpotlightArticles();
   }
 
