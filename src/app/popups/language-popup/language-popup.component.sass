@@ -1,9 +1,10 @@
 @import "src/variables.sass"
 
-#popupbackground.hidden
-    display: none
+#popupbackground.visible
+    display: flex
 
 #popupbackground
+    display: none
     position: fixed
     left: 0px
     top: 0px
@@ -11,7 +12,6 @@
     height: 100%
     background: rgba($color-accent-faded, 0.6)
     z-index: 1000
-    display: flex
     align-content: center
     align-items: center
 

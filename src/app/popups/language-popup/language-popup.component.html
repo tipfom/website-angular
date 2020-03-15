@@ -1,4 +1,4 @@
-<div id="popupbackground" [ngClass]="{'hidden': !isVisible}" (click)="close()">
+<div id="popupbackground" [ngClass]="{'visible': isVisible}" (click)="close()">
     <div id="popup" (click)="catchClick($event)">
         <div id="headerdiv">
             <h2 translate>popups.language.title</h2>
