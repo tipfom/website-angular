@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { LanguagePopupComponent } from '../popups/language-popup/language-popup.component';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationBarComponent implements OnInit {
 
+  @ViewChild(LanguagePopupComponent) languagePopup;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -14,5 +17,9 @@ export class NavigationBarComponent implements OnInit {
 
   gotoContact(): void {
     location.href = "#contact";
+  }
+
+  showLanguagePopup(){
+    this.languagePopup.show();
   }
 }
