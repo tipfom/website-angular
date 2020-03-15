@@ -81,7 +81,8 @@
         "article": {
             "deprecated-warning": "Please note: There is a newer version of this article available <a href=\"{{newestVersionHref}}\">here</a>",
             "created": "Published: {{lastChanged}}",
-            "previous-version": "Previous version"
+            "previous-version": "Previous version",
+            "language-not-available": "Sadly, this article is not available in English.<br/>It is therefore shown in German."
         },
         "articles": {
             "title": "Articles"

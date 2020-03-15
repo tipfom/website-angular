@@ -13,7 +13,7 @@
             <ng-template #englishBlock>
                 <h1>{{article.title_en}}</h1>
             </ng-template>
-
+            <span *ngIf="!languageAvailable" id="languageinfospan" [innerHTML]="'pages.article.language-not-available' | translate"></span>
             <markdown [data]="content" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers></markdown>
             <span id="editedspan" translate
                 [translateParams]="{lastChanged: article.creation_time}">pages.article.created <a

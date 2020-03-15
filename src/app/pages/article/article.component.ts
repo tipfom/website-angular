@@ -33,6 +33,9 @@ export class ArticleComponent implements OnInit {
       if (this.route.snapshot.paramMap.get('version') == undefined) this.articleVersion = this.article.files.length - 1;
       else this.articleVersion = +this.route.snapshot.paramMap.get('version');
 
+      if (this.article.files[this.articleVersion - 1] != undefined)
+        this.previousVersionHref = "article/" + name + "/" + (this.articleVersion - 1);
+
       this.isOldVersion = this.articleVersion != this.article.files.length - 1;
 
       this.loadArticle(lang);
@@ -47,15 +50,10 @@ export class ArticleComponent implements OnInit {
   loadArticle(lang: string) {
     if (this.article.files != undefined) {
       let file = this.article.files[this.articleVersion].find(x => x.lang == lang);
-      if (file == undefined) {
-        file = this.article.files[this.articleVersion][0];
-        this.languageAvailable = false;
-      }
+      this.languageAvailable = file != undefined;
+      if (!this.languageAvailable) file = this.article.files[this.articleVersion][0];
 
       this.apiService.getArticleContent(file.path).subscribe(r => this.content = r);
-      if (this.article.files[this.articleVersion - 1] != undefined) {
-        this.previousVersionHref = "article/" + name + "/" + (this.articleVersion - 1);
-      }
     } else {
       this.router.navigate(['404']);
     }
