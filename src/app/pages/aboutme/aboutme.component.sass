@@ -9,7 +9,6 @@ h1
 #timeline 
 	max-width: 800px
 	width: 100%
-	margin: 0 auto
 	padding: 10px
 
 // ----------------  THE FONTS
@@ -29,6 +28,9 @@ $border-color: rgba($color-light, .7)
 		border-radius: 3px
 
 @media (min-width: 600px) 
+	#timeline 
+		margin: 0 auto
+
 	.timeline-item
 		border-left: 2px solid $border-color
 		margin-right: -10px
@@ -57,9 +59,13 @@ $border-color: rgba($color-light, .7)
 			margin: 10px 20px 10px 10px
 
 @media (max-width: 600px) 
+	#timeline 
+		margin: 0
+
 	.timeline-item
 		border-left: none
-		padding: 10px
+		white-space: break-word
+		padding: 0
 		.timeline-content
 			margin: 0
 	
@@ -156,33 +162,42 @@ $border-color: rgba($color-light, .7)
 
 #skillcirclecontainer
 	display: flex
-	width: 90%
+	width: 100%
+	max-width: 435px
 	flex-wrap: wrap
 	justify-content: center
-	margin: 0 5% 20px 5% 
+	margin: 0 auto 20px auto
 
-$circlesize: 120px
-$halfcirclesize: $circlesize / 2
+@media (min-width: 360px) 
+	.circle-wrap, .circle .mask, .circle-wrap .circle .fill
+		--circlesize: 120px
+		--halfcirclesize: calc(var(--circlesize) / 2)
+
+@media (max-width: 360px) 
+	.circle-wrap, .circle .mask, .circle-wrap .circle .fill
+		--circlesize: calc(calc(100vw - 40px) / 2 * 0.9 - 30px)
+		--halfcirclesize: calc(var(--circlesize) / 2)
+
 
 .circle-wrap 
 	margin: 12.5px 12.5px
-	width: $circlesize
-	height: $circlesize
+	width: var(--circlesize)
+	height: var(--circlesize)
 	background: $color-lightshadow
 	border-radius: 50%
 	user-select: none
 
 .circle-wrap .circle .mask, .circle-wrap .circle .fill 
-	width: $circlesize
-	height: $circlesize
+	width: var(--circlesize)
+	height: var(--circlesize)
 	position: absolute
 	border-radius: 50%
 
 .circle-wrap .circle .mask 
-	clip: rect(0px, $circlesize, $circlesize, $halfcirclesize - 1px)
+	clip: rect(0px, var(--circlesize), var(--circlesize), calc(var(--halfcirclesize) - 1px))
 
 .circle-wrap .circle .mask .fill 
-	clip: rect(0px, $halfcirclesize, $circlesize, 0px)
+	clip: rect(0px, var(--halfcirclesize), var(--circlesize), 0px)
 	background-color: $color-accent
 
 .circle-wrap .circle .mask.full, .circle-wrap .circle .fill 
@@ -199,12 +214,12 @@ $halfcirclesize: $circlesize / 2
 
 
 .circle-wrap .inside-circle 
-	width: $circlesize*13/15
-	height: $circlesize*13/15
+	width: calc(var(--circlesize)*13/15)
+	height: calc(var(--circlesize)*13/15)
 	border-radius: 50%
 	background: $color-light
-	margin-top: $circlesize/15
-	margin-left: $circlesize/15
+	margin-top: calc(var(--circlesize)/15)
+	margin-left: calc(var(--circlesize)/15)
 	text-align: center
 	line-height: 20px
 	display: flex

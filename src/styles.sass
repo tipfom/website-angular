@@ -42,20 +42,7 @@ body, html
 
 .contentdiv-small
     max-width: 360px
-    width: calc(100% - 60px)
-    margin: 20px 20px
-
     
-@media (min-width: 600px) 
-    .contentdiv-large
-        width: calc(100% - 60px)
-        margin: 20px 20px
-
-@media (max-width: 600px) 
-    .contentdiv-large
-        width: calc(100% - 20px)
-        margin: 20px 0
-
 .contentdiv-large
     max-width: 1000px
     
@@ -84,12 +71,9 @@ body, html
         color: $color-headeronlight
 
 .contenttilediv
-    margin: 20px 20px
     padding: 10px
     max-width: 150px
-    width: calc(50vw - 70px)
     max-height: 150px
-    height: calc(50vw - 70px)
     border-radius: 2px
     display: flex
     justify-content: center
@@ -104,3 +88,27 @@ a
 
     &:hover
         color: $color-accent-secondary
+
+@media (min-width: 600px) 
+    .contentdiv-large
+        width: calc(100% - 60px)
+        margin: 20px 20px
+    .contentdiv-small
+        width: calc(100% - 60px)
+        margin: 20px 20px
+    .contenttilediv
+        height: calc(50vw - 60px)
+        width: calc(50vw - 60px)
+        margin: 20px 20px
+
+@media (max-width: 600px) 
+    .contentdiv-large
+        width: calc(100% - 20px)
+        margin: 20px 0
+    .contentdiv-small
+        width: calc(100% - 40px)
+        margin: 10px 10px
+    .contenttilediv
+        height: calc(50vw - 40px)
+        width: calc(50vw - 40px)
+        margin: 10px 10px
