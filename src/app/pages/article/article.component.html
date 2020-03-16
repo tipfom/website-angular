@@ -14,7 +14,7 @@
                 <h1 class="titleheader">{{article.title_en}}</h1>
             </ng-template>
             <span *ngIf="!languageAvailable" id="languageinfospan" [innerHTML]="'pages.article.language-not-available' | translate"></span>
-            <markdown [data]="content" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers></markdown>
+            <markdown [src]="articleContentUrl" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers></markdown>
             <span id="editedspan" translate
                 [translateParams]="{lastChanged: article.creation_time}">pages.article.created <a
                     *ngIf="previousVersionHref" [href]="previousVersionHref"

@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ArticleFile } from 'src/app/structures/article-file';
 import { ArticleEntry } from 'src/app/structures/article-entry';
+import { AnchorService } from 'src/app/services/anchor.service';
 
 @Component({
   selector: 'app-article',
@@ -12,15 +13,16 @@ import { ArticleEntry } from 'src/app/structures/article-entry';
 })
 export class ArticleComponent implements OnInit {
 
-  content: string;
   previousVersionHref: string;
   newestVersionHref: string;
   isOldVersion: boolean;
   article: ArticleEntry;
   articleVersion: number;
   languageAvailable: boolean = true;
+  articleContentUrl: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, public translateService: TranslateService) {
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService,
+    public translateService: TranslateService, private anchorService: AnchorService) {
     const name = this.route.snapshot.paramMap.get('name');
     this.newestVersionHref = "article/" + name;
 
@@ -52,20 +54,13 @@ export class ArticleComponent implements OnInit {
       let file = this.article.files[this.articleVersion].find(x => x.lang == lang);
       this.languageAvailable = file != undefined;
       if (!this.languageAvailable) file = this.article.files[this.articleVersion][0];
-
-      this.apiService.getArticleContent(file.path).subscribe(r => this.content = r);
+      this.articleContentUrl = this.apiService.getArticleContentUrl(file.path);
     } else {
       this.router.navigate(['404']);
     }
   }
-
+  
   onMarkdownLoad() {
-    var childs = document.getElementById("markdowndiv").children;
-    for (var i = 0; i < childs.length; i++) {
-      childs[i].childNodes.forEach(child => {
-        if (child.nodeName == "IMG")
-          childs[i].className += "centerp"
-      })
-    }
+    this.anchorService.scrollToAnchor();
   }
 }

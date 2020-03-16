@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
@@ -53,14 +53,18 @@ import { Error404Component } from './pages/error404/error404.component';
     FormsModule,
     ReactiveFormsModule,
     MarkdownModule.forRoot({
-      sanitize: SecurityContext.NONE
+      sanitize: SecurityContext.NONE,
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: MarkedOptionsFactory,
+      }
     }),
     TranslateModule.forRoot({
-      loader:{
+      loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
-      }
+      },
     })
   ],
   providers: [],
@@ -71,4 +75,11 @@ export class AppModule { }
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
+}
+export function MarkedOptionsFactory(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+  renderer.image = (href, title, text) => {
+    return `<p class="centerp"><img src="${href}" alt="${text}">${text}</p>`
+  };
+  return { renderer: renderer };
 }

@@ -14,7 +14,7 @@ import { ArticleFile } from '../structures/article-file';
 })
 export class ApiService {
 
-  private server_address = environment.production ? "https://api.timpokart.de/" : "http://localhost:5764/";
+  private server_address = !environment.production ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
   constructor(private httpClient: HttpClient) {
   }
