@@ -100,7 +100,8 @@
     },
     "footer": {
         "privacy-note": "Privacy note",
-        "about-this-site": "About this site"
+        "about-this-site": "About this site",
+        "icons": "Icons by icons8"
     },
     "nav-bar": {
         "go-home": "Home",

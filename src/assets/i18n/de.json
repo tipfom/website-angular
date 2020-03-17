@@ -100,7 +100,8 @@
     },
     "footer": {
         "privacy-note": "Datenschutzerklärung",
-        "about-this-site": "Über diese Seite"
+        "about-this-site": "Über diese Seite",
+        "icons": "Icons von icons8"
     },
     "nav-bar": {
         "go-home": "Startseite",
