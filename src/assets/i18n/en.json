@@ -19,6 +19,7 @@
             },
             "contact": {
                 "contact-form": "Contact form",
+                "contact-not-working": "This is currently not implemented. Please use the means provided above.",
                 "name": "name",
                 "e-mail": "e-mail",
                 "message": "message",

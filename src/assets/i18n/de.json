@@ -19,6 +19,7 @@
             },
             "contact": {
                 "contact-form": "Kontaktformular",
+                "contact-not-working": "Das funktioniert leider noch nicht. Bitte die oben stehenden Möglichkeiten nutzen.",
                 "name": "Name",
                 "e-mail": "E-Mail",
                 "message": "Nachricht",
