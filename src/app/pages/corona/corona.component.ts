@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { sample } from 'rxjs/operators';
-import { start } from 'repl';
 import { CoronaFit } from 'src/app/structures/corona-structures';
 
 @Component({
@@ -19,13 +17,26 @@ export class CoronaComponent implements OnInit {
     data: [],
     layout: {
       height: 450,
+      plot_bgcolor: 'FAFAFA',
+      font: {
+        family: '"Roboto", sans-serif',
+        size: 12
+      },
       xaxis: {
         range: [this.startDate.getTime(), this.endDate.getTime()],
+        tickmode: 'linear',
+        tick0: this.startDate.getTime(),
+        dtick: 1000 * 60 * 60 * 24 * 7,
       },
       yaxis: {
         autorange: true
       },
-      legend: { x: 0.4, y: 1.2 },
+      legend: {
+        x: 0.01,
+        xanchor: 'left',
+        bgcolor: '#e6e2e7',
+        borderradius: 3
+      },
       margin: { l: 30, r: 30, t: 0, b: 30 }
     },
     config: {
@@ -40,10 +51,10 @@ export class CoronaComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getCoronaData().subscribe(c => {
-      this.graph.data.push(this.buildTrace(c.confirmed.by_region[0], "China"));
-      this.graph.data.push(this.buildTrace(this.substract(c.confirmed.total, c.confirmed.by_region[0]), "Outside China"));
-      this.graph.data.push(this.buildFitTraces(c.fits["china"][c.fits["china"].length - 1], "sig", "China Fits"));
-      this.graph.data.push(this.buildFitTraces(c.fits["row"][c.fits["row"].length - 1], "exp", "Row Fits"));
+      this.buildFitTraces(c.fits["china"][c.fits["china"].length - 1], "sig", "china", "in China", "5899DA8C", "5899DA46").forEach(x => this.graph.data.push(x));
+      this.buildFitTraces(c.fits["row"][c.fits["row"].length - 1], "exp", "row", "outside China", "E8743B8C", "E8743B46").forEach(x => this.graph.data.push(x));
+      this.graph.data.push(this.buildTrace(c.confirmed.by_region[0], "china", "Cases in China", "#1866b4"));
+      this.graph.data.push(this.buildTrace(this.substract(c.confirmed.total, c.confirmed.by_region[0]), "row", "Cases outside China", "#cc4300"));
     });
   }
 
@@ -55,7 +66,7 @@ export class CoronaComponent implements OnInit {
     return r;
   }
 
-  buildTrace(data: number[], name: string) {
+  buildTrace(data: number[], group: string, name: string, color: string) {
     let x = []
     let y: number[] = []
     for (var i = 0; i < data.length; i++) {
@@ -70,36 +81,84 @@ export class CoronaComponent implements OnInit {
       y: y,
       mode: 'markers',
       type: 'scatter',
-      name: name
+      name: name,
+      legendgroup: group,
+      marker: {
+        color: color,
+        size: 7,
+        symbol: "diamond"
+      }
     }
 
     return trace;
   }
 
-  buildFitTraces(fit: CoronaFit, type: string, name: string, sampleCount: number = 300.0) {
+  getRelativeDate(x: Date) {
+    return (x.getTime() - this.startDate.getTime()) / (60 * 60 * 24 * 1000);
+  }
+
+  getExpErrormargins(a, b, da, db, x: Date[]) {
+    let delta = (x: Date) => {
+      let rel = this.getRelativeDate(x);
+      return Math.sqrt(
+        Math.pow(Math.exp(b * rel) * da, 2) +
+        Math.pow(a * Math.exp(b * rel) * db, 2)
+      );
+    }
+    let err = [];
+    for (var i = 0; i < x.length; i++) {
+      err.push(delta(x[i]));
+    }
+    return err;
+  }
+
+  getSigErrormargins(a, b, c, da, db, dc, x: Date[]) {
+    let delta = (x: Date) => {
+      let rel = this.getRelativeDate(x);
+      return Math.sqrt(
+        Math.pow(1 / (1 + Math.exp(-b * (rel - c))) * da, 2) +
+        Math.pow(-a / Math.pow((1 + Math.exp(-b * (rel - c))), 2) * (c - rel) * Math.exp(-b * (rel - c)) * db, 2) +
+        Math.pow(-a / Math.pow((1 + Math.exp(-b * (rel - c))), 2) * b * Math.exp(-b * (rel - c)) * dc, 2)
+      );
+    }
+    let err = [];
+    for (var i = 0; i < x.length; i++) {
+      err.push(delta(x[i]));
+    }
+    return err;
+  }
+
+  buildFitTraces(fit: CoronaFit, type: string, group: string, name: string, color: string, fill: string, sampleCount: number = 300.0) {
     let x: Date[] = [];
     let y = [];
-    let timeConv = (60 * 60 * 24 * 1000);
+    let yLower = [], yUpper = [];
     for (var i = 0; i < sampleCount; i++) {
       let date = new Date(this.startDate);
-      date.setDate(this.startDate.getDate() + i / sampleCount * (this.endDate.getTime() - this.startDate.getTime()) / timeConv);
+      date.setDate(this.startDate.getDate() + i / sampleCount * this.getRelativeDate(this.endDate));
       x.push(date);
     }
 
     switch (type) {
       case "exp": {
-        let a = fit.param[0];
-        let b = fit.param[1];
+        let a = fit.param[0], b = fit.param[1];
+        let da = 2 * fit.err[0], db = 2 * fit.err[1];
+        let err = this.getExpErrormargins(a, b, da, db, x);
         for (var i = 0; i < sampleCount; i++) {
-          y.push(a * Math.exp(b * (x[i].getTime() - this.startDate.getTime()) / timeConv));
+          let cy = a * Math.exp(b * this.getRelativeDate(x[i]));
+          y.push(cy);
+          yLower.push(cy - err[i]);
+          yUpper.push(cy + err[i]);
         }
       } break;
       case "sig": {
-        let a = fit.param[0];
-        let b = fit.param[1];
-        let c = fit.param[2];
+        let a = fit.param[0], b = fit.param[1], c = fit.param[2];
+        let da = 2 * fit.err[0], db = 2 * fit.err[1], dc = 2 * fit.err[2];
+        let err = this.getSigErrormargins(a, b, c, da, db, dc, x);
         for (var i = 0; i < sampleCount; i++) {
-          y.push(a / (1 + Math.exp(-b * ((x[i].getTime() - this.startDate.getTime()) / timeConv - c))));
+          let cy = a / (1 + Math.exp(-b * (this.getRelativeDate(x[i]) - c)));
+          y.push(cy);
+          yLower.push(cy - err[i]);
+          yUpper.push(cy + err[i]);
         }
       } break;
     }
@@ -109,10 +168,37 @@ export class CoronaComponent implements OnInit {
       y: y,
       mode: 'line',
       type: 'scatter',
-      name: name
+      name: type == "sig" ? 'Sigmoidal fit' : 'Exponential fit',
+      line: {
+        color: color,
+        width: 4
+      },
+      legendgroup: group
     };
 
-    return trace;
+    var errorBandLower = {
+      x: x,
+      y: yLower,
+      fill: 'toself',
+      type: 'scatter',
+      mode: 'none',
+      fillcolor: 'transparent',
+      showlegend: false,
+    };
+
+    var errorBandUpper = {
+      x: x,
+      y: yUpper,
+      fill: 'tonexty',
+      type: 'scatter',
+      mode: 'none',
+      name: 'Error margin',
+      fillcolor: fill,
+      opacity: 0.7,
+      legendgroup: group
+    }
+
+    return [trace, errorBandLower, errorBandUpper];
   }
 
   onSliderEnd(): void {
