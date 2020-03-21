@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { CoronaFit } from 'src/app/structures/corona-structures';
+import { CoronaFit, CoronaData, CoronaDataContainer } from 'src/app/structures/corona-structures';
 
 @Component({
   selector: 'app-corona',
@@ -9,11 +9,12 @@ import { CoronaFit } from 'src/app/structures/corona-structures';
 })
 export class CoronaComponent implements OnInit {
 
-  public startDate: Date = new Date(2020, 0, 22);
-  public endDate: Date = new Date(2020, 2, 23);
+  startDate: Date = new Date(2020, 0, 22);
+  endDate: Date = new Date(2020, 2, 23);
+  data: CoronaDataContainer;
+  selectedDate: Date = this.endDate;
 
-
-  public graph = {
+  public globalGraph = {
     data: [],
     layout: {
       height: 450,
@@ -29,6 +30,41 @@ export class CoronaComponent implements OnInit {
         dtick: 1000 * 60 * 60 * 24 * 7,
       },
       yaxis: {
+        rangemode: 'nonnegative',
+        autorange: true
+      },
+      legend: {
+        x: 0.01,
+        xanchor: 'left',
+        bgcolor: '#e6e2e7',
+        borderradius: 3
+      },
+      margin: { l: 30, r: 30, t: 0, b: 30 }
+    },
+    config: {
+      responsive: true,
+      scrollZoom: false,
+      editable: false
+    }
+  };
+
+  public localGraph = {
+    data: [],
+    layout: {
+      height: 450,
+      plot_bgcolor: 'FAFAFA',
+      font: {
+        family: '"Roboto", sans-serif',
+        size: 12
+      },
+      xaxis: {
+        range: [this.startDate.getTime(), this.endDate.getTime()],
+        tickmode: 'linear',
+        tick0: this.startDate.getTime(),
+        dtick: 1000 * 60 * 60 * 24 * 7,
+      },
+      yaxis: {
+        rangemode: 'nonnegative',
         autorange: true
       },
       legend: {
@@ -51,10 +87,8 @@ export class CoronaComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getCoronaData().subscribe(c => {
-      this.buildFitTraces(c.fits["china"][c.fits["china"].length - 1], "sig", "china", "in China", "5899DA8C", "5899DA46").forEach(x => this.graph.data.push(x));
-      this.buildFitTraces(c.fits["row"][c.fits["row"].length - 1], "exp", "row", "outside China", "E8743B8C", "E8743B46").forEach(x => this.graph.data.push(x));
-      this.graph.data.push(this.buildTrace(c.confirmed.by_region[0], "china", "Cases in China", "#1866b4"));
-      this.graph.data.push(this.buildTrace(this.substract(c.confirmed.total, c.confirmed.by_region[0]), "row", "Cases outside China", "#cc4300"));
+      this.data = c;
+      this.updateGlobalGraph();
     });
   }
 
@@ -66,10 +100,19 @@ export class CoronaComponent implements OnInit {
     return r;
   }
 
-  buildTrace(data: number[], group: string, name: string, color: string) {
+  updateGlobalGraph() {
+    let dateDiff = (this.selectedDate.getTime() - this.startDate.getTime()) / (1000 * 60 * 60 * 24) - 1;
+    this.globalGraph.data = [];
+    this.buildFitTraces(this.data.fits["china"][dateDiff - 17], "sig", "china", "in China", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
+    this.buildFitTraces(this.data.fits["row"][dateDiff - 17], "exp", "row", "outside China", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
+    this.globalGraph.data.push(this.buildTrace(this.data.confirmed.by_region["china"], dateDiff, "china", "Cases in China", "#1866b4"));
+    this.globalGraph.data.push(this.buildTrace(this.substract(this.data.confirmed.total, this.data.confirmed.by_region["china"]), dateDiff, "row", "Cases outside China", "#cc4300"));
+  }
+
+  buildTrace(data: number[], count: number, group: string, name: string, color: string) {
     let x = []
     let y: number[] = []
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < count; i++) {
       let date = new Date(this.startDate);
       date.setDate(date.getDate() + i);
       x.push(date);
@@ -201,7 +244,16 @@ export class CoronaComponent implements OnInit {
     return [trace, errorBandLower, errorBandUpper];
   }
 
-  onSliderEnd(): void {
-    console.info("now")
+  selectedRegionChanged(): void {
+    let region = <HTMLSelectElement>document.getElementById("region-select");
+    this.localGraph.data = [];
+    this.localGraph.data.push(this.buildTrace(this.data.confirmed.by_region[region.value], this.data.confirmed.by_region[region.value].length, "none", "a", "FA23aE"));
+  }
+
+  onSliderChange(): void {
+    let slider = <HTMLInputElement>document.getElementById("date-slider");
+    this.selectedDate = new Date(this.startDate);
+    this.selectedDate.setDate(this.selectedDate.getDate() + Number(slider.value));
+    this.updateGlobalGraph();
   }
 }

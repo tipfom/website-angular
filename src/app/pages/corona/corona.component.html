@@ -3,8 +3,36 @@
     <div class="backgrounddiv">
         <div class="contentdiv-large">
             <h2>Development of infection numbers with Coronavirus inside and outside China</h2>
-            <div>
-                <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <input type="range" min="18" max="61" value="50" (input)="onSliderChange()" style="width: 100%" (change)="onSliderChange()" id="date-slider">
+                <div style="height:450px; ">
+                    <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout" [config]="globalGraph.config">
+                    </plotly-plot>
+                </div>
+            </div>
+            <h3>Country specific cases</h3>
+            <select style="margin-bottom: 10px" (change)="selectedRegionChanged()" id="region-select">
+  <optgroup label="Regions">
+      <option value="china">Mainland China</option>
+      <option value="western_pacific_region">Western Pacific Region</option>
+      <option value="european_region">Europe</option>
+      <option value="south_east_asia_region">South East Asia Region</option>
+      <option value="region_of_the_americans">America</option>
+      <option value="african_region">Africa</option>
+  </optgroup>
+
+  <optgroup label="Countries">
+    <option value="china">Germany</option>
+    <option value="western_pacific_region">Italy</option>
+    <option value="european_region">Poland</option>
+    <option value="south_east_asia_region">South East Asia Region</option>
+    <option value="region_of_the_americans">America</option>
+    <option value="african_region">Africa</option>
+</optgroup>
+          </select>
+            <div style="height:450px; max-width: 800px; margin: 0 auto;">
+                <plotly-plot [data]="localGraph.data" [layout]="localGraph.layout" [config]="localGraph.config">
+                </plotly-plot>
             </div>
         </div>
     </div>

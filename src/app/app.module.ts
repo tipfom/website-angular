@@ -50,7 +50,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     ArticlesComponent,
     LanguagePopupComponent,
     Error404Component,
-    CoronaComponent
+    CoronaComponent,
   ],
   imports: [
     BrowserModule,

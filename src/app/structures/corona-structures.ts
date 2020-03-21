@@ -6,7 +6,7 @@ export interface CoronaDataContainer {
 }
 
 export interface CoronaData {
-    by_region: number[][];
+    by_region: Map<string, number[]>,
     total: number[];
 }
 
