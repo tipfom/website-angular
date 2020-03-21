@@ -8,6 +8,7 @@ import { ArticleEntry } from '../structures/article-entry';
 import { isDevMode } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ArticleFile } from '../structures/article-file';
+import { CoronaDataContainer } from '../structures/corona-structures';
 
 @Injectable({
   providedIn: 'root'
@@ -105,5 +106,9 @@ export class ApiService {
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
     return this.httpClient.post(this.server_address + 'article/?name=' + name + "&lang=" + lang + "&version_id=" + version_id, file,
       { headers: headers, responseType: "text" });
+  }
+
+  getCoronaData(): Observable<CoronaDataContainer> {
+    return this.httpClient.get<CoronaDataContainer>(this.server_address + 'corona');
   }
 }

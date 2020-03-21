@@ -10,6 +10,7 @@ import { ResourceComponent } from './pages/resource/resource.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { Error404Component } from './pages/error404/error404.component';
+import { CoronaComponent } from './pages/corona/corona.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: '404',
     component: Error404Component
+  },
+  {
+    path: 'corona',
+    component: CoronaComponent
   },
   {
     path: '**',

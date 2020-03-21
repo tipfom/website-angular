@@ -24,6 +24,11 @@ import { LoginComponent } from './pages/login/login.component';
 import { ResourceComponent } from './pages/resource/resource.component';
 import { LanguagePopupComponent } from './popups/language-popup/language-popup.component';
 import { Error404Component } from './pages/error404/error404.component';
+import { CoronaComponent } from './pages/corona/corona.component';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -44,7 +49,8 @@ import { Error404Component } from './pages/error404/error404.component';
     ContentSpotlightComponent,
     ArticlesComponent,
     LanguagePopupComponent,
-    Error404Component
+    Error404Component,
+    CoronaComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +71,8 @@ import { Error404Component } from './pages/error404/error404.component';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       },
-    })
+    }),
+    PlotlyModule
   ],
   providers: [],
   bootstrap: [AppComponent]
