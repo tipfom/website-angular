@@ -8,7 +8,7 @@ import { ArticleEntry } from '../structures/article-entry';
 import { isDevMode } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ArticleFile } from '../structures/article-file';
-import { CoronaDataContainer } from '../structures/corona-structures';
+import { CoronaData } from '../structures/corona-structures';
 
 @Injectable({
   providedIn: 'root'
@@ -108,7 +108,7 @@ export class ApiService {
       { headers: headers, responseType: "text" });
   }
 
-  getCoronaData(): Observable<CoronaDataContainer> {
-    return this.httpClient.get<CoronaDataContainer>(this.server_address + 'corona');
+  getCoronaData(id : string): Observable<CoronaData> {
+    return this.httpClient.get<CoronaData>(this.server_address + 'corona/' + id);
   }
 }

@@ -1,13 +1,13 @@
-export interface CoronaDataContainer {
-    confirmed: CoronaData;
-    dead: CoronaData;
-    recovered: CoronaData;
-    fits: Map<string, CoronaFit>;
+export interface CoronaData {
+    confirmed: number[];
+    dead:  number[];
+    recovered:  number[];
+    fits: CoronaFits;
 }
 
-export interface CoronaData {
-    by_region: Map<string, number[]>,
-    total: number[];
+export interface CoronaFits {
+    exp: CoronaFit[];
+    sig: CoronaFit[];
 }
 
 export interface CoronaFit {
