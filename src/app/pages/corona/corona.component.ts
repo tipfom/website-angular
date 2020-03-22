@@ -95,7 +95,7 @@ export class CoronaComponent implements OnInit {
       font: {
         family: 'sans-serif',
         color: '#00254D',
-        size: 12
+        size: 14
       },
       xaxis: {
         range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
@@ -112,6 +112,8 @@ export class CoronaComponent implements OnInit {
         x: 0.01,
         xanchor: 'left',
         bgcolor: '#e6e2e7',
+        bordercolor: '#21999c',
+        borderwidth: 1,
         borderradius: 3
       },
       margin: { l: 30, r: 30, t: 0, b: 30 }
@@ -132,7 +134,7 @@ export class CoronaComponent implements OnInit {
       font: {
         family: 'sans-serif',
         color: '#00254D',
-        size: 12
+        size: 14
       },
       xaxis: {
         range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
@@ -148,6 +150,8 @@ export class CoronaComponent implements OnInit {
         x: 0.01,
         xanchor: 'left',
         bgcolor: '#e6e2e7',
+        bordercolor: '#21999c',
+        borderwidth: 1,
         borderradius: 3
       },
       margin: { l: 30, r: 30, t: 0, b: 30 }
@@ -168,7 +172,7 @@ export class CoronaComponent implements OnInit {
       font: {
         family: 'sans-serif',
         color: '#00254D',
-        size: 12
+        size: 14
       },
       xaxis: {
         range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
@@ -190,6 +194,8 @@ export class CoronaComponent implements OnInit {
         x: 0.01,
         xanchor: 'left',
         bgcolor: '#e6e2e7',
+        bordercolor: '#21999c',
+        borderwidth: 1,
         borderradius: 3
       },
       margin: { l: 30, r: 30, t: 0, b: 30 }
@@ -217,6 +223,10 @@ export class CoronaComponent implements OnInit {
     confirmed: "#cc4300",
     dead: "#596468",
     recovered: "#3fb68e",
+    growth:{
+      rel: "#945ECF",
+      tot: "#13A4B4"
+    } 
   }
 
   constructor(private apiService: ApiService) {
@@ -305,15 +315,15 @@ export class CoronaComponent implements OnInit {
       this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff] * 1.2];
 
       this.localDeadInfectedHealedGraph.data = [];
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", "#000000", true));
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", "#3fb68e", true));
+      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", this.colors.dead, true));
+      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", this.colors.recovered, true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
         this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
-        dateDiff, null, "Infected", "#74abe2", true)
+        dateDiff, null, "Infected", this.colors.infected, true)
       );
 
       this.localGrowthGraph.data = [];
-      this.buildGrowthTraces(regionData.confirmed, dateDiff, "333333", "999999").forEach(x => this.localGrowthGraph.data.push(x));
+      this.buildGrowthTraces(regionData.confirmed, dateDiff, this.colors.growth.rel, this.colors.growth.tot).forEach(x => this.localGrowthGraph.data.push(x));
     };
     if (this.data.has(this.selectedRegion)) {
       update();
@@ -399,6 +409,7 @@ export class CoronaComponent implements OnInit {
       values: [confirmed[date] - dead[date] - recovered[date], dead[date], recovered[date]],
       labels: ['Infected', 'Dead', 'Recovered'],
       type: 'pie',
+      sort: false,
       marker: {
         colors: colors
       }

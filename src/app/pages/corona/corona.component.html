@@ -79,30 +79,48 @@
                 <input type="range" min="18" max="58" value="58" (input)="onLocalSliderChange()"
                     (change)="onLocalSliderChange()" class="date-slider" id="date-slider-local" list="datesteplist">
             </div>
-<div id="region-div">Region: 
-    <select (change)="selectedRegionChanged()" id="region-select">
-        <option value="global">Global</option>
-        
-        <optgroup label="Regions">
-            <option value="china">Mainland China</option>
-            <option value="western_pacific_region">Western Pacific Region</option>
-            <option value="european_region">Europe</option>
-            <option value="south_east_asia_region">South East Asia Region</option>
-            <option value="region_of_the_americans">America</option>
-            <option value="african_region">Africa</option>
-        </optgroup>
+            <div id="region-div">Region:
+                <select (change)="selectedRegionChanged()" id="region-select">
+                    <option value="global">Global</option>
 
-        <optgroup label="Countries">
-            <option value="china">Germany</option>
-            <option value="western_pacific_region">Italy</option>
-            <option value="european_region">Poland</option>
-            <option value="south_east_asia_region">South East Asia Region</option>
-            <option value="region_of_the_americans">America</option>
-            <option value="african_region">Africa</option>
-        </optgroup>
-    </select>
-</div>
+                    <optgroup label="Regions">
+                        <option value="China">Mainland China</option>
+                        <option value="western_pacific_region">Western Pacific Region</option>
+                        <option value="european_region">Europe</option>
+                        <option value="south_east_asia_region">South East Asia Region</option>
+                        <option value="region_of_the_americans">America</option>
+                        <option value="african_region">Africa</option>
+                    </optgroup>
 
+                    <optgroup label="Countries">
+                        <option value="China">China</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Spain">Spain</option>
+                        <option value="US">United States</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Iran">Iran</option>
+                        <option value="France">France</option>
+                        <option value="Korea,_South">South Korea</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="United_Kingdom">United Kingdom</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="Belgium">Belgium</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Portugal">Portugal</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Czechia">Czech Republic</option>
+                        <option value="Turkey">Turkey</option>
+                        <option value="Israel">Israel</option>
+                    </optgroup>
+                </select>
+            </div>
             <div class="plot-container">
                 <div class="plot-item-large">
                     <h3>Comparison of infection numbers to infinite and contained growth</h3>
