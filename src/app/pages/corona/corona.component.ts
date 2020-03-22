@@ -15,7 +15,8 @@ export class CoronaComponent implements OnInit {
   axisEndDate: Date = new Date(2020, 2, 23);
 
   data: Map<string, CoronaData> = new Map<string, CoronaData>();
-  selectedDate: Date = new Date(this.dataEndDate);
+  selectedGlobalDate: Date = new Date(this.dataEndDate);
+  selectedLocalDate: Date = new Date(this.dataEndDate);
   selectedRegion: string = "China";
 
   public globalGraph = {
@@ -25,8 +26,9 @@ export class CoronaComponent implements OnInit {
       plot_bgcolor: 'FAFAFA',
       paper_bgcolor: 'FAFAFA',
       font: {
-        family: '"Roboto", sans-serif',
-        size: 12
+        family: 'sans-serif',
+        color: '#00254D',
+        size: 14
       },
       xaxis: {
         range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
@@ -43,9 +45,11 @@ export class CoronaComponent implements OnInit {
         x: 0.01,
         xanchor: 'left',
         bgcolor: '#e6e2e7',
+        bordercolor: '#21999c',
+        borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 30 }
+      margin: { l: 30, r: 30, t: 0, b: 40 }
     },
     config: {
       responsive: true,
@@ -61,15 +65,19 @@ export class CoronaComponent implements OnInit {
       plot_bgcolor: 'FAFAFA',
       paper_bgcolor: 'FAFAFA',
       font: {
-        family: '"Roboto", sans-serif',
-        size: 12
+        family: 'sans-serif',
+        color: '#00254D',
+        size: 14
       },
       legend: {
         x: 0.01,
         xanchor: 'left',
         bgcolor: '#e6e2e7',
+        bordercolor: '#21999c',
+        borderwidth: 1,
+        borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 30 }
+      margin: { l: 0, r: 0, t: 0, b: 0 }
     },
     config: {
       responsive: true,
@@ -85,7 +93,8 @@ export class CoronaComponent implements OnInit {
       plot_bgcolor: 'FAFAFA',
       paper_bgcolor: 'FAFAFA',
       font: {
-        family: '"Roboto", sans-serif',
+        family: 'sans-serif',
+        color: '#00254D',
         size: 12
       },
       xaxis: {
@@ -121,7 +130,8 @@ export class CoronaComponent implements OnInit {
       plot_bgcolor: 'FAFAFA',
       paper_bgcolor: 'FAFAFA',
       font: {
-        family: '"Roboto", sans-serif',
+        family: 'sans-serif',
+        color: '#00254D',
         size: 12
       },
       xaxis: {
@@ -156,7 +166,8 @@ export class CoronaComponent implements OnInit {
       plot_bgcolor: 'FAFAFA',
       paper_bgcolor: 'FAFAFA',
       font: {
-        family: '"Roboto", sans-serif',
+        family: 'sans-serif',
+        color: '#00254D',
         size: 12
       },
       xaxis: {
@@ -190,22 +201,37 @@ export class CoronaComponent implements OnInit {
     }
   };
 
+  topcountries: Map<string, number>[];
+
+  global = {
+    confirmed: { value: 0, delta: "0" },
+    infected: { value: 0, delta: "0" },
+    recovered: { value: 0, delta: "0" },
+    dead: { value: 0, delta: "0" },
+    fatalityrate: 0,
+    topcountries: {} 
+  }
+
   constructor(private apiService: ApiService) {
   }
 
   ngOnInit(): void {
     this.apiService.getCoronaData("China").subscribe(c => {
       this.data.set("China", c);
-      if (this.data.has("row") && this.data.has("global")) this.updateAll();
+      if (this.data.has("row") && this.data.has("global") && this.topcountries != undefined) this.updateAll();
     });
     this.apiService.getCoronaData("row").subscribe(c => {
       this.data.set("row", c);
-      if (this.data.has("China") && this.data.has("global")) this.updateAll();
+      if (this.data.has("China") && this.data.has("global") && this.topcountries != undefined) this.updateAll();
     });
     this.apiService.getCoronaData("global").subscribe(c => {
       this.data.set("global", c);
-      if (this.data.has("China") && this.data.has("row")) this.updateAll();
+      if (this.data.has("China") && this.data.has("row") && this.topcountries != undefined) this.updateAll();
     });
+    this.apiService.getCoronaTopCountries().subscribe(tc => { 
+      this.topcountries = tc;
+      if (this.data.has("China") && this.data.has("row") && this.data.has("global")) this.updateAll();
+     });
   }
 
   substract(a1: number[], a2: number[]) {
@@ -222,7 +248,7 @@ export class CoronaComponent implements OnInit {
   }
 
   updateGlobalGraph() {
-    let dateDiff = (this.selectedDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
+    let dateDiff = (this.selectedGlobalDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
     this.globalGraph.data = [];
     this.buildFitTraces(this.data.get("China").fits.sig[dateDiff - 15], "sig", "china", "in China", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
     this.buildFitTraces(this.data.get("row").fits.exp[dateDiff - 15], "exp", "row", "outside China", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
@@ -238,12 +264,26 @@ export class CoronaComponent implements OnInit {
     this.globalDeadInfectedHealedGraph.data = [];
     this.globalDeadInfectedHealedGraph.data.push(
       this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, dateDiff, ["#1866b4", "#000000", "#3fb68e"])
-      );
+    );
+
+    this.global.confirmed = this.getValueDelta(globalData.confirmed[dateDiff], globalData.confirmed[dateDiff - 1]);
+    this.global.dead = this.getValueDelta(globalData.dead[dateDiff], globalData.dead[dateDiff - 1]);
+    this.global.recovered = this.getValueDelta(globalData.recovered[dateDiff], globalData.recovered[dateDiff - 1]);
+    this.global.infected = this.getValueDelta(
+      globalData.confirmed[dateDiff] - globalData.dead[dateDiff] - globalData.recovered[dateDiff],
+      globalData.confirmed[dateDiff - 1] - globalData.dead[dateDiff - 1] - globalData.recovered[dateDiff - 1]);
+    this.global.fatalityrate = globalData.dead[dateDiff] / (globalData.confirmed[dateDiff]) * 100;
+    this.global.topcountries = this.topcountries[dateDiff];
+  }
+
+  getValueDelta(current: number, previous: number) {
+    let delta = (current - previous);
+    return { value: current, delta: delta > 0 ? "+" + delta : delta.toString() };
   }
 
   updateLocalGraphs() {
     let update = () => {
-      let dateDiff = (this.selectedDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
+      let dateDiff = (this.selectedLocalDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
       let regionData = this.data.get(this.selectedRegion);
       this.localOverviewGraph.data = [];
       this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", "total infections", "#596468"));
@@ -255,7 +295,7 @@ export class CoronaComponent implements OnInit {
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", "#000000", true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", "#3fb68e", true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
-        this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.recovered),
+        this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
         dateDiff, null, "Infected", "#13A4B4", true)
       );
 
@@ -468,11 +508,10 @@ export class CoronaComponent implements OnInit {
     this.updateLocalGraphs();
   }
 
-  onSliderChange(): void {
-    let slider = <HTMLInputElement>document.getElementById("date-slider");
-    this.selectedDate = new Date(this.dataStartDate);
-    this.selectedDate.setDate(this.selectedDate.getDate() + Number(slider.value));
+  onGlobalSliderChange(): void {
+    let slider = <HTMLInputElement>document.getElementById("date-slider-global");
+    this.selectedGlobalDate = new Date(this.dataStartDate);
+    this.selectedGlobalDate.setDate(this.selectedGlobalDate.getDate() + Number(slider.value));
     this.updateGlobalGraph();
-    this.updateLocalGraphs();
   }
 }

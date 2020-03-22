@@ -111,4 +111,8 @@ export class ApiService {
   getCoronaData(id : string): Observable<CoronaData> {
     return this.httpClient.get<CoronaData>(this.server_address + 'corona/' + id);
   }
+
+  getCoronaTopCountries() : Observable<Map<string, number>[]> {
+    return this.httpClient.get<Map<string, number>[]>(this.server_address + 'coronatop');
+  }
 }

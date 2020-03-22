@@ -1,35 +1,62 @@
 <div id="stretchydiv">
     <app-navigation-bar></app-navigation-bar>
     <div class="backgrounddiv">
-        <div class="contentdiv-large">
-            <h2>Development of infection numbers with Coronavirus inside and outside China</h2>
-            <input type="range" min="18" max="58" value="58" (input)="onSliderChange()" style="width: 100%;margin-bottom: 50px;"
-                (change)="onSliderChange()" id="date-slider" list="datesteplist">
-                <datalist id="datesteplist">
-                    <option value="14"></option>
-                    <option value="21"></option>
-                    <option value="28"></option>
-                    <option value="35"></option>
-                    <option value="42"></option>
-                    <option value="49"></option>
-                    <option value="56"></option>
-                    <option value="63"></option>
-                </datalist>
-                
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div style="height:450px; ">
-                    <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout" [config]="globalGraph.config">
-                    </plotly-plot>
-                </div>
+        <h1>COVID-19 Dashboard</h1>
+        <div class="contentdiv-large" id="global">
+            <h2>Global development</h2>
+            <div class="date-slider-div">
+                You may use this slider to adjust the date of inspection
+                <input type="range" min="18" max="58" value="58" (input)="onGlobalSliderChange()"
+                    (change)="onGlobalSliderChange()" class="date-slider" id="date-slider-global" list="datesteplist">
             </div>
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div style="height:450px; ">
-                    <plotly-plot [data]="globalDeadInfectedHealedGraph.data" [layout]="globalDeadInfectedHealedGraph.layout" [config]="globalDeadInfectedHealedGraph.config">
-                    </plotly-plot>
+            <datalist id="datesteplist">
+                <option value="14"></option>
+                <option value="21"></option>
+                <option value="28"></option>
+                <option value="35"></option>
+                <option value="42"></option>
+                <option value="49"></option>
+                <option value="56"></option>
+                <option value="63"></option>
+            </datalist>
+
+            <div class="plot-container">
+                <div class="plot-item-large">
+                    <h3>Comparison of the total number of infections inside and outside China</h3>
+                    <div class="plot-div">
+                        <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
+                            [config]="globalGraph.config">
+                        </plotly-plot>
+                    </div>
+                </div>
+                <div class="plot-item-small">
+                    <h3>Status overview of global cases</h3>
+                    <div class="plot-div">
+                        <plotly-plot [data]="globalDeadInfectedHealedGraph.data"
+                            [layout]="globalDeadInfectedHealedGraph.layout"
+                            [config]="globalDeadInfectedHealedGraph.config">
+                        </plotly-plot>
+                    </div>
+                </div>
+                <div class="plot-item-small">
+                    <h3>Statistics</h3>
+                    <table class="stats-table">
+                        <tr class="stats-tr-confirmed"><th>Total confirmed Infections</th><td>{{global.confirmed.value}} ({{global.confirmed.delta}})</td></tr>
+                        <tr class="stats-tr-infected"><th>Total active Infections</th><td>{{global.infected.value}} ({{global.infected.delta}})</td></tr>
+                        <tr class="stats-tr-healed"><th>Total recovered Infections</th><td>{{global.recovered.value}} ({{global.recovered.delta}})</td></tr>
+                        <tr class="stats-tr-dead"><th>Total Deaths</th><td>{{global.dead.value}} ({{global.dead.delta}})</td></tr>
+                        <tr class="stats-tr-fatality"><th>Fatality rate</th><td>{{global.fatalityrate | number:'1.1'}} %</td></tr>
+                    </table>
+                    <h3>Top 5 active countries</h3>
+                    <table class="stats-table">
+                        <tr *ngFor="let country of global.topcountries | keyvalue">
+                            <th>{{country.key}}</th><td>{{country.value}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="contentdiv-large">
+        <div class="contentdiv-large" id="country">
             <h3>Country specific cases</h3>
             <select style="margin-bottom: 10px" (change)="selectedRegionChanged()" id="region-select">
                 <optgroup label="Regions">
