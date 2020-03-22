@@ -92,9 +92,13 @@
             "description": "This is an error:<br/>It seems like you tried to open something long forgotten or even unknown."
         },
         "corona": {
+            "learn-more": "Learn more",
             "global": {
                 "title": "Global development",
-                "comparison": "Comparison of the total number of infections inside and outside China",
+                "comparison": {
+                    "header": "Comparison of the total number of infections inside and outside China",
+                    "description": "In this chart the total confirmed infections inside China and in the rest of the world are compared. At this point it is clear that the rest of the world still follows the path of exponential growth, meaning that it does not control the virus spread visibly at the time. On the contrary, the safety measures in China are visible in the data with China following an logistic growth function."
+                },
                 "status": "Overview about the condition of cases worldwide",
                 "statistics": "Statistics",
                 "stats": {
@@ -108,7 +112,10 @@
             },
             "local": {
                 "title": "Local development",
-                "comparison": "Comparison of infection numbers to infinite and contained growth",
+                "comparison": {
+                    "header": "Comparison of infection numbers to infinite and contained growth",
+                    "description": "In this chart the reported infections of the selected region are compared to an model describing infinte growth (brown) and contained growth (green). Depending on which fit the real world data is closest to, one can make assumptions about the effectiveness of the safety measures taken in the selected region. Please note that due to the incubation time the effects safety measures are delayed in the data."
+                },
                 "breakdown": "Breakdown of active infections, healed cases and deaths",
                 "growth": "Growth over time"
             },

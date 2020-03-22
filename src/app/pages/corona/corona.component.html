@@ -22,7 +22,10 @@
 
             <div class="plot-container">
                 <div class="plot-item-large">
-                    <h3 translate>pages.corona.global.comparison</h3>
+                    <h3 translate>pages.corona.global.comparison.header</h3>
+                    <div class="description-div" translate>pages.corona.global.comparison.description
+                        <a href="article/corona" translate>pages.corona.learn-more</a>
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
                             [config]="globalGraph.config">
@@ -123,7 +126,10 @@
             </div>
             <div class="plot-container">
                 <div class="plot-item-large">
-                    <h3 translate>pages.corona.local.comparison</h3>
+                    <h3 translate>pages.corona.local.comparison.header</h3>
+                    <div class="description-div" translate>pages.corona.local.comparison.description
+                        <a href="article/corona" translate>pages.corona.learn-more</a>
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localOverviewGraph.data" [layout]="localOverviewGraph.layout"
                             [config]="localOverviewGraph.config">
@@ -140,7 +146,7 @@
                     </div>
                 </div>
                 <div class="plot-item-large">
-                    <h3 translate>pages.corona.local.breakdown</h3>
+                    <h3 translate>pages.corona.local.growth</h3>
                     <div class="plot-div">
                         <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
                             [config]="localGrowthGraph.config">

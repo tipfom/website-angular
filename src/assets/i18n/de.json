@@ -92,9 +92,13 @@
             "description": "Dies ist ein Fehler:<br/>Anscheinend wurde versucht etwas Unbekanntes oder Vergessenes zu öffnen."
         },
         "corona": {
+            "learn-more": "Erfahre mehr",
             "global": {
                 "title": "Globale Entwicklung",
-                "comparison": "Vergleich der Infiziertenzahlen innerhalb und außerhalb von China",
+                "comparison": {
+                    "header": "Vergleich der Infiziertenzahlen innerhalb und außerhalb von China",
+                    "description": "Hier wird der Verlauf der Infiziertenzahlen innerhalb von China mit dem im Rest der Welt verglichen. Dabei wird deutlich dass zum heutigen Zeitpunkt die Fälle außerhalb der Welt immernoch in guter Näherung exponentiell wachsen. Das bedeutet, dass die Wirkungen der Eindämmungsmaßnahmen sich noch nicht in den Infiziertenzahlen widerspiegeln. Im Gegensatz dazu ist in den Fallzahlen Chinas deutlich der Effekt der Sicherheitsmaßnahmen zu erkennen, diese folgen einer logistischen Funktion."
+                },
                 "status": "Übersicht über den Zustand der Infektionen weltweit",
                 "statistics": "Statistiken",
                 "stats": {
@@ -108,7 +112,10 @@
             },
             "local": {
                 "title": "Lokale Entwicklung",
-                "comparison": "Vergleich der Entwicklung mit einem Model für unendliches bzw. beschränktes Wachstum",
+                "comparison": {
+                    "header": "Vergleich der Entwicklung mit einem Model für unendliches bzw. beschränktes Wachstum",
+                    "description": "Hier werden die jeweiligen Infiziertenzahlen der ausgewählten Region mit einem Model einer unbeschränkten Ausbreitung (braun) und dem einer eingedämmten Ausbreitung (grün) verglichen. Je nachdem, welche Anpassung näher an den tatsächlichen Messwerten liegt kann ein Rückschluss über die Quarantänemaßnahmen geschlossen werden. Dabei ist zu beachten, dass wegen der Inkubationszeit jede Sicherheitsmaßnahme verzögert in den Daten auftaucht."
+                },
                 "breakdown": "Aufschlüsselung nach Toden, Infizierten und Genesenen",
                 "growth": "Wachstum der Infiziertenzahlen"
             },
