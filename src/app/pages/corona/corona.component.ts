@@ -23,6 +23,7 @@ export class CoronaComponent implements OnInit {
     layout: {
       height: 450,
       plot_bgcolor: 'FAFAFA',
+      paper_bgcolor: 'FAFAFA',
       font: {
         family: '"Roboto", sans-serif',
         size: 12
@@ -58,6 +59,7 @@ export class CoronaComponent implements OnInit {
     layout: {
       height: 450,
       plot_bgcolor: 'FAFAFA',
+      paper_bgcolor: 'FAFAFA',
       font: {
         family: '"Roboto", sans-serif',
         size: 12
@@ -70,7 +72,8 @@ export class CoronaComponent implements OnInit {
       },
       yaxis: {
         rangemode: 'nonnegative',
-        autorange: true
+        autorange: false,
+        range: [0,0]
       },
       legend: {
         x: 0.01,
@@ -92,6 +95,7 @@ export class CoronaComponent implements OnInit {
     layout: {
       height: 450,
       plot_bgcolor: 'FAFAFA',
+      paper_bgcolor: 'FAFAFA',
       font: {
         family: '"Roboto", sans-serif',
         size: 12
@@ -170,16 +174,17 @@ export class CoronaComponent implements OnInit {
       let dateDiff = (this.selectedDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
       let regionData = this.data.get(this.selectedRegion);
       this.localOverviewGraph.data = [];
-      this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", "a", "FA23aE"));
-      this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "in China", "5899DA8C", "5899DA46").forEach(x => this.localOverviewGraph.data.push(x));
-      this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "in China", "5899DA8C", "5899DA46").forEach(x => this.localOverviewGraph.data.push(x));
+      this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", "total infections", "#596468"));
+      this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "in China", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
+      this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "in China", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
+      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff-1]*1.1];
 
       this.localDeadInfectedHealedGraph.data = [];
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", "#000000"));
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", "#3fb68e"));
+      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", "#000000", true));
+      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", "#3fb68e", true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
         this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.recovered),
-        dateDiff, null, "Infected", "#13A4B4"));
+        dateDiff, null, "Infected", "#13A4B4", true));
     };
     if (this.data.has(this.selectedRegion)) {
       update();
@@ -191,7 +196,7 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  buildTrace(data: number[], count: number, group: string, name: string, color: string) {
+  buildTrace(data: number[], count: number, group: string, name: string, color: string, line: boolean = false) {
     let x = []
     let y: number[] = []
     for (var i = 0; i <= count; i++) {
@@ -204,7 +209,7 @@ export class CoronaComponent implements OnInit {
     let trace = {
       x: x,
       y: y,
-      mode: 'markers',
+      mode: line ? 'lines+markers' : 'markers',
       type: 'scatter',
       name: name,
       legendgroup: group,
@@ -295,6 +300,7 @@ export class CoronaComponent implements OnInit {
       type: 'scatter',
       name: type == "sig" ? 'Sigmoidal fit' : 'Exponential fit',
       line: {
+        dash: 'dot',
         color: color,
         width: 4
       },
@@ -323,7 +329,7 @@ export class CoronaComponent implements OnInit {
       legendgroup: group
     }
 
-    return [trace, errorBandLower, errorBandUpper];
+    return [errorBandLower, errorBandUpper, trace];
   }
 
   selectedRegionChanged(): void {
