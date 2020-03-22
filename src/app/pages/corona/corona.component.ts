@@ -54,6 +54,30 @@ export class CoronaComponent implements OnInit {
     }
   };
 
+  public globalDeadInfectedHealedGraph = {
+    data: [],
+    layout: {
+      height: 450,
+      plot_bgcolor: 'FAFAFA',
+      paper_bgcolor: 'FAFAFA',
+      font: {
+        family: '"Roboto", sans-serif',
+        size: 12
+      },
+      legend: {
+        x: 0.01,
+        xanchor: 'left',
+        bgcolor: '#e6e2e7',
+      },
+      margin: { l: 30, r: 30, t: 0, b: 30 }
+    },
+    config: {
+      responsive: true,
+      scrollZoom: false,
+      editable: false
+    }
+  };
+
   public localOverviewGraph = {
     data: [],
     layout: {
@@ -172,19 +196,15 @@ export class CoronaComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getCoronaData("China").subscribe(c => {
       this.data.set("China", c);
-      console.info(c);
-      if (this.data.has("row")) {
-        this.updateLocalGraphs();
-        this.updateGlobalGraph();
-      }
+      if (this.data.has("row") && this.data.has("global")) this.updateAll();
     });
     this.apiService.getCoronaData("row").subscribe(c => {
       this.data.set("row", c);
-      console.info(c);
-      if (this.data.has("China")) {
-        this.updateLocalGraphs();
-        this.updateGlobalGraph();
-      }
+      if (this.data.has("China") && this.data.has("global")) this.updateAll();
+    });
+    this.apiService.getCoronaData("global").subscribe(c => {
+      this.data.set("global", c);
+      if (this.data.has("China") && this.data.has("row")) this.updateAll();
     });
   }
 
@@ -194,6 +214,11 @@ export class CoronaComponent implements OnInit {
       r.push(a1[i] - a2[i]);
     }
     return r;
+  }
+
+  updateAll() {
+    this.updateLocalGraphs();
+    this.updateGlobalGraph();
   }
 
   updateGlobalGraph() {
@@ -208,6 +233,12 @@ export class CoronaComponent implements OnInit {
         this.data.get("China").confirmed[dateDiff],
         this.data.get("row").confirmed[dateDiff]
       ) * 1.1];
+
+    let globalData = this.data.get("global");
+    this.globalDeadInfectedHealedGraph.data = [];
+    this.globalDeadInfectedHealedGraph.data.push(
+      this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, dateDiff, ["#1866b4", "#000000", "#3fb68e"])
+      );
   }
 
   updateLocalGraphs() {
@@ -308,6 +339,19 @@ export class CoronaComponent implements OnInit {
     };
 
     return [totalTrace, relativeTrace];
+  }
+
+  buildDeadInfectedHealedPieChart(confirmed: number[], dead: number[], recovered: number[], date: number, colors: string[]) {
+    var piedata = {
+      values: [confirmed[date] - dead[date] - recovered[date], dead[date], recovered[date]],
+      labels: ['Infected', 'Dead', 'Recovered'],
+      type: 'pie',
+      marker: {
+        colors: colors
+      }
+    };
+    console.info(piedata);
+    return piedata;
   }
 
   getRelativeDate(x: Date) {
