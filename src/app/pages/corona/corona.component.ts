@@ -23,8 +23,8 @@ export class CoronaComponent implements OnInit {
     data: [],
     layout: {
       height: 450,
-      plot_bgcolor: 'FAFAFA',
-      paper_bgcolor: 'FAFAFA',
+      plot_bgcolor: 'FAFAFAFF',
+      paper_bgcolor: 'FAFAFAFF',
       font: {
         family: 'sans-serif',
         color: '#00254D',
@@ -35,11 +35,13 @@ export class CoronaComponent implements OnInit {
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
+        gridcolor: '#777777',
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: false,
-        range: [0, 0]
+        range: [0, 0],
+        gridcolor: '#777777',
       },
       legend: {
         x: 0.01,
@@ -102,11 +104,13 @@ export class CoronaComponent implements OnInit {
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
+        gridcolor: '#777777',
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: false,
-        range: [0, 0]
+        range: [0, 0],
+        gridcolor: '#777777',
       },
       legend: {
         x: 0.01,
@@ -141,10 +145,12 @@ export class CoronaComponent implements OnInit {
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
+        gridcolor: '#777777',
       },
       yaxis: {
         rangemode: 'nonnegative',
-        autorange: true
+        autorange: true,
+        gridcolor: '#777777',
       },
       legend: {
         x: 0.01,
@@ -179,10 +185,12 @@ export class CoronaComponent implements OnInit {
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
+        gridcolor: '#777777',
       },
       yaxis: {
         rangemode: 'nonnegative',
-        autorange: true
+        autorange: true,
+        gridcolor: '#777777',
       },
       yaxis2: {
         range: [0, 1],

@@ -13,7 +13,7 @@
 h1
     font-size: 60px
     color: $color-headerondark
-    margin: 10px 0
+    margin: 10px 10px
 
 .svg-container
     position: absolute
@@ -43,15 +43,29 @@ h1
 
 .plot-item-large
     max-width: 860px
-    width: calc(100% - 60px)
 
 @media (min-width: 500px) 
+    .plot-item-large, .plot-item-small
+        padding: 20px
+        margin: 10px
+
+    .plot-item-large
+        width: calc(100% - 60px)
+
     .plot-item-small
         max-width: 400px
         width: calc(50% - 62px)
+
 @media (max-width: 500px) 
+    .plot-item-large, .plot-item-small
+        padding: 5px
+        margin: 5px 0px 
+
+    .plot-item-large
+        width: calc(100% - 10px)
+
     .plot-item-small
-        width: calc(100% - 60px)
+        width: calc(100% - 10px)
         
 .plot-div
     display: inline-block
