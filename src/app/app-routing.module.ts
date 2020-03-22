@@ -53,7 +53,8 @@ const routes: Routes = [
   },
   {
     path: 'corona',
-    component: CoronaComponent
+    component: CoronaComponent,
+    pathMatch: 'prefix'
   },
   {
     path: '**',
