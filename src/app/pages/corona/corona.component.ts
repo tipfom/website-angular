@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { CoronaFit, CoronaData } from 'src/app/structures/corona-structures';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-corona',
@@ -10,7 +11,7 @@ import { CoronaFit, CoronaData } from 'src/app/structures/corona-structures';
 export class CoronaComponent implements OnInit {
 
   dataStartDate: Date = new Date(2020, 0, 22);
-  dataEndDate: Date ;
+  dataEndDate: Date;
   axisStartDate: Date = new Date(this.dataStartDate);
   axisEndDate: Date = new Date(2020, 2, 25);
 
@@ -120,7 +121,7 @@ export class CoronaComponent implements OnInit {
         borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 30 }
+      margin: { l: 30, r: 30, t: 0, b: 40 }
     },
     config: {
       responsive: true,
@@ -160,7 +161,7 @@ export class CoronaComponent implements OnInit {
         borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 30 }
+      margin: { l: 30, r: 30, t: 0, b: 40 }
     },
     config: {
       responsive: true,
@@ -206,7 +207,7 @@ export class CoronaComponent implements OnInit {
         borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 30 }
+      margin: { l: 30, r: 30, t: 0, b: 40 }
     },
     config: {
       responsive: true,
@@ -237,7 +238,8 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private translateService: TranslateService) {
+    this.translateService.onLangChange.subscribe(() => this.updateAll());
   }
 
   ngOnInit(): void {
@@ -286,10 +288,10 @@ export class CoronaComponent implements OnInit {
   updateGlobalGraph() {
     let dateDiff = (this.selectedGlobalDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
     this.globalGraph.data = [];
-    this.buildFitTraces(this.data.get("China").fits.sig[dateDiff - 15], "sig", "china", "in China", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
-    this.buildFitTraces(this.data.get("row").fits.exp[dateDiff - 15], "exp", "row", "outside China", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, dateDiff, "china", "Cases in China", "#1866b4"));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("row").confirmed, dateDiff, "row", "Cases outside China", "#cc4300"));
+    this.buildFitTraces(this.data.get("China").fits.sig[dateDiff - 15], "sig", "china", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
+    this.buildFitTraces(this.data.get("row").fits.exp[dateDiff - 15], "exp", "row", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
+    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, dateDiff, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4"));
+    this.globalGraph.data.push(this.buildTrace(this.data.get("row").confirmed, dateDiff, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
     this.globalGraph.layout.yaxis.range = [0,
       Math.max(
         this.data.get("China").confirmed[dateDiff],
@@ -326,19 +328,19 @@ export class CoronaComponent implements OnInit {
       let dateDiff = (this.selectedLocalDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
       let regionData = this.data.get(this.selectedRegion);
       this.localOverviewGraph.data = [];
-      this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", "total infections", "#333333"));
+      this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
       if (regionData.fits != undefined) {
-        this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "in China", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
-        this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "in China", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
+        this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
+        this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
       }
       this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff] * 1.2];
 
       this.localDeadInfectedHealedGraph.data = [];
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", this.colors.dead, true));
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", this.colors.recovered, true));
+      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
+      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
         this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
-        dateDiff, null, "Infected", this.colors.infected, true)
+        dateDiff, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
       );
 
       this.localGrowthGraph.data = [];
@@ -397,7 +399,7 @@ export class CoronaComponent implements OnInit {
       x: x,
       y: yTotal,
       type: 'bar',
-      name: "total Growth",
+      name: this.translateService.instant("pages.corona.legend.tot-growth"),
       marker: {
         color: totalColor,
       },
@@ -409,7 +411,7 @@ export class CoronaComponent implements OnInit {
       mode: 'lines+markers',
       type: 'scatter',
       yaxis: 'y2',
-      name: "relative Growth",
+      name: this.translateService.instant("pages.corona.legend.rel-growth"),
       marker: {
         color: relativeColor,
         size: 7,
@@ -426,7 +428,10 @@ export class CoronaComponent implements OnInit {
   buildDeadInfectedHealedPieChart(confirmed: number[], dead: number[], recovered: number[], date: number, colors: string[]) {
     var piedata = {
       values: [confirmed[date] - dead[date] - recovered[date], dead[date], recovered[date]],
-      labels: ['Infected', 'Dead', 'Recovered'],
+      labels: [
+        this.translateService.instant('pages.corona.legend.infected'),
+        this.translateService.instant('pages.corona.legend.dead'),
+        this.translateService.instant('pages.corona.legend.recovered')],
       type: 'pie',
       sort: false,
       marker: {
@@ -471,7 +476,7 @@ export class CoronaComponent implements OnInit {
     return err;
   }
 
-  buildFitTraces(fit: CoronaFit, type: string, group: string, name: string, color: string, fill: string, sampleCount: number = 300.0) {
+  buildFitTraces(fit: CoronaFit, type: string, group: string, color: string, fill: string, sampleCount: number = 300.0) {
     let x: Date[] = [];
     let y = [];
     let yLower = [], yUpper = [];
@@ -511,7 +516,7 @@ export class CoronaComponent implements OnInit {
       y: y,
       mode: 'line',
       type: 'scatter',
-      name: type == "sig" ? 'Sigmoidal fit' : 'Exponential fit',
+      name: this.translateService.instant(type == "sig" ? 'pages.corona.legend.sig-fit' : 'pages.corona.legend.exp-fit'),
       line: {
         dash: 'dot',
         color: color,
@@ -536,7 +541,7 @@ export class CoronaComponent implements OnInit {
       fill: 'tonexty',
       type: 'scatter',
       mode: 'none',
-      name: 'Error margin',
+      name: this.translateService.instant('pages.corona.legend.error'),
       fillcolor: fill,
       opacity: 0.7,
       legendgroup: group

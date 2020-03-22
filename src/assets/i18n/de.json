@@ -90,6 +90,42 @@
         },
         "404": {
             "description": "Dies ist ein Fehler:<br/>Anscheinend wurde versucht etwas Unbekanntes oder Vergessenes zu öffnen."
+        },
+        "corona": {
+            "global": {
+                "title": "Globale Entwicklung",
+                "comparison": "Vergleich der Infiziertenzahlen innerhalb und außerhalb von China",
+                "status": "Übersicht über den Zustand der Infektionen weltweit",
+                "statistics": "Statistiken",
+                "stats": {
+                    "confirmed": "Insgesamt bestätigte Infektionen",
+                    "infected": "Insgesamt noch Infizierte",
+                    "recovered": "Insgesamt gesundete Personen",
+                    "dead": "Insgesamt gestorbene Personen",
+                    "fatality": "Sterberate"
+                },
+                "top5": "Die 5 Länder mit den meisten noch Infizierten"
+            },
+            "local": {
+                "title": "Lokale Entwicklung",
+                "comparison": "Vergleich der Entwicklung mit einem Model für unendliches bzw. beschränktes Wachstum",
+                "breakdown": "Aufschlüsselung nach Toden, Infizierten und Genesenen",
+                "growth": "Wachstum der Infiziertenzahlen"
+            },
+            "legend": {
+                "sig-fit": "Logistische Anpassung",
+                "exp-fit": "Exponentielle Anpassung",
+                "error": "95% Fehlerintervall",
+                "tot-growth": "Gesamte neue Fälle",
+                "rel-growth": "Prozentuales Wachstum",
+                "total":"Bestätige Fälle",
+                "infected": "Infizierte",
+                "dead": "Tote",
+                "recovered": "Gesundete",
+                "row":"Fälle außerhalb von China",
+                "china": "Fälle in China"
+            },
+            "slider": "Hiermit kannst du den Zeitraum der Betrachtung ändern"
         }
     },
     "popups": {

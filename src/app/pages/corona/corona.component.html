@@ -13,16 +13,16 @@
         </datalist>
         <h1>COVID-19 Dashboard</h1>
         <div class="contentdiv-large" id="global">
-            <h2>Global development</h2>
+            <h2 translate>pages.corona.global.title</h2>
             <div class="date-slider-div">
-                You may use this slider to adjust the date of inspection
+                <span translate>pages.corona.slider</span>
                 <input type="range" min="18" max="58" value="58" (input)="onGlobalSliderChange()"
                     (change)="onGlobalSliderChange()" class="date-slider" id="date-slider-global" list="datesteplist">
             </div>
 
             <div class="plot-container">
                 <div class="plot-item-large">
-                    <h3>Comparison of the total number of infections inside and outside China</h3>
+                    <h3 translate>pages.corona.global.comparison</h3>
                     <div class="plot-div">
                         <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
                             [config]="globalGraph.config">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="plot-item-small">
-                    <h3>Status overview of global cases</h3>
+                    <h3 translate>pages.corona.global.status</h3>
                     <div class="plot-div">
                         <plotly-plot [data]="globalDeadInfectedHealedGraph.data"
                             [layout]="globalDeadInfectedHealedGraph.layout"
@@ -39,30 +39,30 @@
                     </div>
                 </div>
                 <div class="plot-item-small">
-                    <h3>Statistics</h3>
+                    <h3 translate>pages.corona.global.statistics</h3>
                     <table class="stats-table">
                         <tr class="stats-tr-confirmed">
-                            <th>Total confirmed Infections</th>
+                            <th translate>pages.corona.global.stats.confirmed</th>
                             <td>{{global.confirmed.value}} ({{global.confirmed.delta}})</td>
                         </tr>
                         <tr class="stats-tr-infected">
-                            <th>Total active Infections</th>
+                            <th translate>pages.corona.global.stats.infected</th>
                             <td>{{global.infected.value}} ({{global.infected.delta}})</td>
                         </tr>
                         <tr class="stats-tr-healed">
-                            <th>Total recovered Infections</th>
+                            <th translate>pages.corona.global.stats.recovered</th>
                             <td>{{global.recovered.value}} ({{global.recovered.delta}})</td>
                         </tr>
                         <tr class="stats-tr-dead">
-                            <th>Total Deaths</th>
+                            <th translate>pages.corona.global.stats.dead</th>
                             <td>{{global.dead.value}} ({{global.dead.delta}})</td>
                         </tr>
                         <tr class="stats-tr-fatality">
-                            <th>Fatality rate</th>
+                            <th translate>pages.corona.global.stats.fatality</th>
                             <td>{{global.fatalityrate | number:'1.1'}} %</td>
                         </tr>
                     </table>
-                    <h3>Top 5 active countries</h3>
+                    <h3 translate>pages.corona.global.top5</h3>
                     <table class="stats-table">
                         <tr *ngFor="let country of global.topcountries">
                             <th>{{country.name}}</th>
@@ -73,9 +73,9 @@
             </div>
         </div>
         <div class="contentdiv-large" id="country">
-            <h2>Local development</h2>
+            <h2 translate>pages.corona.local.title</h2>
             <div class="date-slider-div">
-                You may use this slider to adjust the date of inspection
+                <span translate>pages.corona.slider</span>
                 <input type="range" min="18" max="58" value="58" (input)="onLocalSliderChange()"
                     (change)="onLocalSliderChange()" class="date-slider" id="date-slider-local" list="datesteplist">
             </div>
@@ -123,7 +123,7 @@
             </div>
             <div class="plot-container">
                 <div class="plot-item-large">
-                    <h3>Comparison of infection numbers to infinite and contained growth</h3>
+                    <h3 translate>pages.corona.local.comparison</h3>
                     <div class="plot-div">
                         <plotly-plot [data]="localOverviewGraph.data" [layout]="localOverviewGraph.layout"
                             [config]="localOverviewGraph.config">
@@ -131,7 +131,7 @@
                     </div>
                 </div>
                 <div class="plot-item-large">
-                    <h3>Breakdown of active infections, healed cases and deaths</h3>
+                    <h3 translate>pages.corona.local.breakdown</h3>
                     <div class="plot-div">
                         <plotly-plot [data]="localDeadInfectedHealedGraph.data"
                             [layout]="localDeadInfectedHealedGraph.layout"
@@ -140,7 +140,7 @@
                     </div>
                 </div>
                 <div class="plot-item-large">
-                    <h3>Growth over time</h3>
+                    <h3 translate>pages.corona.local.breakdown</h3>
                     <div class="plot-div">
                         <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
                             [config]="localGrowthGraph.config">

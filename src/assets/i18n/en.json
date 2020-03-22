@@ -90,6 +90,42 @@
         },
         "404": {
             "description": "This is an error:<br/>It seems like you tried to open something long forgotten or even unknown."
+        },
+        "corona": {
+            "global": {
+                "title": "Global development",
+                "comparison": "Comparison of the total number of infections inside and outside China",
+                "status": "Overview about the condition of cases worldwide",
+                "statistics": "Statistics",
+                "stats": {
+                    "confirmed": "Total confirmed Infections",
+                    "infected": "Total active Infections",
+                    "recovered": "Total recovered Infections",
+                    "dead": "Total Deaths",
+                    "fatality": "Fatality rate"
+                },
+                "top5": "Top 5 countries with still infected people"
+            },
+            "local": {
+                "title": "Local development",
+                "comparison": "Comparison of infection numbers to infinite and contained growth",
+                "breakdown": "Breakdown of active infections, healed cases and deaths",
+                "growth": "Growth over time"
+            },
+            "legend": {
+                "sig-fit": "Logistic fit",
+                "exp-fit": "Exponential fit",
+                "error": "95% error margin",
+                "tot-growth": "Total new cases",
+                "rel-growth": "Relative new cases",
+                "total": "Confirmed cases",
+                "infected": "Infected",
+                "dead": "Dead",
+                "recovered": "Recovered",
+                "row": "Cases outside China",
+                "china": "Cases in China"
+            },
+            "slider": "You can use this slider to adjust the date of inspection"
         }
     },
     "popups": {
