@@ -52,6 +52,11 @@
                     [config]="localDeadInfectedHealedGraph.config">
                 </plotly-plot>
             </div>
+            <div style="height:450px; max-width: 800px; margin: 20px auto;">
+                <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
+                    [config]="localGrowthGraph.config">
+                </plotly-plot>
+            </div>
         </div>
     </div>
     <app-footer></app-footer>

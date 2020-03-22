@@ -73,7 +73,7 @@ export class CoronaComponent implements OnInit {
       yaxis: {
         rangemode: 'nonnegative',
         autorange: false,
-        range: [0,0]
+        range: [0, 0]
       },
       legend: {
         x: 0.01,
@@ -109,6 +109,47 @@ export class CoronaComponent implements OnInit {
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true
+      },
+      legend: {
+        x: 0.01,
+        xanchor: 'left',
+        bgcolor: '#e6e2e7',
+        borderradius: 3
+      },
+      margin: { l: 30, r: 30, t: 0, b: 30 }
+    },
+    config: {
+      responsive: true,
+      scrollZoom: false,
+      editable: false
+    }
+  };
+
+  public localGrowthGraph = {
+    data: [],
+    layout: {
+      height: 450,
+      plot_bgcolor: 'FAFAFA',
+      paper_bgcolor: 'FAFAFA',
+      font: {
+        family: '"Roboto", sans-serif',
+        size: 12
+      },
+      xaxis: {
+        range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
+        tickmode: 'linear',
+        tick0: this.axisStartDate.getTime(),
+        dtick: 1000 * 60 * 60 * 24 * 7,
+      },
+      yaxis: {
+        rangemode: 'nonnegative',
+        autorange: true
+      },
+      yaxis2: {
+        range: [0, 1],
+        overlaying: 'y',
+        autorange: false,
+        side: 'right'
       },
       legend: {
         x: 0.01,
@@ -177,14 +218,18 @@ export class CoronaComponent implements OnInit {
       this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", "total infections", "#596468"));
       this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "in China", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
       this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "in China", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
-      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff-1]*1.1];
+      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff - 1] * 1.1];
 
       this.localDeadInfectedHealedGraph.data = [];
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", "#000000", true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", "#3fb68e", true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
         this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.recovered),
-        dateDiff, null, "Infected", "#13A4B4", true));
+        dateDiff, null, "Infected", "#13A4B4", true)
+      );
+
+      this.localGrowthGraph.data = [];
+      this.buildGrowthTraces(regionData.confirmed, dateDiff, "333333", "999999").forEach(x => this.localGrowthGraph.data.push(x));
     };
     if (this.data.has(this.selectedRegion)) {
       update();
@@ -221,6 +266,48 @@ export class CoronaComponent implements OnInit {
     }
 
     return trace;
+  }
+
+  buildGrowthTraces(data: number[], count: number, totalColor: string, relativeColor: string) {
+    let x = []
+    let yRelative: number[] = []
+    let yTotal: number[] = []
+    for (var i = 1; i <= count; i++) {
+      let date = new Date(this.dataStartDate);
+      date.setDate(date.getDate() + i);
+      x.push(date);
+      yRelative.push((data[i - 1] != 0) ? (data[i] / data[i - 1] - 1) : 0);
+      yTotal.push(data[i] - data[i - 1]);
+    }
+
+    let totalTrace = {
+      x: x,
+      y: yTotal,
+      type: 'bar',
+      name: "total Growth",
+      marker: {
+        color: totalColor,
+      },
+    };
+
+    let relativeTrace = {
+      x: x,
+      y: yRelative,
+      mode: 'lines+markers',
+      type: 'scatter',
+      yaxis: 'y2',
+      name: "relative Growth",
+      marker: {
+        color: relativeColor,
+        size: 7,
+        symbol: "diamond"
+      },
+      line: {
+        color: relativeColor,
+      }
+    };
+
+    return [totalTrace, relativeTrace];
   }
 
   getRelativeDate(x: Date) {
