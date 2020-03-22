@@ -10,13 +10,13 @@ import { CoronaFit, CoronaData } from 'src/app/structures/corona-structures';
 export class CoronaComponent implements OnInit {
 
   dataStartDate: Date = new Date(2020, 0, 22);
-  dataEndDate: Date = new Date(2020, 2, 20);
+  dataEndDate: Date ;
   axisStartDate: Date = new Date(this.dataStartDate);
-  axisEndDate: Date = new Date(2020, 2, 23);
+  axisEndDate: Date = new Date(2020, 2, 25);
 
   data: Map<string, CoronaData> = new Map<string, CoronaData>();
-  selectedGlobalDate: Date = new Date(this.dataEndDate);
-  selectedLocalDate: Date = new Date(this.dataEndDate);
+  selectedGlobalDate: Date;
+  selectedLocalDate: Date;
   selectedRegion: string = "global";
 
   public globalGraph = {
@@ -223,10 +223,10 @@ export class CoronaComponent implements OnInit {
     confirmed: "#cc4300",
     dead: "#596468",
     recovered: "#3fb68e",
-    growth:{
+    growth: {
       rel: "#945ECF",
       tot: "#13A4B4"
-    } 
+    }
   }
 
   constructor(private apiService: ApiService) {
@@ -243,6 +243,17 @@ export class CoronaComponent implements OnInit {
     });
     this.apiService.getCoronaData("global").subscribe(c => {
       this.data.set("global", c);
+      let dateSliders = document.getElementsByClassName("date-slider");
+      for (let i = 0; i < dateSliders.length; i++) {
+        let slider = <HTMLInputElement>dateSliders[i];
+        slider.max = (c.confirmed.length - 1).toString();
+        slider.value = slider.max;
+      }
+      this.dataEndDate = new Date(this.dataStartDate);
+      this.dataEndDate.setDate(this.dataEndDate.getDate() + c.confirmed.length - 1);
+      this.selectedGlobalDate = new Date(this.dataEndDate);
+      this.selectedLocalDate = new Date(this.dataEndDate);
+
       if (this.data.has("China") && this.data.has("row") && this.topcountries != undefined) this.updateAll();
     });
     this.apiService.getCoronaTopCountries().subscribe(tc => {
