@@ -17,7 +17,7 @@ export class CoronaComponent implements OnInit {
   data: Map<string, CoronaData> = new Map<string, CoronaData>();
   selectedGlobalDate: Date = new Date(this.dataEndDate);
   selectedLocalDate: Date = new Date(this.dataEndDate);
-  selectedRegion: string = "China";
+  selectedRegion: string = "global";
 
   public globalGraph = {
     data: [],
@@ -212,6 +212,13 @@ export class CoronaComponent implements OnInit {
     topcountries: []
   }
 
+  colors = {
+    infected: "#74abe2",
+    confirmed: "#cc4300",
+    dead: "#596468",
+    recovered: "#3fb68e",
+  }
+
   constructor(private apiService: ApiService) {
   }
 
@@ -263,7 +270,7 @@ export class CoronaComponent implements OnInit {
     let globalData = this.data.get("global");
     this.globalDeadInfectedHealedGraph.data = [];
     this.globalDeadInfectedHealedGraph.data.push(
-      this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, dateDiff, ["#1866b4", "#000000", "#3fb68e"])
+      this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, dateDiff, [this.colors.infected, this.colors.dead, this.colors.recovered])
     );
 
     this.global.confirmed = this.getValueDelta(globalData.confirmed[dateDiff], globalData.confirmed[dateDiff - 1]);
@@ -274,8 +281,8 @@ export class CoronaComponent implements OnInit {
       globalData.confirmed[dateDiff - 1] - globalData.dead[dateDiff - 1] - globalData.recovered[dateDiff - 1]);
     this.global.fatalityrate = globalData.dead[dateDiff] / (globalData.confirmed[dateDiff]) * 100;
     this.global.topcountries = [];
-    for(var key in this.topcountries[dateDiff]){
-      this.global.topcountries.push({name: key, infected: this.topcountries[dateDiff][key]});
+    for (var key in this.topcountries[dateDiff]) {
+      this.global.topcountries.push({ name: key, infected: this.topcountries[dateDiff][key] });
     }
     this.global.topcountries.sort((a, b) => b.infected - a.infected);
   }
@@ -290,17 +297,19 @@ export class CoronaComponent implements OnInit {
       let dateDiff = (this.selectedLocalDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
       let regionData = this.data.get(this.selectedRegion);
       this.localOverviewGraph.data = [];
-      this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", "total infections", "#596468"));
-      this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "in China", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
-      this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "in China", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
-      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff - 1] * 1.1];
+      this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", "total infections", "#333333"));
+      if (regionData.fits != undefined) {
+        this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "in China", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
+        this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "in China", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
+      }
+      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff] * 1.2];
 
       this.localDeadInfectedHealedGraph.data = [];
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, "Dead", "#000000", true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, "Recovered", "#3fb68e", true));
       this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
         this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
-        dateDiff, null, "Infected", "#13A4B4", true)
+        dateDiff, null, "Infected", "#74abe2", true)
       );
 
       this.localGrowthGraph.data = [];
@@ -394,7 +403,6 @@ export class CoronaComponent implements OnInit {
         colors: colors
       }
     };
-    console.info(piedata);
     return piedata;
   }
 
@@ -517,5 +525,12 @@ export class CoronaComponent implements OnInit {
     this.selectedGlobalDate = new Date(this.dataStartDate);
     this.selectedGlobalDate.setDate(this.selectedGlobalDate.getDate() + Number(slider.value));
     this.updateGlobalGraph();
+  }
+
+  onLocalSliderChange(): void {
+    let slider = <HTMLInputElement>document.getElementById("date-slider-local");
+    this.selectedLocalDate = new Date(this.dataStartDate);
+    this.selectedLocalDate.setDate(this.selectedLocalDate.getDate() + Number(slider.value));
+    this.updateLocalGraphs();
   }
 }

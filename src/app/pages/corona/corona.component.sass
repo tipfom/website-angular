@@ -40,14 +40,19 @@ h1
     background: $color-lightshadow
     padding: 20px
     margin: 10px
-    width: calc(100% - 60px)
 
 .plot-item-large
     max-width: 860px
+    width: calc(100% - 60px)
 
-.plot-item-small
-    max-width: 400px
-
+@media (min-width: 500px) 
+    .plot-item-small
+        max-width: 400px
+        width: calc(50% - 62px)
+@media (max-width: 500px) 
+    .plot-item-small
+        width: calc(100% - 60px)
+        
 .plot-div
     display: inline-block
     width: 100%
@@ -74,4 +79,18 @@ h1
         color: #596468
     .stats-tr-fatality
         color: #596468
-    
+
+#region-div
+    margin: 0 30px
+    font-size: 15px
+    color: $color-textonlight
+    display: inline-flex
+    align-items: center
+    align-content: center
+
+select
+    appearance: none
+    background: $color-lightshadow
+    font-size: 15px
+    padding: 5px
+    margin: 0 10px
