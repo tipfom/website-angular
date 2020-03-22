@@ -49,8 +49,8 @@
                     </table>
                     <h3>Top 5 active countries</h3>
                     <table class="stats-table">
-                        <tr *ngFor="let country of global.topcountries | keyvalue">
-                            <th>{{country.key}}</th><td>{{country.value}}</td>
+                        <tr *ngFor="let country of global.topcountries">
+                            <th>{{country.name}}</th><td>{{country.infected}}</td>
                         </tr>
                     </table>
                 </div>

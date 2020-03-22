@@ -209,7 +209,7 @@ export class CoronaComponent implements OnInit {
     recovered: { value: 0, delta: "0" },
     dead: { value: 0, delta: "0" },
     fatalityrate: 0,
-    topcountries: {} 
+    topcountries: []
   }
 
   constructor(private apiService: ApiService) {
@@ -228,10 +228,10 @@ export class CoronaComponent implements OnInit {
       this.data.set("global", c);
       if (this.data.has("China") && this.data.has("row") && this.topcountries != undefined) this.updateAll();
     });
-    this.apiService.getCoronaTopCountries().subscribe(tc => { 
+    this.apiService.getCoronaTopCountries().subscribe(tc => {
       this.topcountries = tc;
       if (this.data.has("China") && this.data.has("row") && this.data.has("global")) this.updateAll();
-     });
+    });
   }
 
   substract(a1: number[], a2: number[]) {
@@ -273,7 +273,11 @@ export class CoronaComponent implements OnInit {
       globalData.confirmed[dateDiff] - globalData.dead[dateDiff] - globalData.recovered[dateDiff],
       globalData.confirmed[dateDiff - 1] - globalData.dead[dateDiff - 1] - globalData.recovered[dateDiff - 1]);
     this.global.fatalityrate = globalData.dead[dateDiff] / (globalData.confirmed[dateDiff]) * 100;
-    this.global.topcountries = this.topcountries[dateDiff];
+    this.global.topcountries = [];
+    for(var key in this.topcountries[dateDiff]){
+      this.global.topcountries.push({name: key, infected: this.topcountries[dateDiff][key]});
+    }
+    this.global.topcountries.sort((a, b) => b.infected - a.infected);
   }
 
   getValueDelta(current: number, previous: number) {
