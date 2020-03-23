@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { CoronaFit, CoronaData } from 'src/app/structures/corona-structures';
 import { TranslateService } from '@ngx-translate/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-corona',
@@ -57,7 +58,8 @@ export class CoronaComponent implements OnInit {
     config: {
       responsive: true,
       scrollZoom: false,
-      editable: false
+      editable: false,
+      staticPlot: this.deviceService.isMobile()
     }
   };
 
@@ -85,7 +87,8 @@ export class CoronaComponent implements OnInit {
     config: {
       responsive: true,
       scrollZoom: false,
-      editable: false
+      editable: false,
+      staticPlot: this.deviceService.isMobile()
     }
   };
 
@@ -126,7 +129,8 @@ export class CoronaComponent implements OnInit {
     config: {
       responsive: true,
       scrollZoom: false,
-      editable: false
+      editable: false,
+      staticPlot: this.deviceService.isMobile()
     }
   };
 
@@ -166,7 +170,8 @@ export class CoronaComponent implements OnInit {
     config: {
       responsive: true,
       scrollZoom: false,
-      editable: false
+      editable: false,
+      staticPlot: this.deviceService.isMobile()
     }
   };
 
@@ -212,7 +217,8 @@ export class CoronaComponent implements OnInit {
     config: {
       responsive: true,
       scrollZoom: false,
-      editable: false
+      editable: false,
+      staticPlot: this.deviceService.isMobile()
     }
   };
 
@@ -238,7 +244,7 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  constructor(private apiService: ApiService, private translateService: TranslateService) {
+  constructor(private apiService: ApiService, private translateService: TranslateService, private deviceService: DeviceDetectorService) {
     this.translateService.onLangChange.subscribe(() => this.updateAll());
   }
 

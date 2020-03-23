@@ -22,6 +22,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-plotly.js": "^2.0.0",
+    "ngx-device-detector": "^1.4.1",
     "ngx-markdown": "^9.0.0",
     "plotly.js": "^1.52.3",
     "prismjs": "^1.19.0",

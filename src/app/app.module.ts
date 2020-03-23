@@ -27,6 +27,7 @@ import { Error404Component } from './pages/error404/error404.component';
 import { CoronaComponent } from './pages/corona/corona.component';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -72,7 +73,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
         deps: [HttpClient]
       },
     }),
-    PlotlyModule
+    PlotlyModule,
+    DeviceDetectorModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
