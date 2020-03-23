@@ -64,7 +64,7 @@
                     "ipho": {
                         "title": "Teil der deutschen Mannschaft zur Internationalen Physikolympiade 2018",
                         "date": "21. - 29. Juli 2018",
-                        "description": "In der 12. Klasse habe ich mich im Rahmen des Auswahlwettbewerbs zur Internationalen Physikolympiade qualifiert einer der fünf Vertreter Deutschland bei der Internationalen Physikolympiade zu sein. Diese fand in Portugal statt und als Ergebnis habe ich eine Anerkennung erhalten."
+                        "description": "In der 12. Klasse habe ich mich im Rahmen des Auswahlwettbewerbs zur Internationalen Physikolympiade qualifiziert einer der fünf Vertreter Deutschland bei der Internationalen Physikolympiade zu sein. Diese fand in Portugal statt und als Ergebnis habe ich eine Anerkennung erhalten."
                     },
                     "abitur": {
                         "title": "Abitur am Max-Steenbeck-Gymnasium",
@@ -74,7 +74,7 @@
                     "physics-olympiad": {
                         "title": "Landessieger bei der Brandenburger Physikolympiade",
                         "date": "2014, 2015, 2016, 2018",
-                        "description": "Seit der achten Klasse habe ich regelmäßig an der Physikolympiade meines Heimatlandes Brandenburg teilgenommen. Dort war ist regelmäßig der Landessieger."
+                        "description": "Seit der achten Klasse habe ich regelmäßig an der Physikolympiade meines Heimatlandes Brandenburg teilgenommen. Dort war ich regelmäßig der Landessieger."
                     }
                 }
             }
@@ -116,7 +116,7 @@
                     "header": "Vergleich der Entwicklung mit einem Model für unendliches bzw. beschränktes Wachstum",
                     "description": "Hier werden die jeweiligen Infiziertenzahlen der ausgewählten Region mit einem Model einer unbeschränkten Ausbreitung (braun) und dem einer eingedämmten Ausbreitung (grün) verglichen. Je nachdem, welche Anpassung näher an den tatsächlichen Messwerten liegt kann ein Rückschluss über die Quarantänemaßnahmen geschlossen werden. Dabei ist zu beachten, dass wegen der Inkubationszeit jede Sicherheitsmaßnahme verzögert in den Daten auftaucht."
                 },
-                "breakdown": "Aufschlüsselung nach Toden, Infizierten und Genesenen",
+                "breakdown": "Aufschlüsselung nach Toten, Infizierten und Gesundeten",
                 "growth": "Wachstum der Infiziertenzahlen"
             },
             "legend": {
