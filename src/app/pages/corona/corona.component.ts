@@ -625,7 +625,7 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  activeAnimations: Map<string, NodeJS.Timeout> = new Map<string, NodeJS.Timeout>();
+  activeAnimations: Map<string, any> = new Map<string, any>();
   animateSlider(name: string, event: MouseEvent): void {
     let button = <HTMLButtonElement>event.target;
     let slider = <HTMLInputElement>document.getElementById("date-slider-" + name);
