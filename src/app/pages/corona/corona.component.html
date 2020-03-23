@@ -14,17 +14,16 @@
         <h1>COVID-19 Dashboard</h1>
         <div class="contentdiv-large" id="global">
             <h2 translate>pages.corona.global.title</h2>
-            <div class="date-slider-div">
-                <span translate>pages.corona.slider</span>
-                <input type="range" min="18" max="58" value="58" (input)="onGlobalSliderChange()"
-                    (change)="onGlobalSliderChange()" class="date-slider" id="date-slider-global" list="datesteplist">
-            </div>
-
             <div class="plot-container">
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.global.comparison.header</h3>
                     <div class="description-div" translate>pages.corona.global.comparison.description
                         <a href="article/corona" translate>pages.corona.learn-more</a>
+                    </div>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <input type="range" min="18" (input)="onDateSliderChange('globaloverview')"
+                            class="date-slider" id="date-slider-globaloverview" list="datesteplist">
                     </div>
                     <div class="plot-div">
                         <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
@@ -34,6 +33,11 @@
                 </div>
                 <div class="plot-item-small">
                     <h3 translate>pages.corona.global.status</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <input type="range" min="18" (input)="onDateSliderChange('globalstatus')"
+                            class="date-slider" id="date-slider-globalstatus" list="datesteplist">
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="globalDeadInfectedHealedGraph.data"
                             [layout]="globalDeadInfectedHealedGraph.layout"
@@ -43,6 +47,11 @@
                 </div>
                 <div class="plot-item-small">
                     <h3 translate>pages.corona.global.statistics</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <input type="range" min="18" (input)="onDateSliderChange('globalstats')"
+                            class="date-slider" id="date-slider-globalstats" list="datesteplist">
+                    </div>
                     <table class="stats-table">
                         <tr class="stats-tr-confirmed">
                             <th translate>pages.corona.global.stats.confirmed</th>
@@ -77,11 +86,6 @@
         </div>
         <div class="contentdiv-large" id="country">
             <h2 translate>pages.corona.local.title</h2>
-            <div class="date-slider-div">
-                <span translate>pages.corona.slider</span>
-                <input type="range" min="18" max="58" value="58" (input)="onLocalSliderChange()"
-                    (change)="onLocalSliderChange()" class="date-slider" id="date-slider-local" list="datesteplist">
-            </div>
             <div id="region-div">Region:
                 <select (change)="selectedRegionChanged()" id="region-select">
                     <option value="global">Global</option>
@@ -130,6 +134,11 @@
                     <div class="description-div" translate>pages.corona.local.comparison.description
                         <a href="article/corona" translate>pages.corona.learn-more</a>
                     </div>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <input type="range" min="18" (input)="onDateSliderChange('localoverview')"
+                            class="date-slider" id="date-slider-localoverview" list="datesteplist">
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localOverviewGraph.data" [layout]="localOverviewGraph.layout"
                             [config]="localOverviewGraph.config">
@@ -138,6 +147,11 @@
                 </div>
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.local.breakdown</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <input type="range" min="18" (input)="onDateSliderChange('localbreakdown')"
+                            class="date-slider" id="date-slider-localbreakdown" list="datesteplist">
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localDeadInfectedHealedGraph.data"
                             [layout]="localDeadInfectedHealedGraph.layout"
@@ -147,6 +161,11 @@
                 </div>
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.local.growth</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <input type="range" min="18" (input)="onDateSliderChange('localgrowth')"
+                            class="date-slider" id="date-slider-localgrowth" list="datesteplist">
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
                             [config]="localGrowthGraph.config">

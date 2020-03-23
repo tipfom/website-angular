@@ -17,9 +17,17 @@ export class CoronaComponent implements OnInit {
   axisEndDate: Date = new Date(2020, 2, 25);
 
   data: Map<string, CoronaData> = new Map<string, CoronaData>();
-  selectedGlobalDate: Date;
-  selectedLocalDate: Date;
   selectedRegion: string = "global";
+
+  selectedDateIndex = {
+    globalOverview: 0,
+    globalStatus: 0,
+    globalStats: 0,
+
+    localOverview: 0,
+    localBreakdown: 0,
+    localGrowth: 0
+  }
 
   public globalGraph = {
     data: [],
@@ -267,8 +275,13 @@ export class CoronaComponent implements OnInit {
       }
       this.dataEndDate = new Date(this.dataStartDate);
       this.dataEndDate.setDate(this.dataEndDate.getDate() + c.confirmed.length - 1);
-      this.selectedGlobalDate = new Date(this.dataEndDate);
-      this.selectedLocalDate = new Date(this.dataEndDate);
+
+      this.selectedDateIndex.globalOverview = c.confirmed.length - 1;
+      this.selectedDateIndex.globalStatus = c.confirmed.length - 1;
+      this.selectedDateIndex.globalStats = c.confirmed.length - 1;
+      this.selectedDateIndex.localOverview = c.confirmed.length - 1;
+      this.selectedDateIndex.localBreakdown = c.confirmed.length - 1;
+      this.selectedDateIndex.localGrowth = c.confirmed.length - 1;
 
       if (this.data.has("China") && this.data.has("row") && this.topcountries != undefined) this.updateAll();
     });
@@ -287,79 +300,86 @@ export class CoronaComponent implements OnInit {
   }
 
   updateAll() {
-    this.updateLocalGraphs();
-    this.updateGlobalGraph();
+    this.updateGlobalOverview();
+    this.updateGlobalStats();
+    this.updateGlobalStatus();
+    this.updateLocalBreakdown();
+    this.updateLocalGrowth();
+    this.updateLocalOverview();
   }
 
-  updateGlobalGraph() {
-    let dateDiff = (this.selectedGlobalDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
+  updateGlobalOverview() {
     this.globalGraph.data = [];
-    this.buildFitTraces(this.data.get("China").fits.sig[dateDiff - 15], "sig", "china", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
-    this.buildFitTraces(this.data.get("row").fits.exp[dateDiff - 15], "exp", "row", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, dateDiff, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4"));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("row").confirmed, dateDiff, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
+    this.buildFitTraces(this.data.get("China").fits.sig[this.selectedDateIndex.globalOverview - 15], "sig", "china", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
+    this.buildFitTraces(this.data.get("row").fits.exp[this.selectedDateIndex.globalOverview - 15], "exp", "row", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
+    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4"));
+    this.globalGraph.data.push(this.buildTrace(this.data.get("row").confirmed, this.selectedDateIndex.globalOverview, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
     this.globalGraph.layout.yaxis.range = [0,
       Math.max(
-        this.data.get("China").confirmed[dateDiff],
-        this.data.get("row").confirmed[dateDiff]
+        this.data.get("China").confirmed[this.selectedDateIndex.globalOverview],
+        this.data.get("row").confirmed[this.selectedDateIndex.globalOverview]
       ) * 1.1];
+    this.globalGraph.layout.xaxis.range[1] = (this.selectedDateIndex.globalOverview + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
+  }
 
+  updateGlobalStatus() {
     let globalData = this.data.get("global");
     this.globalDeadInfectedHealedGraph.data = [];
     this.globalDeadInfectedHealedGraph.data.push(
-      this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, dateDiff, [this.colors.infected, this.colors.dead, this.colors.recovered])
+      this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, this.selectedDateIndex.globalStatus, [this.colors.infected, this.colors.dead, this.colors.recovered])
     );
+  }
 
-    this.global.confirmed = this.getValueDelta(globalData.confirmed[dateDiff], globalData.confirmed[dateDiff - 1]);
-    this.global.dead = this.getValueDelta(globalData.dead[dateDiff], globalData.dead[dateDiff - 1]);
-    this.global.recovered = this.getValueDelta(globalData.recovered[dateDiff], globalData.recovered[dateDiff - 1]);
-    this.global.infected = this.getValueDelta(
-      globalData.confirmed[dateDiff] - globalData.dead[dateDiff] - globalData.recovered[dateDiff],
-      globalData.confirmed[dateDiff - 1] - globalData.dead[dateDiff - 1] - globalData.recovered[dateDiff - 1]);
-    this.global.fatalityrate = globalData.dead[dateDiff] / (globalData.confirmed[dateDiff]) * 100;
+  updateGlobalStats() {
+    let getValueDelta = (current: number, previous: number) => {
+      let delta = (current - previous);
+      return { value: current, delta: delta > 0 ? "+" + delta : delta.toString() };
+    }
+    let globalData = this.data.get("global");
+    let date = this.selectedDateIndex.globalStats;
+    this.global.confirmed = getValueDelta(globalData.confirmed[date], globalData.confirmed[date - 1]);
+    this.global.dead = getValueDelta(globalData.dead[date], globalData.dead[date - 1]);
+    this.global.recovered = getValueDelta(globalData.recovered[date], globalData.recovered[date - 1]);
+    this.global.infected = getValueDelta(
+      globalData.confirmed[date] - globalData.dead[date] - globalData.recovered[date],
+      globalData.confirmed[date - 1] - globalData.dead[date - 1] - globalData.recovered[date - 1]);
+    this.global.fatalityrate = globalData.dead[date] / (globalData.confirmed[date]) * 100;
     this.global.topcountries = [];
-    for (var key in this.topcountries[dateDiff]) {
-      this.global.topcountries.push({ name: key, infected: this.topcountries[dateDiff][key] });
+    for (var key in this.topcountries[date]) {
+      this.global.topcountries.push({ name: key, infected: this.topcountries[date][key] });
     }
     this.global.topcountries.sort((a, b) => b.infected - a.infected);
   }
 
-  getValueDelta(current: number, previous: number) {
-    let delta = (current - previous);
-    return { value: current, delta: delta > 0 ? "+" + delta : delta.toString() };
+  updateLocalOverview() {
+    let regionData = this.data.get(this.selectedRegion);
+    this.localOverviewGraph.data = [];
+    this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, this.selectedDateIndex.localOverview, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
+    if (regionData.fits != undefined) {
+      this.buildFitTraces(regionData.fits.exp[this.selectedDateIndex.localOverview - 15], "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
+      this.buildFitTraces(regionData.fits.sig[this.selectedDateIndex.localOverview - 15], "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
+    }
+    this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.selectedDateIndex.localOverview] * 1.2];
+    this.localOverviewGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localOverview + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
   }
 
-  updateLocalGraphs() {
-    let update = () => {
-      let dateDiff = (this.selectedLocalDate.getTime() - this.dataStartDate.getTime()) / (1000 * 60 * 60 * 24);
-      let regionData = this.data.get(this.selectedRegion);
-      this.localOverviewGraph.data = [];
-      this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, dateDiff, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
-      if (regionData.fits != undefined) {
-        this.buildFitTraces(regionData.fits.exp[dateDiff - 15], "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
-        this.buildFitTraces(regionData.fits.sig[dateDiff - 15], "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
-      }
-      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[dateDiff] * 1.2];
+  updateLocalBreakdown() {
+    let regionData = this.data.get(this.selectedRegion);
+    this.localDeadInfectedHealedGraph.data = [];
+    this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, this.selectedDateIndex.localBreakdown, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
+    this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, this.selectedDateIndex.localBreakdown, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
+    this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
+      this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
+      this.selectedDateIndex.localBreakdown, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
+    );
+    this.localDeadInfectedHealedGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localBreakdown + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
+  }
 
-      this.localDeadInfectedHealedGraph.data = [];
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, dateDiff, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, dateDiff, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
-      this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
-        this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
-        dateDiff, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
-      );
-
-      this.localGrowthGraph.data = [];
-      this.buildGrowthTraces(regionData.confirmed, dateDiff, this.colors.growth.rel, this.colors.growth.tot).forEach(x => this.localGrowthGraph.data.push(x));
-    };
-    if (this.data.has(this.selectedRegion)) {
-      update();
-    } else {
-      this.apiService.getCoronaData(this.selectedRegion).subscribe(d => {
-        this.data.set(this.selectedRegion, d);
-        update();
-      });
-    }
+  updateLocalGrowth() {
+    let regionData = this.data.get(this.selectedRegion);
+    this.localGrowthGraph.data = [];
+    this.buildGrowthTraces(regionData.confirmed, this.selectedDateIndex.localGrowth, this.colors.growth.rel, this.colors.growth.tot).forEach(x => this.localGrowthGraph.data.push(x));
+    this.localGrowthGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localGrowth + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
   }
 
   buildTrace(data: number[], count: number, group: string, name: string, color: string, line: boolean = false) {
@@ -558,20 +578,49 @@ export class CoronaComponent implements OnInit {
 
   selectedRegionChanged(): void {
     this.selectedRegion = (<HTMLSelectElement>document.getElementById("region-select")).value;
-    this.updateLocalGraphs();
+    let update = () => {
+      this.updateLocalOverview();
+      this.updateLocalBreakdown();
+      this.updateLocalGrowth();
+    };
+    if (this.data.has(this.selectedRegion)) {
+      update();
+    } else {
+      this.apiService.getCoronaData(this.selectedRegion).subscribe(d => {
+        this.data.set(this.selectedRegion, d);
+        update();
+      });
+    }
   }
 
-  onGlobalSliderChange(): void {
-    let slider = <HTMLInputElement>document.getElementById("date-slider-global");
-    this.selectedGlobalDate = new Date(this.dataStartDate);
-    this.selectedGlobalDate.setDate(this.selectedGlobalDate.getDate() + Number(slider.value));
-    this.updateGlobalGraph();
-  }
-
-  onLocalSliderChange(): void {
-    let slider = <HTMLInputElement>document.getElementById("date-slider-local");
-    this.selectedLocalDate = new Date(this.dataStartDate);
-    this.selectedLocalDate.setDate(this.selectedLocalDate.getDate() + Number(slider.value));
-    this.updateLocalGraphs();
+  onDateSliderChange(name: string): void {
+    let slider = <HTMLInputElement>document.getElementById("date-slider-" + name);
+    let index = Number(slider.value);
+    switch (name) {
+      case "globaloverview":
+        this.selectedDateIndex.globalOverview = index;
+        this.updateGlobalOverview();
+        break;
+      case "globalstatus":
+        this.selectedDateIndex.globalStatus = index;
+        this.updateGlobalStatus();
+        break;
+      case "globalstats":
+        this.selectedDateIndex.globalStats = index;
+        this.updateGlobalStats();
+        break;
+      case "localoverview":
+        this.selectedDateIndex.localOverview = index;
+        this.updateLocalOverview();
+        break;
+      case "localbreakdown":
+        this.selectedDateIndex.localBreakdown = index;
+        this.updateLocalBreakdown();
+        break;
+      case "localgrowth":
+        this.selectedDateIndex.localGrowth = index;
+        this.updateLocalGrowth();
+        break;s
+    }
   }
 }
