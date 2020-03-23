@@ -210,7 +210,8 @@ export class CoronaComponent implements OnInit {
         range: [0, 1],
         overlaying: 'y',
         autorange: false,
-        side: 'right'
+        side: 'right',
+        gridcolor: '#00000000'
       },
       legend: {
         x: 0.01,
@@ -620,7 +621,38 @@ export class CoronaComponent implements OnInit {
       case "localgrowth":
         this.selectedDateIndex.localGrowth = index;
         this.updateLocalGrowth();
-        break;s
+        break;
+    }
+  }
+
+  activeAnimations: Map<string, NodeJS.Timeout> = new Map<string, NodeJS.Timeout>();
+  animateSlider(name: string, event: MouseEvent): void {
+    let button = <HTMLButtonElement>event.target;
+    let slider = <HTMLInputElement>document.getElementById("date-slider-" + name);
+
+    if (button.classList.contains("play")) {
+      button.classList.remove("play");
+      button.classList.add("pause");
+
+      if (slider.value == slider.max) slider.value = slider.min;
+      let updateInterval = setInterval(() => {
+        slider.value = (Number(slider.value) + 1).toString();
+        slider.dispatchEvent(new Event('input'));
+        
+        if (Number(slider.value) == Number(slider.max)) {
+          clearInterval(updateInterval);
+          button.classList.remove("pause");
+          button.classList.add("play");              
+        }
+      }, 200);
+
+      this.activeAnimations.set(name, updateInterval);
+    } else {
+      button.classList.remove("pause");
+      button.classList.add("play");
+
+      clearInterval(this.activeAnimations.get(name));
+      this.activeAnimations.delete(name);
     }
   }
 }

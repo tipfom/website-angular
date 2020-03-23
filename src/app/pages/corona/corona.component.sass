@@ -20,12 +20,40 @@ h1
     position: absolute
 
 .date-slider-div
-    margin: 20px auto
+    margin: 0
     color: $color-textonlight
     width: calc(100% - 40px)
 
+    div
+        display: inline-flex
+        align-content: center
+        width: 100%
+
 .date-slider
-    width: 100%
+    width: calc(100% - 60px)
+    margin: 0 5px
+
+.date-slider-animate-button
+    border: none
+    background-color: transparent
+    width: 30px
+    height: 30px
+    margin: 0 5px
+    background-size: cover
+
+    &:focus
+        outline: none
+
+.play 
+    background-image: url("../../../assets/images/play.png")
+    &:hover
+        background-image: url("../../../assets/images/playhover.png")
+    
+.pause 
+    background-image: url("../../../assets/images/pause.png")
+    &:hover
+        background-image: url("../../../assets/images/pausehover.png")
+    
 
 .plot-container
     width: 100%
