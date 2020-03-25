@@ -14,7 +14,7 @@ export class CoronaComponent implements OnInit {
   dataStartDate: Date = new Date(2020, 0, 22);
   dataEndDate: Date;
   axisStartDate: Date = new Date(this.dataStartDate);
-  axisEndDate: Date = new Date(2020, 2, 25);
+  axisEndDate: Date;
 
   data: Map<string, CoronaData> = new Map<string, CoronaData>();
   selectedRegion: string = "global";
@@ -41,7 +41,7 @@ export class CoronaComponent implements OnInit {
         size: 14
       },
       xaxis: {
-        range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
+        range: [this.axisStartDate.getTime(), this.axisStartDate.getTime()],
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
@@ -112,7 +112,7 @@ export class CoronaComponent implements OnInit {
         size: 14
       },
       xaxis: {
-        range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
+        range: [this.axisStartDate.getTime(), this.axisStartDate.getTime()],
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
@@ -154,7 +154,7 @@ export class CoronaComponent implements OnInit {
         size: 14
       },
       xaxis: {
-        range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
+        range: [this.axisStartDate.getTime(), this.axisStartDate.getTime()],
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
@@ -195,7 +195,7 @@ export class CoronaComponent implements OnInit {
         size: 14
       },
       xaxis: {
-        range: [this.axisStartDate.getTime(), this.axisEndDate.getTime()],
+        range: [this.axisStartDate.getTime(), this.axisStartDate.getTime()],
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
@@ -276,6 +276,8 @@ export class CoronaComponent implements OnInit {
       }
       this.dataEndDate = new Date(this.dataStartDate);
       this.dataEndDate.setDate(this.dataEndDate.getDate() + c.confirmed.length - 1);
+      this.axisEndDate = new Date(this.dataEndDate);
+      this.axisEndDate.setDate(this.axisEndDate.getDate() + 3);
 
       this.selectedDateIndex.globalOverview = c.confirmed.length - 1;
       this.selectedDateIndex.globalStatus = c.confirmed.length - 1;
@@ -387,6 +389,7 @@ export class CoronaComponent implements OnInit {
     let x = []
     let y: number[] = []
     for (var i = 0; i <= count; i++) {
+      if (data[i] == undefined) break;
       let date = new Date(this.dataStartDate);
       date.setDate(date.getDate() + i);
       x.push(date);
@@ -638,11 +641,11 @@ export class CoronaComponent implements OnInit {
       let updateInterval = setInterval(() => {
         slider.value = (Number(slider.value) + 1).toString();
         slider.dispatchEvent(new Event('input'));
-        
+
         if (Number(slider.value) == Number(slider.max)) {
           clearInterval(updateInterval);
           button.classList.remove("pause");
-          button.classList.add("play");              
+          button.classList.add("play");
         }
       }, 200);
 
