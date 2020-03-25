@@ -15,7 +15,8 @@
                 "dresden": "Dresden",
                 "dresden-description": "der Landeshauptstadt des Freistaats Sachsen",
                 "weather": "Das aktuelle Wetter",
-                "more": "Mehr über mich"
+                "more": "Mehr über mich",
+                "covid-tracker": "Ich habe eine Seite erstellt, um Statistiken über die COVID-19-Pandemie nachzuverfolgen."
             },
             "contact": {
                 "contact-form": "Kontaktformular",
@@ -93,6 +94,7 @@
         },
         "corona": {
             "learn-more": "Erfahre mehr",
+            "recovered-disclaimer": "Achtung: Das Center for Systems Science and Engineering der Johns Hopkins University stuft aktuell viele Länder wie die USA als nicht vertrauenswürdige Quelle für Zahlen von genesenen Patienten ein. Deswegen stehen mir ab dem 24. März keine Informationen über diese Fallzahlen mehr zur Verfügung. Ich arbeite an einer Lösung.",
             "global": {
                 "title": "Globale Entwicklung",
                 "comparison": {

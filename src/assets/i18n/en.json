@@ -15,7 +15,8 @@
                 "dresden": "Dresden",
                 "dresden-description": "the state capitol of the Free State of Saxony",
                 "weather": "The current weather",
-                "more": "More about me"
+                "more": "More about me",
+                "covid-tracker": "I created a site to track statistics about the 2019–20 coronavirus pandemic."
             },
             "contact": {
                 "contact-form": "Contact form",
@@ -93,6 +94,7 @@
         },
         "corona": {
             "learn-more": "Learn more",
+            "recovered-disclaimer": "Disclaimer: The Center for Systems Science and Engineering of the Johns Hopkins University is currently not able to get reliable sources on the number of recovered people. I am therefore not able to list those after March 24. I am currently working on a solution to this.",
             "global": {
                 "title": "Global development",
                 "comparison": {
