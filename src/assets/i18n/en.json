@@ -110,7 +110,7 @@
                     "dead": "Total Deaths",
                     "fatality": "Fatality rate"
                 },
-                "top5": "Top 5 countries with still infected people"
+                "top5": "Top 5 countries with infected people"
             },
             "local": {
                 "title": "Local development",
