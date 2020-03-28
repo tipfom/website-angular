@@ -43,6 +43,7 @@ export class CoronaComponent implements OnInit {
       xaxis: {
         range: [this.axisStartDate.getTime(), this.axisStartDate.getTime()],
         tickmode: 'linear',
+        automargin: true,
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
         gridcolor: '#777777',
@@ -50,6 +51,7 @@ export class CoronaComponent implements OnInit {
       yaxis: {
         rangemode: 'nonnegative',
         autorange: false,
+        automargin: true,
         range: [0, 0],
         gridcolor: '#777777',
       },
@@ -61,13 +63,14 @@ export class CoronaComponent implements OnInit {
         borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 40 }
+      margin: { l: 0, r: 0, t: 0, b: 0 }
     },
     config: {
       responsive: true,
       scrollZoom: false,
       editable: false,
-      staticPlot: this.deviceService.isMobile()
+      staticPlot: this.deviceService.isMobile(),
+      displaylogo: false
     }
   };
 
@@ -96,7 +99,8 @@ export class CoronaComponent implements OnInit {
       responsive: true,
       scrollZoom: false,
       editable: false,
-      staticPlot: this.deviceService.isMobile()
+      staticPlot: this.deviceService.isMobile(),
+      displaylogo: false
     }
   };
 
@@ -116,12 +120,14 @@ export class CoronaComponent implements OnInit {
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
+        automargin: true,
         gridcolor: '#777777',
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: false,
         range: [0, 0],
+        automargin: true,
         gridcolor: '#777777',
       },
       legend: {
@@ -132,13 +138,14 @@ export class CoronaComponent implements OnInit {
         borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 40 }
+      margin: { l: 0, r: 0, t: 0, b: 0 }
     },
     config: {
       responsive: true,
       scrollZoom: false,
       editable: false,
-      staticPlot: this.deviceService.isMobile()
+      staticPlot: this.deviceService.isMobile(),
+      displaylogo: false
     }
   };
 
@@ -158,11 +165,13 @@ export class CoronaComponent implements OnInit {
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
+        automargin: true,
         gridcolor: '#777777',
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true,
+        automargin: true,
         gridcolor: '#777777',
       },
       legend: {
@@ -173,13 +182,14 @@ export class CoronaComponent implements OnInit {
         borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 40 }
+      margin: { l: 0, r: 0, t: 0, b: 0 }
     },
     config: {
       responsive: true,
       scrollZoom: false,
       editable: false,
-      staticPlot: this.deviceService.isMobile()
+      staticPlot: this.deviceService.isMobile(),
+      displaylogo: false
     }
   };
 
@@ -199,19 +209,23 @@ export class CoronaComponent implements OnInit {
         tickmode: 'linear',
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
+        automargin: true,
         gridcolor: '#777777',
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true,
+        automargin: true,
         gridcolor: '#777777',
       },
       yaxis2: {
         range: [0, 1],
         overlaying: 'y',
         autorange: false,
+        automargin: true,
         side: 'right',
-        gridcolor: '#00000000'
+        showgrid: false,
+        tickformat: ',.0%',
       },
       legend: {
         x: 0.01,
@@ -221,13 +235,14 @@ export class CoronaComponent implements OnInit {
         borderwidth: 1,
         borderradius: 3
       },
-      margin: { l: 30, r: 30, t: 0, b: 40 }
+      margin: { l: 0, r: 0, t: 0, b: 0 }
     },
     config: {
       responsive: true,
       scrollZoom: false,
       editable: false,
-      staticPlot: this.deviceService.isMobile()
+      staticPlot: this.deviceService.isMobile(),
+      displaylogo: false
     }
   };
 
