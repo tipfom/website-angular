@@ -256,6 +256,14 @@
                         </tr>
                     </table>
                 </div>
+                <div class="plot-item-small">
+                    <h3>Compare your region to the top 5</h3>
+                    <div class="plot-div">
+                        <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
+                            [config]="localCompareGraph.config">
+                        </plotly-plot>
+                    </div>
+                </div>
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.local.comparison.header</h3>
                     <div class="description-div" translate>pages.corona.local.comparison.description

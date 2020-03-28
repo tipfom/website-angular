@@ -32,12 +32,25 @@ export class CoronaComponent implements OnInit {
     localGrowth: 0,
   }
 
+  colors = {
+    infected: "#74abe2",
+    confirmed: "#cc4300",
+    dead: "#596468",
+    recovered: "#3fb68e",
+    growth: {
+      rel: "#945ECF",
+      tot: "#13A4B4"
+    },
+    background: 'FAFAFA',
+    grid: '#bbbbbb'
+  }
+
   public globalGraph = {
     data: [],
     layout: {
       height: 450,
-      plot_bgcolor: 'FAFAFAFF',
-      paper_bgcolor: 'FAFAFAFF',
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
       font: {
         family: 'sans-serif',
         color: '#00254D',
@@ -49,14 +62,14 @@ export class CoronaComponent implements OnInit {
         automargin: true,
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: false,
         automargin: true,
         range: [0, 0],
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       legend: {
         x: 0.01,
@@ -81,8 +94,8 @@ export class CoronaComponent implements OnInit {
     data: [],
     layout: {
       height: 450,
-      plot_bgcolor: 'FAFAFA',
-      paper_bgcolor: 'FAFAFA',
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
       font: {
         family: 'sans-serif',
         color: '#00254D',
@@ -107,12 +120,63 @@ export class CoronaComponent implements OnInit {
     }
   };
 
+  public localCompareGraph = {
+    data: [],
+    layout: {
+      height: 450,
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
+      font: {
+        family: 'sans-serif',
+        color: '#00254D',
+        size: 14
+      },
+      xaxis: {
+        tickmode: 'linear',
+        title: 'Days since cases went over 500',
+        tick0: 0,
+        dtick: 7,
+        automargin: true,
+        autorange: false,
+        range: [0, 1],
+        gridcolor: this.colors.grid,
+      },
+      yaxis: {
+        rangemode: 'nonnegative',
+        autorange: true,
+        automargin: true,
+        type: 'log',
+        tick0: 2,
+        dtick: 1,
+        gridcolor: this.colors.grid,
+      },
+      legend: {
+        x: 0.99,
+        xanchor: 'right',
+        y: 0.01,
+        yanchor: 'bottom',
+        bgcolor: '#e6e2e7',
+        bordercolor: '#21999c',
+        borderwidth: 1,
+        borderradius: 3
+      },
+      margin: { l: 0, r: 0, t: 0, b: 0 }
+    },
+    config: {
+      responsive: true,
+      scrollZoom: false,
+      editable: false,
+      staticPlot: this.deviceService.isMobile(),
+      displaylogo: false
+    }
+  };
+
   public localOverviewGraph = {
     data: [],
     layout: {
       height: 450,
-      plot_bgcolor: 'FAFAFA',
-      paper_bgcolor: 'FAFAFA',
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
       font: {
         family: 'sans-serif',
         color: '#00254D',
@@ -124,14 +188,14 @@ export class CoronaComponent implements OnInit {
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
         automargin: true,
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: false,
         range: [0, 0],
         automargin: true,
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       legend: {
         x: 0.01,
@@ -156,8 +220,8 @@ export class CoronaComponent implements OnInit {
     data: [],
     layout: {
       height: 450,
-      plot_bgcolor: 'FAFAFA',
-      paper_bgcolor: 'FAFAFA',
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
       font: {
         family: 'sans-serif',
         color: '#00254D',
@@ -169,13 +233,13 @@ export class CoronaComponent implements OnInit {
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
         automargin: true,
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true,
         automargin: true,
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       legend: {
         x: 0.01,
@@ -200,8 +264,8 @@ export class CoronaComponent implements OnInit {
     data: [],
     layout: {
       height: 450,
-      plot_bgcolor: 'FAFAFA',
-      paper_bgcolor: 'FAFAFA',
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
       font: {
         family: 'sans-serif',
         color: '#00254D',
@@ -213,13 +277,13 @@ export class CoronaComponent implements OnInit {
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
         automargin: true,
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true,
         automargin: true,
-        gridcolor: '#777777',
+        gridcolor: this.colors.grid,
       },
       yaxis2: {
         range: [0, 1],
@@ -269,57 +333,50 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  colors = {
-    infected: "#74abe2",
-    confirmed: "#cc4300",
-    dead: "#596468",
-    recovered: "#3fb68e",
-    growth: {
-      rel: "#945ECF",
-      tot: "#13A4B4"
-    }
-  }
-
   constructor(private apiService: ApiService, private translateService: TranslateService, private deviceService: DeviceDetectorService) {
     this.translateService.onLangChange.subscribe(() => this.updateAll());
   }
 
   ngOnInit(): void {
-    this.apiService.getCoronaData("China").subscribe(c => {
-      this.data.set("China", c);
-      if (this.data.has("row") && this.data.has("global") && this.topcountries != undefined) this.updateAll();
-    });
-    this.apiService.getCoronaData("row").subscribe(c => {
-      this.data.set("row", c);
-      if (this.data.has("China") && this.data.has("global") && this.topcountries != undefined) this.updateAll();
-    });
-    this.apiService.getCoronaData("global").subscribe(c => {
-      this.data.set("global", c);
-      let dateSliders = document.getElementsByClassName("date-slider");
-      for (let i = 0; i < dateSliders.length; i++) {
-        let slider = <HTMLInputElement>dateSliders[i];
-        slider.max = (c.confirmed.length - 1).toString();
-        slider.value = slider.max;
-      }
-      this.dataEndDate = new Date(this.dataStartDate);
-      this.dataEndDate.setDate(this.dataEndDate.getDate() + c.confirmed.length - 1);
-      this.axisEndDate = new Date(this.dataEndDate);
-      this.axisEndDate.setDate(this.axisEndDate.getDate() + 3);
-
-      this.selectedDateIndex.globalOverview = c.confirmed.length - 1;
-      this.selectedDateIndex.globalStatus = c.confirmed.length - 1;
-      this.selectedDateIndex.globalStats = c.confirmed.length - 1;
-      this.selectedDateIndex.localOverview = c.confirmed.length - 1;
-      this.selectedDateIndex.localBreakdown = c.confirmed.length - 1;
-      this.selectedDateIndex.localGrowth = c.confirmed.length - 1;
-      this.selectedDateIndex.localStats = c.confirmed.length - 1;
-
-      if (this.data.has("China") && this.data.has("row") && this.topcountries != undefined) this.updateAll();
+    let requiredRegions = ["China", "row", "global", "US", "Italy", "Spain"];
+    let loadedRegions = 0;
+    requiredRegions.forEach(country => {
+      this.apiService.getCoronaData(country).subscribe(data => {
+        this.data.set(country, data);
+        loadedRegions += 1;
+        if (loadedRegions == requiredRegions.length && this.topcountries != undefined) this.onDataLoaded();
+      })
     });
     this.apiService.getCoronaTopCountries().subscribe(tc => {
       this.topcountries = tc;
-      if (this.data.has("China") && this.data.has("row") && this.data.has("global")) this.updateAll();
+      if (loadedRegions == requiredRegions.length) this.onDataLoaded();
     });
+  }
+
+  onDataLoaded() {
+    let dateLength = this.data.get("global").confirmed.length - 1;
+
+    let dateSliders = document.getElementsByClassName("date-slider");
+    for (let i = 0; i < dateSliders.length; i++) {
+      let slider = <HTMLInputElement>dateSliders[i];
+      slider.max = (dateLength).toString();
+      slider.value = slider.max;
+    }
+
+    this.dataEndDate = new Date(this.dataStartDate);
+    this.dataEndDate.setDate(this.dataEndDate.getDate() + dateLength);
+    this.axisEndDate = new Date(this.dataEndDate);
+    this.axisEndDate.setDate(this.axisEndDate.getDate() + 3);
+
+    this.selectedDateIndex.globalOverview = dateLength;
+    this.selectedDateIndex.globalStatus = dateLength;
+    this.selectedDateIndex.globalStats = dateLength;
+    this.selectedDateIndex.localOverview = dateLength;
+    this.selectedDateIndex.localBreakdown = dateLength;
+    this.selectedDateIndex.localGrowth = dateLength;
+    this.selectedDateIndex.localStats = dateLength;
+
+    this.updateAll();
   }
 
   substract(a1: number[], a2: number[]) {
@@ -338,13 +395,14 @@ export class CoronaComponent implements OnInit {
     this.updateLocalBreakdown();
     this.updateLocalGrowth();
     this.updateLocalOverview();
+    this.updateLocalCompare();
   }
 
   updateGlobalOverview() {
     this.globalGraph.data = [];
     this.buildFitTraces(this.data.get("China").fits.sig[this.selectedDateIndex.globalOverview - 15], "sig", "china", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
     this.buildFitTraces(this.data.get("row").fits.exp[this.selectedDateIndex.globalOverview - 15], "exp", "row", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4"));
+    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false,  "square"));
     this.globalGraph.data.push(this.buildTrace(this.data.get("row").confirmed, this.selectedDateIndex.globalOverview, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
     this.globalGraph.layout.yaxis.range = [0,
       Math.max(
@@ -396,6 +454,18 @@ export class CoronaComponent implements OnInit {
     this.statistics.local.fatalityrate = localData.dead[date] / (localData.confirmed[date]) * 100;
   }
 
+  updateLocalCompare() {
+    let localData = this.data.get(this.selectedRegion);
+    let threshold = 500;
+    this.localCompareGraph.data = [];
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(localData.confirmed, threshold, this.selectedRegion, "#333333", false));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("China").confirmed, threshold, "China", "#5899DA"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("US").confirmed, threshold, "US", "#E8743B"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Italy").confirmed, threshold, "Italy", "#19A979"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Spain").confirmed, threshold, "Spain", "#ED4A7B"));
+    this.localCompareGraph.layout.xaxis.range[1] = this.localCompareGraph.data[0].x.length + 5;
+  }
+
   updateLocalOverview() {
     let regionData = this.data.get(this.selectedRegion);
     this.localOverviewGraph.data = [];
@@ -427,7 +497,35 @@ export class CoronaComponent implements OnInit {
     this.localGrowthGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localGrowth + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
   }
 
-  buildTrace(data: number[], count: number, group: string, name: string, color: string, line: boolean = false) {
+  buildLocalCompareTrace(data: number[], threshold: number, name: string, color: string, dotted: boolean = true) {
+    let x = []
+    let y: number[] = []
+    let count: number = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i] == undefined) break;
+      if (data[i] < threshold) continue;
+      x.push(count);
+      y.push(data[i]);
+      count++;
+    }
+
+    let trace = {
+      x: x,
+      y: y,
+      mode: 'lines',
+      type: 'scatter',
+      name: name,
+      line: {
+        color: color,
+        width: dotted ? 3 : 4,
+        dash: dotted ? 'dot' : 'solid'
+      }
+    }
+
+    return trace;
+  }
+
+  buildTrace(data: number[], count: number, group: string, name: string, color: string, line: boolean = false, marker: string = "circle") {
     let x = []
     let y: number[] = []
     for (var i = 0; i <= count; i++) {
@@ -447,8 +545,11 @@ export class CoronaComponent implements OnInit {
       legendgroup: group,
       marker: {
         color: color,
-        size: 7,
-        symbol: "diamond"
+        size: 8,
+        symbol: marker
+      },
+      line: {
+        width: 3,
       }
     }
 
@@ -486,11 +587,12 @@ export class CoronaComponent implements OnInit {
       name: this.translateService.instant("pages.corona.legend.rel-growth"),
       marker: {
         color: relativeColor,
-        size: 7,
+        size: 8,
         symbol: "diamond"
       },
       line: {
         color: relativeColor,
+        width: 3
       }
     };
 
@@ -625,6 +727,8 @@ export class CoronaComponent implements OnInit {
   selectedRegionChanged(): void {
     this.selectedRegion = (<HTMLSelectElement>document.getElementById("region-select")).value;
     let update = () => {
+      this.updateLocalStats();
+      this.updateLocalCompare();
       this.updateLocalOverview();
       this.updateLocalBreakdown();
       this.updateLocalGrowth();
