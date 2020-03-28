@@ -15,13 +15,14 @@ import { CoronaData } from '../structures/corona-structures';
 })
 export class ApiService {
 
-  private server_address = environment.production ? "https://api.timpokart.de/" : "http://localhost:5764/";
+  private useProductionApiServerInDebug = true;
+  private serverAddress = (environment.production || this.useProductionApiServerInDebug) ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
   constructor(private httpClient: HttpClient) {
   }
 
   login(password: string) {
-    return this.httpClient.post<LoginToken>(this.server_address + 'login', { password })
+    return this.httpClient.post<LoginToken>(this.serverAddress + 'login', { password })
       .pipe(tap(res => {
         localStorage.setItem("token", res.token);
       }));
@@ -33,7 +34,7 @@ export class ApiService {
 
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.get(this.server_address + 'authorized', { headers: headers, responseType: "text" }).pipe(
+    return this.httpClient.get(this.serverAddress + 'authorized', { headers: headers, responseType: "text" }).pipe(
       map<string, boolean>(s => s == "True")
     );
   }
@@ -45,42 +46,42 @@ export class ApiService {
   postResource(type: string, files: string[]) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'resource', { type, files }, { headers: headers, responseType: "text" });
+    return this.httpClient.post(this.serverAddress + 'resource', { type, files }, { headers: headers, responseType: "text" });
   }
 
   getResources(id: string) {
-    return this.httpClient.get<ResourceEntry[]>(this.server_address + 'resource/' + id, { responseType: "json" });
+    return this.httpClient.get<ResourceEntry[]>(this.serverAddress + 'resource/' + id, { responseType: "json" });
   }
 
   getImage(id: string) {
-    return this.httpClient.get(this.server_address + 'file/' + id, { observe: "response", responseType: "blob" });
+    return this.httpClient.get(this.serverAddress + 'file/' + id, { observe: "response", responseType: "blob" });
   }
 
   getDownloadLink(id: string) {
-    return this.server_address + 'file/' + id;
+    return this.serverAddress + 'file/' + id;
   }
 
   uploadFile(file: File, wishname: string) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file,
+    return this.httpClient.post(this.serverAddress + 'upload/?n=' + wishname + '&e=' + file.name.split(".").pop() + '&t=' + file.type, file,
       { headers: headers, responseType: "text", reportProgress: true, observe: "events" });
   }
 
   getAllArticles() {
-    return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/all', { responseType: "json" });
+    return this.httpClient.get<ArticleEntry[]>(this.serverAddress + 'articles/all', { responseType: "json" });
   }
 
   getSpotlightArticles() {
-    return this.httpClient.get<ArticleEntry[]>(this.server_address + 'articles/spotlight', { responseType: "json" });
+    return this.httpClient.get<ArticleEntry[]>(this.serverAddress + 'articles/spotlight', { responseType: "json" });
   }
 
   getArticle(name: string) {
-    return this.httpClient.get<ArticleEntry>(this.server_address + 'articles/detail/' + name, { responseType: "json" });
+    return this.httpClient.get<ArticleEntry>(this.serverAddress + 'articles/detail/' + name, { responseType: "json" });
   }
 
   getArticleContentUrl(file: string) {
-    return this.server_address + 'articles/content/' + file;
+    return this.serverAddress + 'articles/content/' + file;
   }
 
   getArticleContent(file: string) {
@@ -90,29 +91,29 @@ export class ApiService {
   uploadNewArticle(name: string, title_de: string, description_de: string, title_en: string, description_en: string, lang: string, file: File) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&title_de=" + title_de + "&description_de=" + description_de + "&title_en=" + title_en + "&description_en=" + description_en + "&lang=" + lang, file,
+    return this.httpClient.post(this.serverAddress + 'article/?name=' + name + "&title_de=" + title_de + "&description_de=" + description_de + "&title_en=" + title_en + "&description_en=" + description_en + "&lang=" + lang, file,
       { headers: headers, responseType: "text" });
   }
 
   uploadArticle(name: string, lang: string, file: File) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&lang=" + lang, file,
+    return this.httpClient.post(this.serverAddress + 'article/?name=' + name + "&lang=" + lang, file,
       { headers: headers, responseType: "text" });
   }
 
   attachArticleVersion(name: string, lang: string, version_id: string, file: File) {
     let headers = new HttpHeaders();
     headers = headers.append("LOGIN-TOKEN", localStorage.getItem('token'));
-    return this.httpClient.post(this.server_address + 'article/?name=' + name + "&lang=" + lang + "&version_id=" + version_id, file,
+    return this.httpClient.post(this.serverAddress + 'article/?name=' + name + "&lang=" + lang + "&version_id=" + version_id, file,
       { headers: headers, responseType: "text" });
   }
 
   getCoronaData(id : string): Observable<CoronaData> {
-    return this.httpClient.get<CoronaData>(this.server_address + 'corona/' + id);
+    return this.httpClient.get<CoronaData>(this.serverAddress + 'corona/' + id);
   }
 
   getCoronaTopCountries() : Observable<Map<string, number>[]> {
-    return this.httpClient.get<Map<string, number>[]>(this.server_address + 'coronatop');
+    return this.httpClient.get<Map<string, number>[]>(this.serverAddress + 'coronatop');
   }
 }
