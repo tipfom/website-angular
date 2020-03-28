@@ -312,6 +312,7 @@ export class CoronaComponent implements OnInit {
       this.selectedDateIndex.localOverview = c.confirmed.length - 1;
       this.selectedDateIndex.localBreakdown = c.confirmed.length - 1;
       this.selectedDateIndex.localGrowth = c.confirmed.length - 1;
+      this.selectedDateIndex.localStats = c.confirmed.length - 1;
 
       if (this.data.has("China") && this.data.has("row") && this.topcountries != undefined) this.updateAll();
     });
@@ -695,7 +696,6 @@ export class CoronaComponent implements OnInit {
 
   activeAnimations: Map<string, any> = new Map<string, any>();
   animateSlider(name: string, event: MouseEvent, repeat: boolean): void {
-    let button = <HTMLButtonElement>event.target;
     let slider = <HTMLInputElement>document.getElementById("date-slider-" + name);
 
     if (this.activeAnimations.has(name)) {
@@ -715,8 +715,7 @@ export class CoronaComponent implements OnInit {
             }, 1000));
           } else {
             clearInterval(updateInterval);
-            button.classList.remove("pause");
-            button.classList.add("play");
+            this.activeAnimations.delete(name);
           }
         }
       }, 200);
