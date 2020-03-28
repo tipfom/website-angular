@@ -24,8 +24,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-control-button play"
-                                (click)="animateSlider('globaloverview', $event)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('globaloverview') ? 'play-stop' : 'play-start'"
+                                (click)="animateSlider('globaloverview', $event, false)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('globaloverview') ? 'repeat-stop' : 'repeat-start'"
+                                (click)="animateSlider('globaloverview', $event, true)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('globaloverview')"
                                 (change)="onDateSliderChange('globaloverview')" class="date-slider"
                                 [(ngModel)]="selectedDateIndex.globalOverview" id="date-slider-globaloverview"
@@ -46,8 +48,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-control-button play"
-                                (click)="animateSlider('globalstatus', $event)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('globalstatus') ? 'play-stop' : 'play-start'"
+                                (click)="animateSlider('globalstatus', $event, false)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('globalstatus') ? 'repeat-stop' : 'repeat-start'"
+                                (click)="animateSlider('globalstatus', $event, true)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('globalstatus')"
                                 (change)="onDateSliderChange('globalstatus')" class="date-slider"
                                 [(ngModel)]="selectedDateIndex.globalStatus" id="date-slider-globalstatus"
@@ -70,7 +74,7 @@
                         <span translate>pages.corona.slider</span>
                         <div>
                             <button class="date-slider-control-button play"
-                                (click)="animateSlider('globalstats', $event)"></button>
+                                (click)="animateSlider('globalstats', $event, false)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('globalstats')"
                                 (change)="onDateSliderChange('globalstats')" class="date-slider"
                                 [(ngModel)]="selectedDateIndex.globalStats" id="date-slider-globalstats"
@@ -209,8 +213,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-control-button play"
-                                (click)="animateSlider('localoverview', $event)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('localoverview') ? 'play-stop' : 'play-start'"
+                                (click)="animateSlider('localoverview', $event, false)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('localoverview') ? 'repeat-stop' : 'repeat-start'"
+                                (click)="animateSlider('localoverview', $event, true)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('localoverview')"
                                 (change)="onDateSliderChange('localoverview')" class="date-slider"
                                 [(ngModel)]="selectedDateIndex.localOverview" id="date-slider-localoverview"
@@ -231,8 +237,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-control-button play"
-                                (click)="animateSlider('localbreakdown', $event)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('localbreakdown') ? 'play-stop' : 'play-start'"
+                                (click)="animateSlider('localbreakdown', $event, false)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('localbreakdown') ? 'repeat-stop' : 'repeat-start'"
+                                (click)="animateSlider('localbreakdown', $event, true)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('localbreakdown')"
                                 (change)="onDateSliderChange('localbreakdown')" class="date-slider"
                                 [(ngModel)]="selectedDateIndex.localBreakdown" id="date-slider-localbreakdown"
@@ -254,8 +262,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-control-button play"
-                                (click)="animateSlider('localgrowth', $event)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('localgrowth') ? 'play-stop' : 'play-start'"
+                                (click)="animateSlider('localgrowth', $event, false)"></button>
+                            <button class="date-slider-control-button" [ngClass]="activeAnimations.has('localgrowth') ? 'repeat-stop' : 'repeat-start'"
+                                (click)="animateSlider('localgrowth', $event, true)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('localgrowth')"
                                 [(ngModel)]="selectedDateIndex.localGrowth" (change)="onDateSliderChange('localgrowth')"
                                 class="date-slider" id="date-slider-localgrowth" list="datesteplist">

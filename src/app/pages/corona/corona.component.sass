@@ -53,12 +53,13 @@ h1
     &:focus
         outline: none
 
-.play 
+.play-start
     background-image: url("../../../assets/images/play.png")
     &:hover
         background-image: url("../../../assets/images/playhover.png")
     
-.pause 
+.play-stop 
+    margin: 0 24px
     background-image: url("../../../assets/images/pause.png")
     &:hover
         background-image: url("../../../assets/images/pausehover.png")
@@ -72,6 +73,17 @@ h1
     background-image: url("../../../assets/images/unlinked.png")
     &:hover
         background-image: url("../../../assets/images/unlinked-hover.png")
+
+.repeat-start
+    background-image: url("../../../assets/images/repeat.png")
+    &:hover
+        background-image: url("../../../assets/images/repeat-hover.png")
+
+.repeat-stop
+    width: 0px
+    margin: 0px
+    padding: 0px
+    background-color: transparent
 
 .plot-container
     width: 100%

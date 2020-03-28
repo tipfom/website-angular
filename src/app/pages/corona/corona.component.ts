@@ -664,33 +664,34 @@ export class CoronaComponent implements OnInit {
   }
 
   activeAnimations: Map<string, any> = new Map<string, any>();
-  animateSlider(name: string, event: MouseEvent): void {
+  animateSlider(name: string, event: MouseEvent, repeat: boolean): void {
     let button = <HTMLButtonElement>event.target;
     let slider = <HTMLInputElement>document.getElementById("date-slider-" + name);
 
-    if (button.classList.contains("play")) {
-      button.classList.remove("play");
-      button.classList.add("pause");
-
+    if (this.activeAnimations.has(name)) {
+      clearInterval(this.activeAnimations.get(name));
+      this.activeAnimations.delete(name);
+    } else {
       if (slider.value == slider.max) slider.value = slider.min;
-      let updateInterval = setInterval(() => {
+      let updateInterval = setInterval(async () => {
         slider.value = (Number(slider.value) + 1).toString();
         slider.dispatchEvent(new Event('input'));
 
-        if (Number(slider.value) == Number(slider.max)) {
-          clearInterval(updateInterval);
-          button.classList.remove("pause");
-          button.classList.add("play");
+        if (slider.value == slider.max) {
+          if (repeat) {
+            await new Promise(resolve => setTimeout(() => {
+              if (slider.value == slider.max) slider.value = slider.min;
+              resolve();
+            }, 1000));
+          } else {
+            clearInterval(updateInterval);
+            button.classList.remove("pause");
+            button.classList.add("play");
+          }
         }
       }, 200);
 
       this.activeAnimations.set(name, updateInterval);
-    } else {
-      button.classList.remove("pause");
-      button.classList.add("play");
-
-      clearInterval(this.activeAnimations.get(name));
-      this.activeAnimations.delete(name);
     }
   }
 
