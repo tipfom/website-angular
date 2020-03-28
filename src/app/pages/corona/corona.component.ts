@@ -26,6 +26,7 @@ export class CoronaComponent implements OnInit {
     globalStats: 0,
 
     linkLocal: false,
+    localStats: 0,
     localOverview: 0,
     localBreakdown: 0,
     localGrowth: 0,
@@ -250,13 +251,22 @@ export class CoronaComponent implements OnInit {
 
   topcountries: Map<string, number>[];
 
-  global = {
-    confirmed: { value: 0, delta: "0" },
-    infected: { value: 0, delta: "0" },
-    recovered: { value: 0, delta: "0" },
-    dead: { value: 0, delta: "0" },
-    fatalityrate: 0,
-    topcountries: []
+  statistics = {
+    global: {
+      confirmed: { value: 0, delta: "0" },
+      infected: { value: 0, delta: "0" },
+      recovered: { value: 0, delta: "0" },
+      dead: { value: 0, delta: "0" },
+      fatalityrate: 0,
+      topcountries: []
+    },
+    local: {
+      confirmed: { value: 0, delta: "0" },
+      infected: { value: 0, delta: "0" },
+      recovered: { value: 0, delta: "0" },
+      dead: { value: 0, delta: "0" },
+      fatalityrate: 0,
+    }
   }
 
   colors = {
@@ -323,6 +333,7 @@ export class CoronaComponent implements OnInit {
     this.updateGlobalOverview();
     this.updateGlobalStats();
     this.updateGlobalStatus();
+    this.updateLocalStats();
     this.updateLocalBreakdown();
     this.updateLocalGrowth();
     this.updateLocalOverview();
@@ -350,25 +361,38 @@ export class CoronaComponent implements OnInit {
     );
   }
 
+  getValueDelta(current: number, previous: number) {
+    let delta = (current - previous);
+    return { value: current, delta: delta > 0 ? "+" + delta : delta.toString() };
+  }
+
   updateGlobalStats() {
-    let getValueDelta = (current: number, previous: number) => {
-      let delta = (current - previous);
-      return { value: current, delta: delta > 0 ? "+" + delta : delta.toString() };
-    }
     let globalData = this.data.get("global");
     let date = this.selectedDateIndex.globalStats;
-    this.global.confirmed = getValueDelta(globalData.confirmed[date], globalData.confirmed[date - 1]);
-    this.global.dead = getValueDelta(globalData.dead[date], globalData.dead[date - 1]);
-    this.global.recovered = getValueDelta(globalData.recovered[date], globalData.recovered[date - 1]);
-    this.global.infected = getValueDelta(
+    this.statistics.global.confirmed = this.getValueDelta(globalData.confirmed[date], globalData.confirmed[date - 1]);
+    this.statistics.global.dead = this.getValueDelta(globalData.dead[date], globalData.dead[date - 1]);
+    this.statistics.global.recovered = this.getValueDelta(globalData.recovered[date], globalData.recovered[date - 1]);
+    this.statistics.global.infected = this.getValueDelta(
       globalData.confirmed[date] - globalData.dead[date] - globalData.recovered[date],
       globalData.confirmed[date - 1] - globalData.dead[date - 1] - globalData.recovered[date - 1]);
-    this.global.fatalityrate = globalData.dead[date] / (globalData.confirmed[date]) * 100;
-    this.global.topcountries = [];
+    this.statistics.global.fatalityrate = globalData.dead[date] / (globalData.confirmed[date]) * 100;
+    this.statistics.global.topcountries = [];
     for (var key in this.topcountries[date]) {
-      this.global.topcountries.push({ name: key, infected: this.topcountries[date][key] });
+      this.statistics.global.topcountries.push({ name: key, infected: this.topcountries[date][key] });
     }
-    this.global.topcountries.sort((a, b) => b.infected - a.infected);
+    this.statistics.global.topcountries.sort((a, b) => b.infected - a.infected);
+  }
+
+  updateLocalStats() {
+    let localData = this.data.get(this.selectedRegion);
+    let date = this.selectedDateIndex.localStats;
+    this.statistics.local.confirmed = this.getValueDelta(localData.confirmed[date], localData.confirmed[date - 1]);
+    this.statistics.local.dead = this.getValueDelta(localData.dead[date], localData.dead[date - 1]);
+    this.statistics.local.recovered = this.getValueDelta(localData.recovered[date], localData.recovered[date - 1]);
+    this.statistics.local.infected = this.getValueDelta(
+      localData.confirmed[date] - localData.dead[date] - localData.recovered[date],
+      localData.confirmed[date - 1] - localData.dead[date - 1] - localData.recovered[date - 1]);
+    this.statistics.local.fatalityrate = localData.dead[date] / (localData.confirmed[date]) * 100;
   }
 
   updateLocalOverview() {
@@ -625,10 +649,12 @@ export class CoronaComponent implements OnInit {
   };
 
   linkAllLocal(index: number) {
+    this.selectedDateIndex.localStats = index;
     this.selectedDateIndex.localBreakdown = index;
     this.selectedDateIndex.localGrowth = index;
     this.selectedDateIndex.localOverview = index;
 
+    this.updateLocalStats();
     this.updateLocalOverview();
     this.updateLocalGrowth();
     this.updateLocalBreakdown();
@@ -647,6 +673,10 @@ export class CoronaComponent implements OnInit {
       case "globalstats":
         if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalStats);
         else this.updateGlobalStats();
+        break;
+      case "localstats":
+        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localStats);
+        else this.updateLocalStats();
         break;
       case "localoverview":
         if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localOverview);
