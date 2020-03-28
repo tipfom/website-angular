@@ -24,11 +24,15 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-animate-button play"
+                            <button class="date-slider-control-button play"
                                 (click)="animateSlider('globaloverview', $event)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('globaloverview')"
                                 (change)="onDateSliderChange('globaloverview')" class="date-slider"
-                                id="date-slider-globaloverview" list="datesteplist">
+                                [(ngModel)]="selectedDateIndex.globalOverview" id="date-slider-globaloverview"
+                                list="datesteplist">
+                            <button class="date-slider-control-button"
+                                [ngClass]="selectedDateIndex.linkGlobal ? 'linked' : 'unlinked'"
+                                (click)="linkSlider('global', 'globaloverview', $event)"></button>
                         </div>
                     </div>
                     <div class="plot-div">
@@ -42,11 +46,15 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-animate-button play"
+                            <button class="date-slider-control-button play"
                                 (click)="animateSlider('globalstatus', $event)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('globalstatus')"
                                 (change)="onDateSliderChange('globalstatus')" class="date-slider"
-                                id="date-slider-globalstatus" list="datesteplist">
+                                [(ngModel)]="selectedDateIndex.globalStatus" id="date-slider-globalstatus"
+                                list="datesteplist">
+                            <button class="date-slider-control-button"
+                                [ngClass]="selectedDateIndex.linkGlobal ? 'linked' : 'unlinked'"
+                                (click)="linkSlider('global', 'globalstatus', $event)"></button>
                         </div>
                     </div>
                     <div class="plot-div">
@@ -61,11 +69,15 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-animate-button play"
+                            <button class="date-slider-control-button play"
                                 (click)="animateSlider('globalstats', $event)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('globalstats')"
                                 (change)="onDateSliderChange('globalstats')" class="date-slider"
-                                id="date-slider-globalstats" list="datesteplist">
+                                [(ngModel)]="selectedDateIndex.globalStats" id="date-slider-globalstats"
+                                list="datesteplist">
+                            <button class="date-slider-control-button"
+                                [ngClass]="selectedDateIndex.linkGlobal ? 'linked' : 'unlinked'"
+                                (click)="linkSlider('global', 'globalstats', $event)"></button>
                         </div>
                     </div>
                     <table class="stats-table">
@@ -197,11 +209,15 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-animate-button play"
+                            <button class="date-slider-control-button play"
                                 (click)="animateSlider('localoverview', $event)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('localoverview')"
                                 (change)="onDateSliderChange('localoverview')" class="date-slider"
-                                id="date-slider-localoverview" list="datesteplist">
+                                [(ngModel)]="selectedDateIndex.localOverview" id="date-slider-localoverview"
+                                list="datesteplist">
+                            <button class="date-slider-control-button"
+                                [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
+                                (click)="linkSlider('local', 'localoverview', $event)"></button>
                         </div>
                     </div>
                     <div class="plot-div">
@@ -215,11 +231,15 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-animate-button play"
+                            <button class="date-slider-control-button play"
                                 (click)="animateSlider('localbreakdown', $event)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('localbreakdown')"
                                 (change)="onDateSliderChange('localbreakdown')" class="date-slider"
-                                id="date-slider-localbreakdown" list="datesteplist">
+                                [(ngModel)]="selectedDateIndex.localBreakdown" id="date-slider-localbreakdown"
+                                list="datesteplist">
+                            <button class="date-slider-control-button"
+                                [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
+                                (click)="linkSlider('local', 'localbreakdown', $event)"></button>
                         </div>
                     </div>
                     <div class="plot-div">
@@ -234,11 +254,14 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-animate-button play"
+                            <button class="date-slider-control-button play"
                                 (click)="animateSlider('localgrowth', $event)"></button>
                             <input type="range" min="18" (input)="onDateSliderChange('localgrowth')"
-                                (change)="onDateSliderChange('localgrowth')" class="date-slider"
-                                id="date-slider-localgrowth" list="datesteplist">
+                                [(ngModel)]="selectedDateIndex.localGrowth" (change)="onDateSliderChange('localgrowth')"
+                                class="date-slider" id="date-slider-localgrowth" list="datesteplist">
+                            <button class="date-slider-control-button"
+                                [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
+                                (click)="linkSlider('local', 'localgrowth', $event)"></button>
                         </div>
                     </div>
                     <div class="plot-div">

@@ -20,13 +20,15 @@ export class CoronaComponent implements OnInit {
   selectedRegion: string = "global";
 
   selectedDateIndex = {
+    linkGlobal: false,
     globalOverview: 0,
     globalStatus: 0,
     globalStats: 0,
 
+    linkLocal: false,
     localOverview: 0,
     localBreakdown: 0,
-    localGrowth: 0
+    localGrowth: 0,
   }
 
   public globalGraph = {
@@ -612,33 +614,51 @@ export class CoronaComponent implements OnInit {
     }
   }
 
+  linkAllGlobal(index: number) {
+    this.selectedDateIndex.globalOverview = index;
+    this.selectedDateIndex.globalStatus = index;
+    this.selectedDateIndex.globalStats = index;
+
+    this.updateGlobalOverview();
+    this.updateGlobalStats();
+    this.updateGlobalStatus();
+  };
+
+  linkAllLocal(index: number) {
+    this.selectedDateIndex.localBreakdown = index;
+    this.selectedDateIndex.localGrowth = index;
+    this.selectedDateIndex.localOverview = index;
+
+    this.updateLocalOverview();
+    this.updateLocalGrowth();
+    this.updateLocalBreakdown();
+  };
+
   onDateSliderChange(name: string): void {
-    let slider = <HTMLInputElement>document.getElementById("date-slider-" + name);
-    let index = Number(slider.value);
     switch (name) {
       case "globaloverview":
-        this.selectedDateIndex.globalOverview = index;
-        this.updateGlobalOverview();
+        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalOverview);
+        else this.updateGlobalOverview();
         break;
       case "globalstatus":
-        this.selectedDateIndex.globalStatus = index;
-        this.updateGlobalStatus();
+        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalStatus);
+        else this.updateGlobalStatus();
         break;
       case "globalstats":
-        this.selectedDateIndex.globalStats = index;
-        this.updateGlobalStats();
+        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalStats);
+        else this.updateGlobalStats();
         break;
       case "localoverview":
-        this.selectedDateIndex.localOverview = index;
-        this.updateLocalOverview();
+        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localOverview);
+        else this.updateLocalOverview();
         break;
       case "localbreakdown":
-        this.selectedDateIndex.localBreakdown = index;
-        this.updateLocalBreakdown();
+        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localBreakdown);
+        else this.updateLocalBreakdown();
         break;
       case "localgrowth":
-        this.selectedDateIndex.localGrowth = index;
-        this.updateLocalGrowth();
+        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localGrowth);
+        else this.updateLocalGrowth();
         break;
     }
   }
@@ -672,5 +692,17 @@ export class CoronaComponent implements OnInit {
       clearInterval(this.activeAnimations.get(name));
       this.activeAnimations.delete(name);
     }
+  }
+
+  linkSlider(group: string, name: string, event: MouseEvent): void {
+    switch (group) {
+      case "local":
+        this.selectedDateIndex.linkLocal = !this.selectedDateIndex.linkLocal;
+        break;
+      case "global":
+        this.selectedDateIndex.linkGlobal = !this.selectedDateIndex.linkGlobal;
+        break;
+    }
+    this.onDateSliderChange(name);
   }
 }

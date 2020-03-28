@@ -29,9 +29,9 @@ h1
     position: absolute
 
 .date-slider-div
-    margin: 0
+    margin: 0 20px
     color: $color-textonlight
-    width: calc(100% - 40px)
+    width: calc(100% - 40px) 
 
     div
         display: inline-flex
@@ -39,10 +39,10 @@ h1
         width: 100%
 
 .date-slider
-    width: calc(100% - 60px)
+    width: calc(100% - 90px)
     margin: 0 5px
 
-.date-slider-animate-button
+.date-slider-control-button
     border: none
     background-color: transparent
     width: 30px
@@ -62,7 +62,16 @@ h1
     background-image: url("../../../assets/images/pause.png")
     &:hover
         background-image: url("../../../assets/images/pausehover.png")
-    
+
+.linked
+    background-image: url("../../../assets/images/linked.png")
+    &:hover
+        background-image: url("../../../assets/images/linked-hover.png")
+
+.unlinked
+    background-image: url("../../../assets/images/unlinked.png")
+    &:hover
+        background-image: url("../../../assets/images/unlinked-hover.png")
 
 .plot-container
     width: 100%
