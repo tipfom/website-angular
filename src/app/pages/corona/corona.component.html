@@ -14,7 +14,6 @@
         <h1>COVID-19 Dashboard</h1>
         <div class="contentdiv-large" id="global">
             <h2 translate>pages.corona.global.title</h2>
-            <div id="disclaimer-div" translate>pages.corona.recovered-disclaimer</div>
             <div class="plot-container">
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.global.comparison.header</h3>
@@ -128,87 +127,205 @@
             <h2 translate>pages.corona.local.title</h2>
             <div id="region-div">Region:
                 <select (change)="selectedRegionChanged()" id="region-select">
-                    <option value="global">Global</option>
+                    <option value="global" translate>pages.corona.names.global</option>
 
-                    <optgroup label="Regions">
-                        <option value="China">Mainland China</option>
-                        <option value="western_pacific_region">Western Pacific Region</option>
-                        <option value="european_region">Europe</option>
-                        <option value="south_east_asia_region">South East Asia Region</option>
-                        <option value="region_of_the_americans">America</option>
-                        <option value="african_region">Africa</option>
+                    <optgroup label="{{ 'pages.corona.names.Regions' | translate}}">
+                        <option value="China" translate>pages.corona.names.China</option>
+                        <option value="western_pacific_region" translate>pages.corona.names.western_pacific_region</option>
+                        <option value="european_region" translate>pages.corona.names.european_region</option>
+                        <option value="south_east_asia_region" translate>pages.corona.names.south_east_asia_region</option>
+                        <option value="eastern_mediterranean_region" translate>pages.corona.names.eastern_mediterranean_region</option>
+                        <option value="region_of_the_americans" translate>pages.corona.names.region_of_the_americans</option>
+                        <option value="african_region" translate>pages.corona.names.african_region</option>
                     </optgroup>
-                    <optgroup label="Europe">
-                        <option value="Andorra">Andorra</option>
-                        <option value="Azerbaijan">Azerbaijan</option>
-                        <option value="Austria">Austria</option>
-                        <option value="Albania">Albania</option>
-                        <option value="Belgium">Belgium</option>
-                        <option value="Bulgaria">Bulgaria</option>
-                        <option value="Belarus">Belarus</option>
-                        <option value="Bosnia_and_Herzegovina">Bosnia and Herzegovina</option>
-                        <option value="Cyprus">Cyprus</option>
-                        <option value="Czechia">Czech Republic</option>
-                        <option value="Croatia">Croatia</option>
-                        <option value="Denmark">Denmark</option>
-                        <option value="Estonia">Estonia</option>
-                        <option value="Faroe_Islands">Faroe Islands</option>
-                        <option value="Finland">Finland</option>
-                        <option value="France">France</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Germany">Germany</option>
-                        <option value="Greece">Greece</option>
-                        <option value="Greenland">Greenland</option>
-                        <option value="Italy">Italy</option>
-                        <option value="Ireland">Ireland</option>
-                        <option value="Iceland">Iceland</option>
-                        <option value="Kosovo">Kosovo</option>
-                        <option value="Liechtenstein">Liechtenstein</option>
-                        <option value="Lithuania">Lithuania</option>
-                        <option value="Luxembourg">Luxembourg</option>
-                        <option value="Latvia">Latvia</option>
-                        <option value="Monaco">Monaco</option>
-                        <option value="Moldova">Moldova</option>
-                        <option value="Montenegro">Montenegro</option>
-                        <option value="North_Macedonia">North Macedonia</option>
-                        <option value="Norway">Norway</option>
-                        <option value="Netherlands">Netherlands</option>
-                        <option value="Poland">Poland</option>
-                        <option value="Portugal">Portugal</option>
-                        <option value="Russia">Russia</option>
-                        <option value="Romania">Romania</option>
-                        <option value="Spain">Spain</option>
-                        <option value="Switzerland">Switzerland</option>
-                        <option value="Sweden">Sweden</option>
-                        <option value="San_Marino">San Marino</option>
-                        <option value="Slovenia">Slovenia</option>
-                        <option value="Serbia">Serbia</option>
-                        <option value="Slovakia">Slovakia</option>
-                        <option value="Turkey">Turkey</option>
-                        <option value="United_Kingdom">United Kingdom</option>
-                        <option value="Ukraine">Ukraine</option>
+                    <optgroup label="{{ 'pages.corona.names.china' | translate }}">
+                        <option value="China" translate>pages.corona.names.China</option>
+                        <option value="Taiwan*" translate>pages.corona.names.Taiwan*</option>
                     </optgroup>
-                    <optgroup label="America">
-                        <option value="US">United States</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Brazil">Brazil</option>
+                    <optgroup label="{{ 'pages.corona.names.western_pacific_region' | translate }}">
+                        <option value="Korea,_South" translate>pages.corona.names.Korea,_South</option>
+                        <option value="Japan" translate>pages.corona.names.Japan</option>
+                        <option value="Singapore" translate>pages.corona.names.Singapore</option>
+                        <option value="Australia" translate>pages.corona.names.Australia</option>
+                        <option value="Malaysia" translate>pages.corona.names.Malaysia</option>
+                        <option value="Vietnam" translate>pages.corona.names.Vietnam</option>
+                        <option value="Philippines" translate>pages.corona.names.Philippines</option>
+                        <option value="Cambodia" translate>pages.corona.names.Cambodia</option>
+                        <option value="New_Zealand" translate>pages.corona.names.New_Zealand</option>
+                        <option value="Fiji" translate>pages.corona.names.Fiji</option>
+                        <option value="Papua_New_Guinea" translate>pages.corona.names.Papua_New_Guinea</option>
                     </optgroup>
-                    <optgroup label="Western Pacific Region">
-                        <option value="China">China</option>
-                        <option value="Korea,_South">South Korea</option>
-                        <option value="Japan">Japan</option>
-                        <option value="Australia">Australia</option>
-                        <option value="Malaysia">Malaysia</option>
+                    <optgroup label="{{ 'pages.corona.names.european_region' | translate }}">
+                        <option value="Italy" translate>pages.corona.names.Italy</option>
+                        <option value="France" translate>pages.corona.names.France</option>
+                        <option value="Germany" translate>pages.corona.names.Germany</option>
+                        <option value="Spain" translate>pages.corona.names.Spain</option>
+                        <option value="United_Kingdom" translate>pages.corona.names.United_Kingdom</option>
+                        <option value="Switzerland" translate>pages.corona.names.Switzerland</option>
+                        <option value="Norway" translate>pages.corona.names.Norway</option>
+                        <option value="Sweden" translate>pages.corona.names.Sweden</option>
+                        <option value="Austria" translate>pages.corona.names.Austria</option>
+                        <option value="Croatia" translate>pages.corona.names.Croatia</option>
+                        <option value="Netherlands" translate>pages.corona.names.Netherlands</option>
+                        <option value="Azerbaijan" translate>pages.corona.names.Azerbaijan</option>
+                        <option value="Denmark" translate>pages.corona.names.Denmark</option>
+                        <option value="Georgia" translate>pages.corona.names.Georgia</option>
+                        <option value="Greece" translate>pages.corona.names.Greece</option>
+                        <option value="Romania" translate>pages.corona.names.Romania</option>
+                        <option value="Finland" translate>pages.corona.names.Finland</option>
+                        <option value="Russia" translate>pages.corona.names.Russia</option>
+                        <option value="Belarus" translate>pages.corona.names.Belarus</option>
+                        <option value="Belgium" translate>pages.corona.names.Belgium</option>
+                        <option value="Estonia" translate>pages.corona.names.Estonia</option>
+                        <option value="Ireland" translate>pages.corona.names.Ireland</option>
+                        <option value="Lithuania" translate>pages.corona.names.Lithuania</option>
+                        <option value="Monaco" translate>pages.corona.names.Monaco</option>
+                        <option value="North_Macedonia" translate>pages.corona.names.North_Macedonia</option>
+                        <option value="San_Marino" translate>pages.corona.names.San_Marino</option>
+                        <option value="Luxembourg" translate>pages.corona.names.Luxembourg</option>
+                        <option value="Iceland" translate>pages.corona.names.Iceland</option>
+                        <option value="Czechia" translate>pages.corona.names.Czechia</option>
+                        <option value="Andorra" translate>pages.corona.names.Andorra</option>
+                        <option value="Portugal" translate>pages.corona.names.Portugal</option>
+                        <option value="Latvia" translate>pages.corona.names.Latvia</option>
+                        <option value="Ukraine" translate>pages.corona.names.Ukraine</option>
+                        <option value="Hungary" translate>pages.corona.names.Hungary</option>
+                        <option value="Liechtenstein" translate>pages.corona.names.Liechtenstein</option>
+                        <option value="Poland" translate>pages.corona.names.Poland</option>
+                        <option value="Bosnia_and_Herzegovina" translate>pages.corona.names.Bosnia_and_Herzegovina
+                        </option>
+                        <option value="Slovenia" translate>pages.corona.names.Slovenia</option>
+                        <option value="Serbia" translate>pages.corona.names.Serbia</option>
+                        <option value="Slovakia" translate>pages.corona.names.Slovakia</option>
+                        <option value="Malta" translate>pages.corona.names.Malta</option>
+                        <option value="Bulgaria" translate>pages.corona.names.Bulgaria</option>
+                        <option value="Moldova" translate>pages.corona.names.Moldova</option>
+                        <option value="Albania" translate>pages.corona.names.Albania</option>
+                        <option value="Cyprus" translate>pages.corona.names.Cyprus</option>
+                        <option value="Turkey" translate>pages.corona.names.Turkey</option>
+                        <option value="Holy_See" translate>pages.corona.names.Holy_See</option>
+                        <option value="Kosovo" translate>pages.corona.names.Kosovo</option>
+                        <option value="Montenegro" translate>pages.corona.names.Montenegro</option>
                     </optgroup>
-                    <optgroup label="Eastern Mediterranean Region">
-                        <option value="Iran">Iran</option>
-                        <option value="Israel">Israel</option>
+                    <optgroup label="{{ 'pages.corona.names.south_east_asia_region' | translate }}">
+                        <option value="Thailand" translate>pages.corona.names.Thailand</option>
+                        <option value="Indonesia" translate>pages.corona.names.Indonesia</option>
+                        <option value="India" translate>pages.corona.names.India</option>
+                        <option value="Nepal" translate>pages.corona.names.Nepal</option>
+                        <option value="Sri_Lanka" translate>pages.corona.names.Sri_Lanka</option>
+                        <option value="Bhutan" translate>pages.corona.names.Bhutan</option>
+                        <option value="Maldives" translate>pages.corona.names.Maldives</option>
+                        <option value="Bangladesh" translate>pages.corona.names.Bangladesh</option>
+                        <option value="Brunei" translate>pages.corona.names.Brunei</option>
+                        <option value="Mongolia" translate>pages.corona.names.Mongolia</option>
+                        <option value="Uzbekistan" translate>pages.corona.names.Uzbekistan</option>
+                        <option value="Kazakhstan" translate>pages.corona.names.Kazakhstan</option>
+                        <option value="Kyrgyzstan" translate>pages.corona.names.Kyrgyzstan</option>
+                        <option value="Timor-Leste" translate>pages.corona.names.Timor-Leste</option>
+                        <option value="Laos" translate>pages.corona.names.Laos</option>
                     </optgroup>
-                    <optgroup label="Africa">
-
+                    <optgroup label="{{ 'pages.corona.names.eastern_mediterranean_region' | translate }}">
+                        <option value="Armenia" translate>pages.corona.names.Armenia</option>
+                        <option value="Iran" translate>pages.corona.names.Iran</option>
+                        <option value="Kuwait" translate>pages.corona.names.Kuwait</option>
+                        <option value="Bahrain" translate>pages.corona.names.Bahrain</option>
+                        <option value="United_Arab_Emirates" translate>pages.corona.names.United_Arab_Emirates</option>
+                        <option value="Iraq" translate>pages.corona.names.Iraq</option>
+                        <option value="Oman" translate>pages.corona.names.Oman</option>
+                        <option value="Pakistan" translate>pages.corona.names.Pakistan</option>
+                        <option value="Lebanon" translate>pages.corona.names.Lebanon</option>
+                        <option value="Afghanistan" translate>pages.corona.names.Afghanistan</option>
+                        <option value="Egypt" translate>pages.corona.names.Egypt</option>
+                        <option value="Qatar" translate>pages.corona.names.Qatar</option>
+                        <option value="Saudi_Arabia" translate>pages.corona.names.Saudi_Arabia</option>
+                        <option value="Jordan" translate>pages.corona.names.Jordan</option>
+                        <option value="Israel" translate>pages.corona.names.Israel</option>
+                        <option value="Syria" translate>pages.corona.names.Syria</option>
                     </optgroup>
-                    <optgroup label="South East Asia">
-
+                    <optgroup label="{{ 'pages.corona.names.region_of_the_americans' | translate }}">
+                        <option value="US" translate>pages.corona.names.US</option>
+                        <option value="Canada" translate>pages.corona.names.Canada</option>
+                        <option value="Brazil" translate>pages.corona.names.Brazil</option>
+                        <option value="Mexico" translate>pages.corona.names.Mexico</option>
+                        <option value="Ecuador" translate>pages.corona.names.Ecuador</option>
+                        <option value="Dominican_Republic" translate>pages.corona.names.Dominican_Republic</option>
+                        <option value="Chile" translate>pages.corona.names.Chile</option>
+                        <option value="Argentina" translate>pages.corona.names.Argentina</option>
+                        <option value="Peru" translate>pages.corona.names.Peru</option>
+                        <option value="Colombia" translate>pages.corona.names.Colombia</option>
+                        <option value="Costa_Rica" translate>pages.corona.names.Costa_Rica</option>
+                        <option value="Paraguay" translate>pages.corona.names.Paraguay</option>
+                        <option value="Honduras" translate>pages.corona.names.Honduras</option>
+                        <option value="Jamaica" translate>pages.corona.names.Jamaica</option>
+                        <option value="Cuba" translate>pages.corona.names.Cuba</option>
+                        <option value="Guyana" translate>pages.corona.names.Guyana</option>
+                        <option value="Panama" translate>pages.corona.names.Panama</option>
+                        <option value="Bolivia" translate>pages.corona.names.Bolivia</option>
+                        <option value="Venezuela" translate>pages.corona.names.Venezuela</option>
+                        <option value="Guatemala" translate>pages.corona.names.Guatemala</option>
+                        <option value="Saint_Lucia" translate>pages.corona.names.Saint_Lucia</option>
+                        <option value="Saint_Vincent_and_the_Grenadines" translate>pages.corona.names.Saint_Vincent_and_the_Grenadines</option>
+                        <option value="Antigua_and_Barbuda" translate>pages.corona.names.Antigua_and_Barbuda</option>
+                        <option value="Uruguay" translate>pages.corona.names.Uruguay</option>
+                        <option value="Trinidad_and_Tobago" translate>pages.corona.names.Trinidad_and_Tobago</option>
+                        <option value="Suriname" translate>pages.corona.names.Suriname</option>
+                        <option value="Bahamas" translate>pages.corona.names.Bahamas</option>
+                        <option value="Barbados" translate>pages.corona.names.Barbados</option>
+                        <option value="Nicaragua" translate>pages.corona.names.Nicaragua</option>
+                        <option value="El_Salvador" translate>pages.corona.names.El_Salvador</option>
+                        <option value="Haiti" translate>pages.corona.names.Haiti</option>
+                        <option value="Dominica" translate>pages.corona.names.Dominica</option>
+                        <option value="Grenada" translate>pages.corona.names.Grenada</option>
+                        <option value="Belize" translate>pages.corona.names.Belize</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.african_region' | translate }}">
+                        <option value="Algeria" translate>pages.corona.names.Algeria</option>
+                        <option value="Nigeria" translate>pages.corona.names.Nigeria</option>
+                        <option value="Morocco" translate>pages.corona.names.Morocco</option>
+                        <option value="Senegal" translate>pages.corona.names.Senegal</option>
+                        <option value="Tunisia" translate>pages.corona.names.Tunisia</option>
+                        <option value="South_Africa" translate>pages.corona.names.South_Africa</option>
+                        <option value="Togo" translate>pages.corona.names.Togo</option>
+                        <option value="Cameroon" translate>pages.corona.names.Cameroon</option>
+                        <option value="Congo_(Kinshasa)" translate>pages.corona.names.Congo_(Kinshasa)</option>
+                        <option value="Cote_d'Ivoire" translate>pages.corona.names.Cote_d'Ivoire</option>
+                        <option value="Burkina_Faso" translate>pages.corona.names.Burkina_Faso</option>
+                        <option value="Ghana" translate>pages.corona.names.Ghana</option>
+                        <option value="Namibia" translate>pages.corona.names.Namibia</option>
+                        <option value="Seychelles" translate>pages.corona.names.Seychelles</option>
+                        <option value="Eswatini" translate>pages.corona.names.Eswatini</option>
+                        <option value="Gabon" translate>pages.corona.names.Gabon</option>
+                        <option value="Mauritania" translate>pages.corona.names.Mauritania</option>
+                        <option value="Rwanda" translate>pages.corona.names.Rwanda</option>
+                        <option value="Sudan" translate>pages.corona.names.Sudan</option>
+                        <option value="Kenya" translate>pages.corona.names.Kenya</option>
+                        <option value="Guinea" translate>pages.corona.names.Guinea</option>
+                        <option value="Congo_(Brazzaville)" translate>pages.corona.names.Congo_(Brazzaville)</option>
+                        <option value="Equatorial_Guinea" translate>pages.corona.names.Equatorial_Guinea</option>
+                        <option value="Central_African_Republic" translate>pages.corona.names.Central_African_Republic
+                        </option>
+                        <option value="Ethiopia" translate>pages.corona.names.Ethiopia</option>
+                        <option value="Benin" translate>pages.corona.names.Benin</option>
+                        <option value="Liberia" translate>pages.corona.names.Liberia</option>
+                        <option value="Somalia" translate>pages.corona.names.Somalia</option>
+                        <option value="Tanzania" translate>pages.corona.names.Tanzania</option>
+                        <option value="Mauritius" translate>pages.corona.names.Mauritius</option>
+                        <option value="Zambia" translate>pages.corona.names.Zambia</option>
+                        <option value="Djibouti" translate>pages.corona.names.Djibouti</option>
+                        <option value="Chad" translate>pages.corona.names.Chad</option>
+                        <option value="Zimbabwe" translate>pages.corona.names.Zimbabwe</option>
+                        <option value="Niger" translate>pages.corona.names.Niger</option>
+                        <option value="Madagascar" translate>pages.corona.names.Madagascar</option>
+                        <option value="Cabo_Verde" translate>pages.corona.names.Cabo_Verde</option>
+                        <option value="Angola" translate>pages.corona.names.Angola</option>
+                        <option value="Eritrea" translate>pages.corona.names.Eritrea</option>
+                        <option value="Uganda" translate>pages.corona.names.Uganda</option>
+                        <option value="Mozambique" translate>pages.corona.names.Mozambique</option>
+                        <option value="Gambia" translate>pages.corona.names.Gambia</option>
+                        <option value="Libya" translate>pages.corona.names.Libya</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.other' | translate }}">
+                        <option value="Diamond_Princess" translate>pages.corona.names.Diamond_Princess</option>
                     </optgroup>
                 </select>
             </div>
@@ -257,7 +374,7 @@
                     </table>
                 </div>
                 <div class="plot-item-small">
-                    <h3>Compare your region to the top 5</h3>
+                    <h3 [innerHTML]="'pages.corona.local.compare' | translate"></h3>
                     <div class="plot-div">
                         <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
                             [config]="localCompareGraph.config">

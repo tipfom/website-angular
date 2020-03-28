@@ -334,7 +334,10 @@ export class CoronaComponent implements OnInit {
   }
 
   constructor(private apiService: ApiService, private translateService: TranslateService, private deviceService: DeviceDetectorService) {
-    this.translateService.onLangChange.subscribe(() => this.updateAll());
+    this.translateService.onLangChange.subscribe(() => {
+      this.updateAll();
+      this.sortRegionSelect();
+    });
   }
 
   ngOnInit(): void {
@@ -350,6 +353,23 @@ export class CoronaComponent implements OnInit {
     this.apiService.getCoronaTopCountries().subscribe(tc => {
       this.topcountries = tc;
       if (loadedRegions == requiredRegions.length) this.onDataLoaded();
+    });
+    setTimeout(() => {
+      this.sortRegionSelect();
+    }, 100);
+  }
+
+  sortRegionSelect() {
+    document.getElementById("region-select").childNodes.forEach(node => {
+      if (node.nodeName == "OPTGROUP") {
+        let array: ChildNode[] = [];
+        node.childNodes.forEach(child => array.push(child));
+        array.forEach(child => node.removeChild(child));
+        array.sort((a, b) => {
+          return a.textContent.localeCompare(b.textContent);
+        });
+        array.forEach(child => node.appendChild(child));
+      }
     });
   }
 
@@ -402,7 +422,7 @@ export class CoronaComponent implements OnInit {
     this.globalGraph.data = [];
     this.buildFitTraces(this.data.get("China").fits.sig[this.selectedDateIndex.globalOverview - 15], "sig", "china", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
     this.buildFitTraces(this.data.get("row").fits.exp[this.selectedDateIndex.globalOverview - 15], "exp", "row", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false,  "square"));
+    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
     this.globalGraph.data.push(this.buildTrace(this.data.get("row").confirmed, this.selectedDateIndex.globalOverview, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
     this.globalGraph.layout.yaxis.range = [0,
       Math.max(
@@ -437,7 +457,7 @@ export class CoronaComponent implements OnInit {
     this.statistics.global.fatalityrate = globalData.dead[date] / (globalData.confirmed[date]) * 100;
     this.statistics.global.topcountries = [];
     for (var key in this.topcountries[date]) {
-      this.statistics.global.topcountries.push({ name: key, infected: this.topcountries[date][key] });
+      this.statistics.global.topcountries.push({ name: this.translateService.instant('pages.corona.names.' + key), infected: this.topcountries[date][key] });
     }
     this.statistics.global.topcountries.sort((a, b) => b.infected - a.infected);
   }
@@ -458,11 +478,11 @@ export class CoronaComponent implements OnInit {
     let localData = this.data.get(this.selectedRegion);
     let threshold = 500;
     this.localCompareGraph.data = [];
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(localData.confirmed, threshold, this.selectedRegion, "#333333", false));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("China").confirmed, threshold, "China", "#5899DA"));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("US").confirmed, threshold, "US", "#E8743B"));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Italy").confirmed, threshold, "Italy", "#19A979"));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Spain").confirmed, threshold, "Spain", "#ED4A7B"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(localData.confirmed, threshold, this.translateService.instant("pages.corona.names." + this.selectedRegion), "#333333", false));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("China").confirmed, threshold, this.translateService.instant("pages.corona.names.China"), "#5899DA"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("US").confirmed, threshold, this.translateService.instant("pages.corona.names.US"), "#E8743B"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Italy").confirmed, threshold, this.translateService.instant("pages.corona.names.Italy"), "#19A979"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Spain").confirmed, threshold, this.translateService.instant("pages.corona.names.Spain"), "#ED4A7B"));
     this.localCompareGraph.layout.xaxis.range[1] = this.localCompareGraph.data[0].x.length + 5;
   }
 
