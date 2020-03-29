@@ -113,11 +113,21 @@
             },
             "local": {
                 "title": "Lokale Entwicklung",
+                "change-region": "Ausgewählte Region: ",
+                "share":{
+                    "click": "Klicke ",
+                    "here": "hier",
+                    "to-share": " um die Entwicklung der ausgewählten Region zu teilen.",
+                    "copied": "In die Zwischenablage kopiert."
+                },
                 "comparison": {
                     "header": "Vergleich der Entwicklung mit einem Model für unendliches bzw. beschränktes Wachstum",
                     "description": "Hier werden die jeweiligen Infiziertenzahlen der ausgewählten Region mit einem Model einer unbeschränkten Ausbreitung (braun) und dem einer eingedämmten Ausbreitung (grün) verglichen. Je nachdem, welche Anpassung näher an den tatsächlichen Messwerten liegt kann ein Rückschluss über die Quarantänemaßnahmen geschlossen werden. Dabei ist zu beachten, dass wegen der Inkubationszeit jede Sicherheitsmaßnahme verzögert in den Daten auftaucht."
                 },
-                "compare": "Die Region im Vergleich zu den am meisten infizierten Ländern",
+                "compare": {
+                    "header": "Die Region im Vergleich zu den am meisten infizierten Ländern",
+                    "axis": "Tage nachdem mehr als 500 Fälle bestätigt wurden"
+                },
                 "breakdown": "Aufschlüsselung nach Toten, Infizierten und Gesundeten",
                 "growth": "Wachstum der Infiziertenzahlen"
             },

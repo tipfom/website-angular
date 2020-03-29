@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { CoronaFit, CoronaData } from 'src/app/structures/corona-structures';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-corona',
@@ -133,7 +134,7 @@ export class CoronaComponent implements OnInit {
       },
       xaxis: {
         tickmode: 'linear',
-        title: 'Days since cases went over 500',
+        title: '',
         tick0: 0,
         dtick: 7,
         automargin: true,
@@ -333,7 +334,7 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  constructor(private apiService: ApiService, private translateService: TranslateService, private deviceService: DeviceDetectorService) {
+  constructor(private apiService: ApiService, private translateService: TranslateService, private deviceService: DeviceDetectorService, private route: ActivatedRoute) {
     this.translateService.onLangChange.subscribe(() => {
       this.updateAll();
       this.sortRegionSelect();
@@ -341,6 +342,20 @@ export class CoronaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let options = document.getElementById("region-select").getElementsByTagName("option");
+    this.route.queryParams.subscribe(params => {
+      let region = params["region"];
+      if (region != undefined) {
+        for (let i = 0; i < options.length; i++) {
+          if (options.item(i).value == region) {
+            options.item(i).selected = true;
+            this.selectedRegionChanged();
+            break;
+          }
+        }
+      }
+    });
+
     let requiredRegions = ["China", "row", "global", "US", "Italy", "Spain"];
     let loadedRegions = 0;
     requiredRegions.forEach(country => {
@@ -357,6 +372,8 @@ export class CoronaComponent implements OnInit {
     setTimeout(() => {
       this.sortRegionSelect();
     }, 100);
+
+
   }
 
   sortRegionSelect() {
@@ -465,6 +482,7 @@ export class CoronaComponent implements OnInit {
   updateLocalStats() {
     let localData = this.data.get(this.selectedRegion);
     let date = this.selectedDateIndex.localStats;
+
     this.statistics.local.confirmed = this.getValueDelta(localData.confirmed[date], localData.confirmed[date - 1]);
     this.statistics.local.dead = this.getValueDelta(localData.dead[date], localData.dead[date - 1]);
     this.statistics.local.recovered = this.getValueDelta(localData.recovered[date], localData.recovered[date - 1]);
@@ -484,6 +502,7 @@ export class CoronaComponent implements OnInit {
     this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Italy").confirmed, threshold, this.translateService.instant("pages.corona.names.Italy"), "#19A979"));
     this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Spain").confirmed, threshold, this.translateService.instant("pages.corona.names.Spain"), "#ED4A7B"));
     this.localCompareGraph.layout.xaxis.range[1] = this.localCompareGraph.data[0].x.length + 5;
+    this.localCompareGraph.layout.xaxis.title = this.translateService.instant("pages.corona.local.compare.axis");
   }
 
   updateLocalOverview() {
@@ -858,5 +877,35 @@ export class CoronaComponent implements OnInit {
         break;
     }
     this.onDateSliderChange(name);
+  }
+
+  share() {
+    let url = 'https://timpokart.de/corona/?region=' + this.selectedRegion + '#regional';
+    let newVariable: any;
+
+    newVariable = window.navigator;
+
+    if (newVariable && newVariable.share) {
+      newVariable.share({
+        title: 'title',
+        text: 'description',
+        url: url,
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    } else {
+      const el = document.createElement('textarea');
+      el.value = url;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      let popupDiv = document.getElementById("copied-div");
+      popupDiv.classList.add("visible");
+      setTimeout(() => {
+        popupDiv.classList.remove("visible");
+      }, 1000);
+    }
   }
 }

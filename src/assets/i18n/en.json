@@ -113,11 +113,21 @@
             },
             "local": {
                 "title": "Local development",
+                "change-region": "Selected region: ",
+                "share":{
+                    "click": "Click ",
+                    "here": "here",
+                    "to-share": " to share the development in the selected region.",
+                    "copied": "Copied to the clipboard."
+                },
                 "comparison": {
                     "header": "Comparison of infection numbers to infinite and contained growth",
                     "description": "In this chart the reported infections of the selected region are compared to an model describing infinte growth (brown) and contained growth (green). Depending on which fit the real world data is closest to, one can make assumptions about the effectiveness of the safety measures taken in the selected region. Please note that due to the incubation time the effects safety measures are delayed in the data."
                 },
-                "compare": "The region compared to the most infected countries",
+                "compare": {
+                    "header": "The region compared to the most infected countries",
+                    "axis": "Days since cases went over 500"
+                },
                 "breakdown": "Breakdown of active infections, healed cases and deaths",
                 "growth": "Growth over time"
             },

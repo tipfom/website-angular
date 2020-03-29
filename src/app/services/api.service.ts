@@ -109,11 +109,17 @@ export class ApiService {
       { headers: headers, responseType: "text" });
   }
 
-  getCoronaData(id : string): Observable<CoronaData> {
+  getCoronaData(id: string): Observable<CoronaData> {
     return this.httpClient.get<CoronaData>(this.serverAddress + 'corona/' + id);
   }
 
-  getCoronaTopCountries() : Observable<Map<string, number>[]> {
+  getCoronaTopCountries(): Observable<Map<string, number>[]> {
     return this.httpClient.get<Map<string, number>[]>(this.serverAddress + 'coronatop');
+  }
+
+  getCoronaDataFromWorldometers(region: string) {
+    let headers = new HttpHeaders();
+    headers.set("Access-Control-Allow-Origin", "*");
+    return this.httpClient.get("https://www.worldometers.info/coronavirus/country/" + region.toLowerCase() + "/", { headers: headers });
   }
 }

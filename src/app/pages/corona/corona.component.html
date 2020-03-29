@@ -123,19 +123,24 @@
                 </div>
             </div>
         </div>
-        <div class="contentdiv-large" id="country">
+        <div class="contentdiv-large" id="regional">
             <h2 translate>pages.corona.local.title</h2>
-            <div id="region-div">Region:
+            <div id="region-div">
+                <span translate>pages.corona.local.change-region</span>
                 <select (change)="selectedRegionChanged()" id="region-select">
                     <option value="global" translate>pages.corona.names.global</option>
 
                     <optgroup label="{{ 'pages.corona.names.Regions' | translate}}">
                         <option value="China" translate>pages.corona.names.China</option>
-                        <option value="western_pacific_region" translate>pages.corona.names.western_pacific_region</option>
+                        <option value="western_pacific_region" translate>pages.corona.names.western_pacific_region
+                        </option>
                         <option value="european_region" translate>pages.corona.names.european_region</option>
-                        <option value="south_east_asia_region" translate>pages.corona.names.south_east_asia_region</option>
-                        <option value="eastern_mediterranean_region" translate>pages.corona.names.eastern_mediterranean_region</option>
-                        <option value="region_of_the_americans" translate>pages.corona.names.region_of_the_americans</option>
+                        <option value="south_east_asia_region" translate>pages.corona.names.south_east_asia_region
+                        </option>
+                        <option value="eastern_mediterranean_region" translate>
+                            pages.corona.names.eastern_mediterranean_region</option>
+                        <option value="region_of_the_americans" translate>pages.corona.names.region_of_the_americans
+                        </option>
                         <option value="african_region" translate>pages.corona.names.african_region</option>
                     </optgroup>
                     <optgroup label="{{ 'pages.corona.names.china' | translate }}">
@@ -264,7 +269,8 @@
                         <option value="Venezuela" translate>pages.corona.names.Venezuela</option>
                         <option value="Guatemala" translate>pages.corona.names.Guatemala</option>
                         <option value="Saint_Lucia" translate>pages.corona.names.Saint_Lucia</option>
-                        <option value="Saint_Vincent_and_the_Grenadines" translate>pages.corona.names.Saint_Vincent_and_the_Grenadines</option>
+                        <option value="Saint_Vincent_and_the_Grenadines" translate>
+                            pages.corona.names.Saint_Vincent_and_the_Grenadines</option>
                         <option value="Antigua_and_Barbuda" translate>pages.corona.names.Antigua_and_Barbuda</option>
                         <option value="Uruguay" translate>pages.corona.names.Uruguay</option>
                         <option value="Trinidad_and_Tobago" translate>pages.corona.names.Trinidad_and_Tobago</option>
@@ -329,6 +335,30 @@
                     </optgroup>
                 </select>
             </div>
+            <div id="share-div">
+                <span translate>pages.corona.local.share.click</span> <a (click)="share()" translate>
+                    pages.corona.local.share.here
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="144" height="144"
+                        viewBox="0 0 172 172" style=" fill:#000000;">
+                        <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                            stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                            font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                            style="mix-blend-mode: normal">
+                            <path d="M0,172v-172h172v172z" fill="none"></path>
+                            <g fill="#34495e">
+                                <path
+                                    d="M129,14.33333c-11.87412,0 -21.5,9.62588 -21.5,21.5c0.00438,1.34841 0.1356,2.69342 0.39193,4.01725l-50.99252,29.74447c-3.88392,-3.29017 -8.80922,-5.09561 -13.89941,-5.09505c-11.87412,0 -21.5,9.62588 -21.5,21.5c0,11.87412 9.62588,21.5 21.5,21.5c5.08233,-0.00997 9.99681,-1.82005 13.87142,-5.10905l51.02051,29.75847c-0.25633,1.32383 -0.38755,2.66884 -0.39193,4.01725c0,11.87412 9.62588,21.5 21.5,21.5c11.87412,0 21.5,-9.62588 21.5,-21.5c0,-11.87412 -9.62588,-21.5 -21.5,-21.5c-5.08714,0.00666 -10.00713,1.81694 -13.88542,5.10905l-51.00651,-29.75847c0.25633,-1.32383 0.38755,-2.66884 0.39193,-4.01725c-0.00438,-1.34841 -0.1356,-2.69342 -0.39193,-4.01725l50.99251,-29.74447c3.88392,3.29017 8.80922,5.09561 13.89941,5.09505c11.87412,0 21.5,-9.62588 21.5,-21.5c0,-11.87412 -9.62588,-21.5 -21.5,-21.5z">
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                </a> <span translate>pages.corona.local.share.to-share</span>
+                <div id="copied-div">
+                    <div translate>
+                        pages.corona.local.share.copied
+                    </div>
+                </div>
+            </div>
             <div class="plot-container">
                 <div class="plot-item-small">
                     <h3 translate>pages.corona.global.statistics</h3>
@@ -374,7 +404,7 @@
                     </table>
                 </div>
                 <div class="plot-item-small">
-                    <h3 [innerHTML]="'pages.corona.local.compare' | translate"></h3>
+                    <h3 translate>pages.corona.local.compare.header</h3>
                     <div class="plot-div">
                         <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
                             [config]="localCompareGraph.config">
