@@ -118,7 +118,8 @@
                     "click": "Klicke ",
                     "here": "hier",
                     "to-share": " um die Entwicklung der ausgewählten Region zu teilen.",
-                    "copied": "In die Zwischenablage kopiert."
+                    "copied": "In die Zwischenablage kopiert.",
+                    "text": "Betrachte die Entwicklung der COVID-19 Pandemie in "
                 },
                 "comparison": {
                     "header": "Vergleich der Entwicklung mit einem Model für unendliches bzw. beschränktes Wachstum",

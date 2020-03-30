@@ -881,31 +881,34 @@ export class CoronaComponent implements OnInit {
 
   share() {
     let url = 'https://timpokart.de/corona/?region=' + this.selectedRegion + '#regional';
-    let newVariable: any;
+    let copyText = this.translateService.instant('pages.corona.local.share.text') + this.translateService.instant('pages.corona.names.' + this.selectedRegion);
 
-    newVariable = window.navigator;
-
-    if (newVariable && newVariable.share) {
-      newVariable.share({
-        title: 'title',
-        text: 'description',
-        url: url,
-      })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing', error));
-    } else {
-      const el = document.createElement('textarea');
-      el.value = url;
-      document.body.appendChild(el);
-      el.select();
+    let copyToClipboard = () => {
+      const copyEl = document.createElement('textarea');
+      copyEl.value = 'COVID-19 Dashboard - ' + copyText + ': ' + url;
+      document.body.appendChild(copyEl);
+      copyEl.select();
       document.execCommand('copy');
-      document.body.removeChild(el);
+      document.body.removeChild(copyEl);
 
       let popupDiv = document.getElementById("copied-div");
       popupDiv.classList.add("visible");
       setTimeout(() => {
         popupDiv.classList.remove("visible");
       }, 1000);
+    };
+
+    let anyNavigator: any = window.navigator;
+    if (anyNavigator && anyNavigator.share) {
+      anyNavigator.share({
+        title: 'COVID-19 Dashboard',
+        text: copyText,
+        url: url
+      })
+        .then(() => console.log('success'))
+        .catch(() => copyToClipboard());
+    } else {
+      copyToClipboard();
     }
   }
 }

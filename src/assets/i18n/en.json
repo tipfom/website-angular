@@ -118,7 +118,8 @@
                     "click": "Click ",
                     "here": "here",
                     "to-share": " to share the development in the selected region.",
-                    "copied": "Copied to the clipboard."
+                    "copied": "Copied to the clipboard.",
+                    "text": "Look at the development of COVID-19 cases in "
                 },
                 "comparison": {
                     "header": "Comparison of infection numbers to infinite and contained growth",
