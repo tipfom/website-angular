@@ -114,6 +114,11 @@
             "local": {
                 "title": "Local development",
                 "change-region": "Selected region: ",
+                "serious": {
+                    "header": "Serious Cases",
+                    "updated": "Updated: ",
+                    "not-available": "Data not available"
+                },
                 "share":{
                     "click": "Click ",
                     "here": "here",

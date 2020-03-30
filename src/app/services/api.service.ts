@@ -117,9 +117,7 @@ export class ApiService {
     return this.httpClient.get<Map<string, number>[]>(this.serverAddress + 'coronatop');
   }
 
-  getCoronaDataFromWorldometers(region: string) {
-    let headers = new HttpHeaders();
-    headers.set("Access-Control-Allow-Origin", "*");
-    return this.httpClient.get("https://www.worldometers.info/coronavirus/country/" + region.toLowerCase() + "/", { headers: headers });
+  getCoronaSeriousCases(region: string) {
+    return this.httpClient.get(this.serverAddress + 'coronaserious/' + region, {responseType: "text"});
   }
 }

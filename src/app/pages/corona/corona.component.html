@@ -360,55 +360,64 @@
                 </div>
             </div>
             <div class="plot-container">
-                <div class="plot-item-small">
-                    <h3 translate>pages.corona.global.statistics</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <div>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localstats') ? 'play-stop' : 'play-start'"
-                                (click)="animateSlider('localstats', $event, false)"></button>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localstats') ? 'repeat-stop' : 'repeat-start'"
-                                (click)="animateSlider('localstats', $event, true)"></button>
-                            <input type="range" min="18" (input)="onDateSliderChange('localstats')"
-                                (change)="onDateSliderChange('localstats')" class="date-slider"
-                                [(ngModel)]="selectedDateIndex.localStats" id="date-slider-localstats"
-                                list="datesteplist">
-                            <button class="date-slider-control-button"
-                                [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
-                                (click)="linkSlider('local', 'localstats', $event)"></button>
-                        </div>
+                <div class="plot-item-rowcontainer">
+                    <div class="plot-item-small">
+                        <h3 translate>pages.corona.local.serious.header</h3>
+                        <h2>{{statistics.local.serious.value}}</h2>
+                        <span style="float: right;">{{ 'pages.corona.local.serious.updated' | translate }} {{statistics.local.serious.updated}}</span>
                     </div>
-                    <table class="stats-table">
-                        <tr class="stats-tr-confirmed">
-                            <th translate>pages.corona.global.stats.confirmed</th>
-                            <td>{{statistics.local.confirmed.value}} ({{statistics.local.confirmed.delta}})</td>
-                        </tr>
-                        <tr class="stats-tr-infected">
-                            <th translate>pages.corona.global.stats.infected</th>
-                            <td>{{statistics.local.infected.value}} ({{statistics.local.infected.delta}})</td>
-                        </tr>
-                        <tr class="stats-tr-healed">
-                            <th translate>pages.corona.global.stats.recovered</th>
-                            <td>{{statistics.local.recovered.value}} ({{statistics.local.recovered.delta}})</td>
-                        </tr>
-                        <tr class="stats-tr-dead">
-                            <th translate>pages.corona.global.stats.dead</th>
-                            <td>{{statistics.local.dead.value}} ({{statistics.local.dead.delta}})</td>
-                        </tr>
-                        <tr class="stats-tr-fatality">
-                            <th translate>pages.corona.global.stats.fatality</th>
-                            <td>{{statistics.local.fatalityrate | number:'1.1'}} %</td>
-                        </tr>
-                    </table>
+                    <div class="plot-item-small">
+                        <h3 translate>pages.corona.global.statistics</h3>
+                        <div class="date-slider-div">
+                            <span translate>pages.corona.slider</span>
+                            <div>
+                                <button class="date-slider-control-button"
+                                    [ngClass]="activeAnimations.has('localstats') ? 'play-stop' : 'play-start'"
+                                    (click)="animateSlider('localstats', $event, false)"></button>
+                                <button class="date-slider-control-button"
+                                    [ngClass]="activeAnimations.has('localstats') ? 'repeat-stop' : 'repeat-start'"
+                                    (click)="animateSlider('localstats', $event, true)"></button>
+                                <input type="range" min="18" (input)="onDateSliderChange('localstats')"
+                                    (change)="onDateSliderChange('localstats')" class="date-slider"
+                                    [(ngModel)]="selectedDateIndex.localStats" id="date-slider-localstats"
+                                    list="datesteplist">
+                                <button class="date-slider-control-button"
+                                    [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
+                                    (click)="linkSlider('local', 'localstats', $event)"></button>
+                            </div>
+                        </div>
+                        <table class="stats-table">
+                            <tr class="stats-tr-confirmed">
+                                <th translate>pages.corona.global.stats.confirmed</th>
+                                <td>{{statistics.local.confirmed.value}} ({{statistics.local.confirmed.delta}})</td>
+                            </tr>
+                            <tr class="stats-tr-infected">
+                                <th translate>pages.corona.global.stats.infected</th>
+                                <td>{{statistics.local.infected.value}} ({{statistics.local.infected.delta}})</td>
+                            </tr>
+                            <tr class="stats-tr-healed">
+                                <th translate>pages.corona.global.stats.recovered</th>
+                                <td>{{statistics.local.recovered.value}} ({{statistics.local.recovered.delta}})</td>
+                            </tr>
+                            <tr class="stats-tr-dead">
+                                <th translate>pages.corona.global.stats.dead</th>
+                                <td>{{statistics.local.dead.value}} ({{statistics.local.dead.delta}})</td>
+                            </tr>
+                            <tr class="stats-tr-fatality">
+                                <th translate>pages.corona.global.stats.fatality</th>
+                                <td>{{statistics.local.fatalityrate | number:'1.1'}} %</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <div class="plot-item-small">
-                    <h3 translate>pages.corona.local.compare.header</h3>
-                    <div class="plot-div">
-                        <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
-                            [config]="localCompareGraph.config">
-                        </plotly-plot>
+                <div class="plot-item-rowcontainer">
+                    <div class="plot-item-small">
+                        <h3 translate>pages.corona.local.compare.header</h3>
+                        <div class="plot-div">
+                            <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
+                                [config]="localCompareGraph.config">
+                            </plotly-plot>
+                        </div>
                     </div>
                 </div>
                 <div class="plot-item-large">

@@ -331,13 +331,16 @@ export class CoronaComponent implements OnInit {
       recovered: { value: 0, delta: "0" },
       dead: { value: 0, delta: "0" },
       fatalityrate: 0,
+      serious: { value: "0", updated: "0" }
     }
   }
 
   constructor(private apiService: ApiService, private translateService: TranslateService, private deviceService: DeviceDetectorService, private route: ActivatedRoute) {
     this.translateService.onLangChange.subscribe(() => {
       this.updateAll();
-      this.sortRegionSelect();
+      setTimeout(() => {
+        this.sortRegionSelect();
+      }, 100);
     });
   }
 
@@ -372,8 +375,6 @@ export class CoronaComponent implements OnInit {
     setTimeout(() => {
       this.sortRegionSelect();
     }, 100);
-
-
   }
 
   sortRegionSelect() {
@@ -490,6 +491,21 @@ export class CoronaComponent implements OnInit {
       localData.confirmed[date] - localData.dead[date] - localData.recovered[date],
       localData.confirmed[date - 1] - localData.dead[date - 1] - localData.recovered[date - 1]);
     this.statistics.local.fatalityrate = localData.dead[date] / (localData.confirmed[date]) * 100;
+
+    this.apiService.getCoronaSeriousCases(this.selectedRegion).subscribe(res => {
+      let data = res.split("\n");
+      this.statistics.local.serious.updated = new Date(Date.parse(data[0])).toLocaleString(undefined, {
+        weekday: "short",
+        year: "numeric",
+        month: "2-digit",
+        day: "numeric"
+      });
+      if (data[1] == "not-available") {
+        this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");
+      } else {
+        this.statistics.local.serious.value = data[1];
+      }
+    });
   }
 
   updateLocalCompare() {
