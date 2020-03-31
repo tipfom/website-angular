@@ -5,6 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ActivatedRoute } from '@angular/router';
 
+declare let gtag: Function;
+
 @Component({
   selector: 'app-corona',
   templateUrl: './corona.component.html',
@@ -781,6 +783,7 @@ export class CoronaComponent implements OnInit {
 
   selectedRegionChanged(): void {
     this.selectedRegion = (<HTMLSelectElement>document.getElementById("region-select")).value;
+    gtag("event", this.selectedRegion, { "event_category": "region_changed" });
     let update = () => {
       this.updateLocalStats();
       this.updateLocalCompare();
