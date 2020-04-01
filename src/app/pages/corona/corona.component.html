@@ -46,9 +46,22 @@
                 </div>
                 <div class="plot-item-large" style="display:inline-flex; justify-content: center;flex-direction: column;">
                     <h3 translate>pages.corona.global.test-map.header</h3>
-                    <div class="description-div" translate>pages.corona.global.test-map.description</div>
-                    <div style="width: 100%; height: 20px; background-image: linear-gradient(to right, #AA00FF, #FFD80D, #12B313)"></div>
-                    <table style="width: 100%">
+                    <div class="description-div">
+                        {{ 'pages.corona.global.test-map.description' | translate }}
+                        <div>
+                            {{ 'pages.corona.global.test-map.scope.description' | translate }}
+                            <select (change)="selectedScopeChanged()" id="scope-select" style="min-width: 150px;">
+                                <option value="world" translate>pages.corona.global.test-map.scope.world</option>
+                                <option value="europe" translate>pages.corona.global.test-map.scope.europe</option>
+                                <option value="asia" translate>pages.corona.global.test-map.scope.asia</option>
+                                <option value="africa" translate>pages.corona.global.test-map.scope.africa</option>
+                                <option value="north america" translate>pages.corona.global.test-map.scope.north_america</option>
+                                <option value="south america"translate>pages.corona.global.test-map.scope.south_america</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="width: 86%; height: 20px; margin: 5px 7%; background-image: linear-gradient(to right, #AA00FF, #FFD80D, #12B313)"></div>
+                    <table style="width: 86%; margin: 5px 7%;">
                         <tr>
                             <td style="width:33%; text-align: left; vertical-align: text-top;" translate>pages.corona.global.test-map.lower</td>
                             <td style="width:33%; text-align: center; vertical-align: text-top;" translate>pages.corona.global.test-map.middle</td>
@@ -416,7 +429,7 @@
                             </table>
                         </div>
                         <div style="width: 100%; text-align:right;">
-                            {{ 'pages.corona.local.serious.updated' | translate }} {{statistics.local.tests.updated}}
+                            {{ 'pages.corona.local.tests.published' | translate }} {{statistics.local.tests.updated}}
                         </div>
                     </div>
                     <div class="plot-item-small">

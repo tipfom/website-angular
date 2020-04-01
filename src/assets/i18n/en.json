@@ -121,6 +121,15 @@
                         "ratio": "tests per infected",
                         "infected": "infected",
                         "tests": "tests"
+                    },
+                    "scope": {
+                        "description": "Select a scope: ",
+                        "world": "World",
+                        "europe": "Europe",
+                        "asia": "Asia",
+                        "africa": "Africa",
+                        "north_america": "North America",
+                        "south_america": "South America"
                     }
                 }
             },
@@ -150,7 +159,8 @@
                 "breakdown": "Breakdown of active infections, healed cases and deaths",
                 "growth": "Growth over time",
                 "tests": {
-                    "header": "Tests conducted"
+                    "header": "Tests conducted",
+                    "published": "Published: "
                 }
             },
             "legend": {

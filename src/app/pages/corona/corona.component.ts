@@ -4,7 +4,7 @@ import { CoronaFit, CoronaData, CoronaTestData } from 'src/app/structures/corona
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ActivatedRoute } from '@angular/router';
-import { isUndefined } from 'util';
+import { PlotlyModule } from 'angular-plotly.js';
 
 declare let gtag: Function;
 
@@ -38,6 +38,7 @@ export class CoronaComponent implements OnInit {
   }
 
   showTestRegions: boolean = false;
+  ready: boolean = false;
 
   colors = {
     infected: "#74abe2",
@@ -93,7 +94,8 @@ export class CoronaComponent implements OnInit {
       scrollZoom: false,
       editable: false,
       staticPlot: this.deviceService.isMobile(),
-      displaylogo: false
+      displaylogo: false,
+      displayModeBar: false,
     }
   };
 
@@ -123,7 +125,8 @@ export class CoronaComponent implements OnInit {
       scrollZoom: false,
       editable: false,
       staticPlot: this.deviceService.isMobile(),
-      displaylogo: false
+      displaylogo: false,
+      displayModeBar: false,
     }
   };
 
@@ -138,6 +141,7 @@ export class CoronaComponent implements OnInit {
         size: 14
       },
       geo: {
+        scope: 'world',
         showland: false,
         showframe: false,
         projection: {
@@ -149,7 +153,9 @@ export class CoronaComponent implements OnInit {
     config: {
       responsive: true,
       editable: false,
-      displaylogo: false
+      displaylogo: false,
+      scrollZoom: false,
+      displayModeBar: false,
     }
   };
 
@@ -200,7 +206,8 @@ export class CoronaComponent implements OnInit {
       scrollZoom: false,
       editable: false,
       staticPlot: this.deviceService.isMobile(),
-      displaylogo: false
+      displaylogo: false,
+      displayModeBar: false,
     }
   };
 
@@ -245,7 +252,8 @@ export class CoronaComponent implements OnInit {
       scrollZoom: false,
       editable: false,
       staticPlot: this.deviceService.isMobile(),
-      displaylogo: false
+      displaylogo: false,
+      displayModeBar: false,
     }
   };
 
@@ -289,7 +297,8 @@ export class CoronaComponent implements OnInit {
       scrollZoom: false,
       editable: false,
       staticPlot: this.deviceService.isMobile(),
-      displaylogo: false
+      displaylogo: false,
+      displayModeBar: false,
     }
   };
 
@@ -342,7 +351,8 @@ export class CoronaComponent implements OnInit {
       scrollZoom: false,
       editable: false,
       staticPlot: this.deviceService.isMobile(),
-      displaylogo: false
+      displaylogo: false,
+      displayModeBar: false,
     }
   };
 
@@ -451,6 +461,7 @@ export class CoronaComponent implements OnInit {
     this.selectedDateIndex.localGrowth = dateLength;
     this.selectedDateIndex.localStats = dateLength;
 
+    this.ready = true;
     this.updateAll();
   }
 
@@ -526,14 +537,16 @@ export class CoronaComponent implements OnInit {
   }
 
   globalTestsMapUpdated() {
-    let plotLayer = document.getElementById("global-tests-plot").getElementsByClassName("geo").item(0).children;
-    for (let i = 0; i < plotLayer.length; i++) {
-      if (plotLayer.item(i).classList.contains("bg")) {
-        for (let k = 0; k < plotLayer.item(i).children.length; k++) {
-          (<HTMLElement>plotLayer.item(i).children.item(k)).style.opacity = "0";
+    try {
+      let plotLayer = document.getElementById("global-tests-plot").getElementsByClassName("geo").item(0).children;
+      for (let i = 0; i < plotLayer.length; i++) {
+        if (plotLayer.item(i).classList.contains("bg")) {
+          for (let k = 0; k < plotLayer.item(i).children.length; k++) {
+            (<HTMLElement>plotLayer.item(i).children.item(k)).style.opacity = "0";
+          }
         }
       }
-    }
+    } catch { }
   }
 
   updateGlobalStatus() {
@@ -896,6 +909,7 @@ export class CoronaComponent implements OnInit {
     this.selectedRegion = (<HTMLSelectElement>document.getElementById("region-select")).value;
     gtag("event", this.selectedRegion, { "event_category": "region_changed" });
     let update = () => {
+      if (!this.ready) return;
       this.updateLocalStats();
       this.updateLocalCompare();
       this.updateLocalOverview();
@@ -1040,5 +1054,11 @@ export class CoronaComponent implements OnInit {
     } else {
       copyToClipboard();
     }
+  }
+
+  selectedScopeChanged() {
+    this.globalTestsGraph.layout.geo.scope = (<HTMLSelectElement>document.getElementById("scope-select")).value;
+    delete this.globalTestsGraph.layout.geo["center"];
+    PlotlyModule.plotlyjs.react(document.getElementById("global-tests-plot").children.item(0), this.globalTestsGraph.data, this.globalTestsGraph.layout);
   }
 }

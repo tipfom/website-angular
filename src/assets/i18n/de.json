@@ -121,6 +121,15 @@
                         "ratio": "Tests pro Infiziertem",
                         "infected": "Infizierte",
                         "tests": "Tests"
+                    },
+                    "scope": {
+                        "description": "Bereich auswählen: ",
+                        "world": "Weltweit",
+                        "europe": "Europa",
+                        "asia": "Asien",
+                        "africa": "Afrika",
+                        "north_america": "Nordamerika",
+                        "south_america": "Südamerika"
                     }
                 }
             },
@@ -150,7 +159,8 @@
                 "breakdown": "Aufschlüsselung nach Toten, Infizierten und Gesundeten",
                 "growth": "Wachstum der Infiziertenzahlen",
                 "tests": {
-                    "header":"Durchgeführte Tests"
+                    "header":"Durchgeführte Tests",
+                    "published": "Veröffentlicht: "
                 }
             },
             "legend": {
