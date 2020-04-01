@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { CoronaFit, CoronaData } from 'src/app/structures/corona-structures';
+import { CoronaFit, CoronaData, CoronaTestData } from 'src/app/structures/corona-structures';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ActivatedRoute } from '@angular/router';
+import { isUndefined } from 'util';
 
 declare let gtag: Function;
 
@@ -20,6 +21,7 @@ export class CoronaComponent implements OnInit {
   axisEndDate: Date;
 
   data: Map<string, CoronaData> = new Map<string, CoronaData>();
+  dataOnTests: Map<string, CoronaTestData>;
   selectedRegion: string = "global";
 
   selectedDateIndex = {
@@ -34,6 +36,8 @@ export class CoronaComponent implements OnInit {
     localBreakdown: 0,
     localGrowth: 0,
   }
+
+  showTestRegions: boolean = false;
 
   colors = {
     infected: "#74abe2",
@@ -119,6 +123,32 @@ export class CoronaComponent implements OnInit {
       scrollZoom: false,
       editable: false,
       staticPlot: this.deviceService.isMobile(),
+      displaylogo: false
+    }
+  };
+
+  public globalTestsGraph = {
+    data: [],
+    layout: {
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
+      font: {
+        family: 'sans-serif',
+        color: '#00254D',
+        size: 14
+      },
+      geo: {
+        showland: false,
+        showframe: false,
+        projection: {
+          type: this.deviceService.isMobile() ? 'mercator' : 'normal world',
+        }
+      },
+      margin: { l: 0, r: 0, t: 0, b: 0 }
+    },
+    config: {
+      responsive: true,
+      editable: false,
       displaylogo: false
     }
   };
@@ -333,7 +363,8 @@ export class CoronaComponent implements OnInit {
       recovered: { value: 0, delta: "0" },
       dead: { value: 0, delta: "0" },
       fatalityrate: 0,
-      serious: { value: "0", updated: "0" }
+      serious: { value: "0", updated: "0" },
+      tests: { value: "0", updated: "0", regions: new Map<string, number>() }
     }
   }
 
@@ -367,12 +398,16 @@ export class CoronaComponent implements OnInit {
       this.apiService.getCoronaData(country).subscribe(data => {
         this.data.set(country, data);
         loadedRegions += 1;
-        if (loadedRegions == requiredRegions.length && this.topcountries != undefined) this.onDataLoaded();
+        if (loadedRegions == requiredRegions.length && this.topcountries != undefined && this.dataOnTests != undefined) this.onDataLoaded();
       })
     });
     this.apiService.getCoronaTopCountries().subscribe(tc => {
       this.topcountries = tc;
-      if (loadedRegions == requiredRegions.length) this.onDataLoaded();
+      if (loadedRegions == requiredRegions.length && this.dataOnTests != undefined) this.onDataLoaded();
+    });
+    this.apiService.getCoronaTestData().subscribe(td => {
+      this.dataOnTests = td;
+      if (loadedRegions == requiredRegions.length && this.topcountries != undefined) this.onDataLoaded();
     });
     setTimeout(() => {
       this.sortRegionSelect();
@@ -429,6 +464,7 @@ export class CoronaComponent implements OnInit {
 
   updateAll() {
     this.updateGlobalOverview();
+    this.updateGlobalTests();
     this.updateGlobalStats();
     this.updateGlobalStatus();
     this.updateLocalStats();
@@ -450,6 +486,54 @@ export class CoronaComponent implements OnInit {
         this.data.get("row").confirmed[this.selectedDateIndex.globalOverview]
       ) * 1.1];
     this.globalGraph.layout.xaxis.range[1] = (this.selectedDateIndex.globalOverview + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
+  }
+
+  updateGlobalTests() {
+    let locations = [];
+    let z = [];
+    let texts = [];
+
+    let keys = Object.keys(this.dataOnTests);
+    keys.forEach(country => {
+      let countryData: CoronaTestData = this.dataOnTests[country];
+      locations.push(countryData.original_name);
+      z.push(Math.log10(countryData.total / countryData.confirmed_cases));
+      texts.push(
+        `</br>${this.translateService.instant("pages.corona.names." + country)} 
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.ratio")}: ${Math.round(countryData.total / countryData.confirmed_cases)}
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.tests")}: ${countryData.total}
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.infected")}: ${countryData.confirmed_cases}
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.published")}: ${new Date(countryData.updated).toLocaleString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" })}
+        `);
+    });
+
+    this.globalTestsGraph.data.push({
+      type: 'choropleth',
+      locationmode: 'country names',
+      hoverinfo: 'text',
+      locations: locations,
+      z: z,
+      text: texts,
+      showscale: false,
+      colorbar: { showcolorbar: false, hidden: true, y: 1, yanchor: "top", orientation: "h" },
+      autocolorscale: false,
+      colorscale: [
+        [0, '#AA00FF'], [0.8 / 2.8, '#FFD80D'], [1, '#12B313']],
+      zmin: 0.2,
+      zmax: 3
+
+    });
+  }
+
+  globalTestsMapUpdated() {
+    let plotLayer = document.getElementById("global-tests-plot").getElementsByClassName("geo").item(0).children;
+    for (let i = 0; i < plotLayer.length; i++) {
+      if (plotLayer.item(i).classList.contains("bg")) {
+        for (let k = 0; k < plotLayer.item(i).children.length; k++) {
+          (<HTMLElement>plotLayer.item(i).children.item(k)).style.opacity = "0";
+        }
+      }
+    }
   }
 
   updateGlobalStatus() {
@@ -493,6 +577,33 @@ export class CoronaComponent implements OnInit {
       localData.confirmed[date] - localData.dead[date] - localData.recovered[date],
       localData.confirmed[date - 1] - localData.dead[date - 1] - localData.recovered[date - 1]);
     this.statistics.local.fatalityrate = localData.dead[date] / (localData.confirmed[date]) * 100;
+
+    if (this.dataOnTests != undefined && this.dataOnTests[this.selectedRegion] != undefined) {
+      let data = this.dataOnTests[this.selectedRegion];
+      this.statistics.local.tests.value = data.total.toString();
+      this.statistics.local.tests.updated = new Date(data.updated).toLocaleString(undefined, {
+        weekday: "short",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+
+      if (data.regions != undefined) {
+        this.statistics.local.tests.regions = data.regions;
+        this.showTestRegions = true;
+      } else {
+        this.statistics.local.tests.regions = new Map<string, number>();
+        this.showTestRegions = false;
+      }
+    } else {
+      this.statistics.local.tests.value = this.translateService.instant("pages.corona.local.serious.not-available");
+      this.statistics.local.tests.updated = new Date(Date.now()).toLocaleString(undefined, {
+        weekday: "short",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    }
 
     this.apiService.getCoronaSeriousCases(this.selectedRegion).subscribe(res => {
       let data = res.split("\n");

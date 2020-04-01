@@ -6,14 +6,14 @@ import { Observable } from 'rxjs';
 import { ResourceEntry } from '../structures/resource-entry';
 import { ArticleEntry } from '../structures/article-entry';
 import { environment } from 'src/environments/environment';
-import { CoronaData } from '../structures/corona-structures';
+import { CoronaData, CoronaTestData } from '../structures/corona-structures';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private useProductionApiServerInDebug = true;
+  private useProductionApiServerInDebug = false;
   private serverAddress = (environment.production || this.useProductionApiServerInDebug) ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
   constructor(private httpClient: HttpClient) {
@@ -117,5 +117,9 @@ export class ApiService {
 
   getCoronaSeriousCases(region: string) {
     return this.httpClient.get(this.serverAddress + 'coronaserious/' + region, {responseType: "text"});
+  }
+
+  getCoronaTestData() : Observable<Map<string, CoronaTestData>> {
+    return this.httpClient.get<Map<string, CoronaTestData>>(this.serverAddress + 'coronatests');
   }
 }

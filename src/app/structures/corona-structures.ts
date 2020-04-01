@@ -14,3 +14,11 @@ export interface CoronaFit {
     param: number[];
     err: number[];
 }
+
+export interface CoronaTestData {
+    total: number;
+    confirmed_cases: number;
+    original_name: string;
+    regions: Map<string, number>;
+    updated: string;
+}

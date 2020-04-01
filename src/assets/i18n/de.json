@@ -109,7 +109,20 @@
                     "dead": "Insgesamt gestorbene Personen",
                     "fatality": "Sterberate"
                 },
-                "top5": "Die 5 Länder mit den meisten Infizierten"
+                "top5": "Die 5 Länder mit den meisten Infizierten",
+                "test-map": {
+                    "header": "Karte der durchgeführten Tests im Vergleich zu den gemeldeten Infiziertenzahlen",
+                    "description": "Diese Karte bildet die Anstrengung der verschiedenen Länder ab, auf das Coronavirus zu testen. Die Färbungen werden durch das Verhältnis von gemeldeten durchgeführten Tests und den jeweiligen Infiziertenzahlen am Tag der Meldung berechnet.",
+                    "lower": "3 Tests pro 2 Infizierten",
+                    "middle": "10 Tests pro Infiziertem",
+                    "upper": "1000 oder mehr Tests pro Infiziertem",
+                    "hover-info":{
+                        "published": "Veröffentlicht",
+                        "ratio": "Tests pro Infiziertem",
+                        "infected": "Infizierte",
+                        "tests": "Tests"
+                    }
+                }
             },
             "local": {
                 "title": "Lokale Entwicklung",
@@ -135,7 +148,10 @@
                     "axis": "Tage nachdem mehr als 500 Fälle bestätigt wurden"
                 },
                 "breakdown": "Aufschlüsselung nach Toten, Infizierten und Gesundeten",
-                "growth": "Wachstum der Infiziertenzahlen"
+                "growth": "Wachstum der Infiziertenzahlen",
+                "tests": {
+                    "header":"Durchgeführte Tests"
+                }
             },
             "legend": {
                 "sig-fit": "Logistische Anpassung",
