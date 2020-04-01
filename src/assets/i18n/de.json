@@ -219,7 +219,7 @@
                 "Moldova": "Moldawien",
                 "Albania": "Albanien",
                 "Cyprus": "Zypern",
-                "Turkey": "türkei",
+                "Turkey": "Türkei",
                 "Holy_See": "Vatikan",
                 "Kosovo": "Kosovo",
                 "Montenegro": "Montenegro",
@@ -331,7 +331,16 @@
                 "Mozambique": "Mozambique",
                 "Gambia": "Gambia",
                 "Libya": "Libya",
-                "Diamond_Princess": "Diamond Princess (Schiff)"
+                "Diamond_Princess": "Diamond Princess (Schiff)",
+                "Burma": "Burma",
+                "West_Bank_and_Gaza": "Palästinensische Autonomiegebiete",
+                "Guinea-Bissau": "Guinea-Bissau",
+                "Mali": "Mali",
+                "Botswana": "Botsuana",
+                "Sierra_Leone": "Sierra Leone",
+                "Burundi": "Burundi",
+                "Saint_Kitts_and_Nevis": "Sankt Kitts und Nevis",
+                "MS_Zaandam": "MS Zaandam (Shiff)"
             },
             "slider": "Hiermit kannst du den Zeitraum der Betrachtung ändern"
         }

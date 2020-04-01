@@ -228,6 +228,7 @@
                         <option value="Kyrgyzstan" translate>pages.corona.names.Kyrgyzstan</option>
                         <option value="Timor-Leste" translate>pages.corona.names.Timor-Leste</option>
                         <option value="Laos" translate>pages.corona.names.Laos</option>
+                        <option value="Burma" translate>pages.corona.names.Burma</option>
                     </optgroup>
                     <optgroup label="{{ 'pages.corona.names.eastern_mediterranean_region' | translate }}">
                         <option value="Armenia" translate>pages.corona.names.Armenia</option>
@@ -246,6 +247,7 @@
                         <option value="Jordan" translate>pages.corona.names.Jordan</option>
                         <option value="Israel" translate>pages.corona.names.Israel</option>
                         <option value="Syria" translate>pages.corona.names.Syria</option>
+                        <option value="West_Bank_and_Gaza" translate>pages.corona.names.West_Bank_and_Gaza</option>
                     </optgroup>
                     <optgroup label="{{ 'pages.corona.names.region_of_the_americans' | translate }}">
                         <option value="US" translate>pages.corona.names.US</option>
@@ -283,6 +285,8 @@
                         <option value="Dominica" translate>pages.corona.names.Dominica</option>
                         <option value="Grenada" translate>pages.corona.names.Grenada</option>
                         <option value="Belize" translate>pages.corona.names.Belize</option>
+                        <option value="Saint_Kitts_and_Nevis" translate>pages.corona.names.Saint_Kitts_and_Nevis
+                        </option>
                     </optgroup>
                     <optgroup label="{{ 'pages.corona.names.african_region' | translate }}">
                         <option value="Algeria" translate>pages.corona.names.Algeria</option>
@@ -329,9 +333,15 @@
                         <option value="Mozambique" translate>pages.corona.names.Mozambique</option>
                         <option value="Gambia" translate>pages.corona.names.Gambia</option>
                         <option value="Libya" translate>pages.corona.names.Libya</option>
+                        <option value="Guinea-Bissau" translate>pages.corona.names.Guinea-Bissau</option>
+                        <option value="Mali" translate>pages.corona.names.Mali</option>
+                        <option value="Botswana" translate>pages.corona.names.Botswana</option>
+                        <option value="Burundi" translate>pages.corona.names.Burundi</option>
+                        <option value="Sierra_Leone" translate>pages.corona.names.Sierra_Leone</option>
                     </optgroup>
                     <optgroup label="{{ 'pages.corona.names.other' | translate }}">
                         <option value="Diamond_Princess" translate>pages.corona.names.Diamond_Princess</option>
+                        <option value="MS_Zaandam" translate>pages.corona.names.MS_Zaandam</option>
                     </optgroup>
                 </select>
             </div>
@@ -364,7 +374,9 @@
                     <div class="plot-item-small" style="padding-bottom: 5px;">
                         <h3 translate>pages.corona.local.serious.header</h3>
                         <h2>{{statistics.local.serious.value}}</h2>
-                        <div style="width: 100%; text-align:right;">{{ 'pages.corona.local.serious.updated' | translate }} {{statistics.local.serious.updated}}</div>
+                        <div style="width: 100%; text-align:right;">
+                            {{ 'pages.corona.local.serious.updated' | translate }} {{statistics.local.serious.updated}}
+                        </div>
                     </div>
                     <div class="plot-item-small">
                         <h3 translate>pages.corona.global.statistics</h3>

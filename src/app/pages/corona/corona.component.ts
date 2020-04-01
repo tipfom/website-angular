@@ -500,7 +500,7 @@ export class CoronaComponent implements OnInit {
         weekday: "short",
         year: "numeric",
         month: "2-digit",
-        day: "numeric"
+        day: "2-digit",
       });
       if (data[1] == "not-available") {
         this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");

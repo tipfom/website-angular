@@ -331,7 +331,16 @@
                 "Mozambique": "Mozambique",
                 "Gambia": "Gambia",
                 "Libya": "Libya",
-                "Diamond_Princess": "Diamond Princess (ship)"
+                "Diamond_Princess": "Diamond Princess (ship)",
+                "Burma": "Burma",
+                "West_Bank_and_Gaza": "West Bank and Gaza",
+                "Guinea-Bissau": "Guinea-Bissau",
+                "Mali": "Mali",
+                "Botswana": "Botswana",
+                "Sierra_Leone": "Sierra Leone",
+                "Burundi": "Burundi",
+                "Saint_Kitts_and_Nevis": "Saint Kitts and Nevis",
+                "MS_Zaandam": "MS Zaandam (ship)"
             },
             "slider": "You can use this slider to adjust the date of inspection"
         }

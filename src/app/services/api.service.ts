@@ -5,9 +5,7 @@ import { LoginToken } from '../structures/login-token';
 import { Observable } from 'rxjs';
 import { ResourceEntry } from '../structures/resource-entry';
 import { ArticleEntry } from '../structures/article-entry';
-import { isDevMode } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ArticleFile } from '../structures/article-file';
 import { CoronaData } from '../structures/corona-structures';
 
 @Injectable({
