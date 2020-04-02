@@ -368,7 +368,11 @@
                 "Saint_Kitts_and_Nevis": "Sankt Kitts und Nevis",
                 "MS_Zaandam": "MS Zaandam (Shiff)"
             },
-            "slider": "Hiermit kannst du den Zeitraum der Betrachtung ändern"
+            "slider": "Hiermit kannst du den Zeitraum der Betrachtung ändern",
+            "sources": {
+                "header": "Quellen",
+                "explanation": "Lese <a href=\"article/corona\">hier</a> weitere Erklärungen"
+            }
         }
     },
     "popups": {

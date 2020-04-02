@@ -368,7 +368,11 @@
                 "Saint_Kitts_and_Nevis": "Saint Kitts and Nevis",
                 "MS_Zaandam": "MS Zaandam (ship)"
             },
-            "slider": "You can use this slider to adjust the date of inspection"
+            "slider": "You can use this slider to adjust the date of inspection",
+            "sources": {
+                "header": "Sources",
+                "explanation": "You can read further explanations <a href=\"article/corona\">here</a>"
+            }
         }
     },
     "popups": {
