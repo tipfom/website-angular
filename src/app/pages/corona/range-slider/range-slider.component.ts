@@ -150,7 +150,7 @@ export class RangeSliderComponent implements OnInit {
 
   copyAnimate(upper: number) {
     this.upper = upper;
-    if(this.upper - this.lower < this.distance){
+    if (this.upper - this.lower < this.distance) {
       this.upper = this.lower + this.distance;
     }
     this.upperChange.emit(this.upper);
@@ -162,6 +162,7 @@ export class RangeSliderComponent implements OnInit {
       clearInterval(this.animateInterval);
       this.animateInterval = undefined;
     } else {
+      if (this.upper == this.max) this.upper = this.lower + this.distance;
       this.animateInterval = setInterval(() => {
         this.upper = this.upper + 1;
         if (this.upper > this.max) {
@@ -194,7 +195,7 @@ export class RangeSliderComponent implements OnInit {
     this.change.emit("linked");
   }
 
-  toggleResize(){
+  toggleResize() {
     this.resize = !this.resize;
     this.resizeChange.emit(this.resize);
     this.change.emit("resize");
