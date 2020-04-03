@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ActivatedRoute } from '@angular/router';
 import { PlotlyModule } from 'angular-plotly.js';
+import { RangeSliderComponent } from './range-slider/range-slider.component';
 
 declare let gtag: Function;
 
@@ -24,6 +25,7 @@ export class CoronaComponent implements OnInit {
   dataOnTests: Map<string, CoronaTestData>;
   selectedRegion: string = "global";
 
+  maxDateIndex: number;
   selectedDateIndex = {
     linkGlobal: false,
     globalOverview: {
@@ -35,13 +37,27 @@ export class CoronaComponent implements OnInit {
 
     linkLocal: false,
     localStats: 0,
-    localOverview: 0,
-    localBreakdown: 0,
-    localGrowth: 0,
+    localOverview: {
+      min: 0,
+      max: 0
+    },
+    localBreakdown: {
+      min: 0,
+      max: 0
+    },
+    localGrowth: {
+      min: 0,
+      max: 0
+    }
   }
 
   showTestRegions: boolean = false;
   ready: boolean = false;
+
+  globalAnimateGroup: RangeSliderComponent[] = [];
+  globalAnimateInterval: any;
+  localAnimateGroup: RangeSliderComponent[] = [];
+  localAnimateInterval: any;
 
   colors = {
     infected: "#74abe2",
@@ -443,13 +459,7 @@ export class CoronaComponent implements OnInit {
 
   onDataLoaded() {
     let dateLength = this.data.get("global").confirmed.length - 1;
-
-    let dateSliders = document.getElementsByClassName("date-slider");
-    for (let i = 0; i < dateSliders.length; i++) {
-      let slider = <HTMLInputElement>dateSliders[i];
-      slider.max = (dateLength).toString();
-      slider.value = slider.max;
-    }
+    this.maxDateIndex = dateLength;
 
     this.dataEndDate = new Date(this.dataStartDate);
     this.dataEndDate.setDate(this.dataEndDate.getDate() + dateLength);
@@ -459,11 +469,10 @@ export class CoronaComponent implements OnInit {
     this.selectedDateIndex.globalOverview.max = dateLength;
     this.selectedDateIndex.globalStatus = dateLength;
     this.selectedDateIndex.globalStats = dateLength;
-    this.selectedDateIndex.localOverview = dateLength;
-    this.selectedDateIndex.localBreakdown = dateLength;
-    this.selectedDateIndex.localGrowth = dateLength;
+    this.selectedDateIndex.localOverview.max = dateLength;
+    this.selectedDateIndex.localBreakdown.max = dateLength;
+    this.selectedDateIndex.localGrowth.max = dateLength;
     this.selectedDateIndex.localStats = dateLength;
-
     this.ready = true;
     this.updateAll();
   }
@@ -657,33 +666,43 @@ export class CoronaComponent implements OnInit {
 
   updateLocalOverview() {
     let regionData = this.data.get(this.selectedRegion);
-    this.localOverviewGraph.data = [];
-    this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, this.selectedDateIndex.localOverview, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
+    let newData = [];
+    newData.push(this.buildTrace(regionData.confirmed, this.selectedDateIndex.localOverview.max, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
     if (regionData.fits != undefined) {
-      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview - 15, "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
-      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
+      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview.max - 15, "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => newData.push(x));
+      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview.max - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => newData.push(x));
     }
-    this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.selectedDateIndex.localOverview] * 1.2];
-    this.localOverviewGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localOverview + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
+    this.localOverviewGraph.data = newData;
+    this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.selectedDateIndex.localOverview.max] * 1.2];
+    this.localOverviewGraph.layout.xaxis.range = [
+      (this.selectedDateIndex.localOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+      (this.selectedDateIndex.localOverview.max + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+    ];
   }
 
   updateLocalBreakdown() {
     let regionData = this.data.get(this.selectedRegion);
-    this.localDeadInfectedHealedGraph.data = [];
-    this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.dead, this.selectedDateIndex.localBreakdown, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
-    this.localDeadInfectedHealedGraph.data.push(this.buildTrace(regionData.recovered, this.selectedDateIndex.localBreakdown, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
-    this.localDeadInfectedHealedGraph.data.push(this.buildTrace(
+    let newData = []
+    newData.push(this.buildTrace(regionData.dead, this.selectedDateIndex.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
+    newData.push(this.buildTrace(regionData.recovered, this.selectedDateIndex.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
+    newData.push(this.buildTrace(
       this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
-      this.selectedDateIndex.localBreakdown, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
+      this.selectedDateIndex.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
     );
-    this.localDeadInfectedHealedGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localBreakdown + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
+    this.localDeadInfectedHealedGraph.data = newData;
+    this.localDeadInfectedHealedGraph.layout.xaxis.range = [
+      (this.selectedDateIndex.localBreakdown.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+      (this.selectedDateIndex.localBreakdown.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+    ];
   }
 
   updateLocalGrowth() {
     let regionData = this.data.get(this.selectedRegion);
-    this.localGrowthGraph.data = [];
-    this.buildGrowthTraces(regionData.confirmed, this.selectedDateIndex.localGrowth, this.colors.growth.rel, this.colors.growth.tot).forEach(x => this.localGrowthGraph.data.push(x));
-    this.localGrowthGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localGrowth + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
+    this.localGrowthGraph.data = this.buildGrowthTraces(regionData.confirmed, this.selectedDateIndex.localGrowth.max, this.colors.growth.rel, this.colors.growth.tot);
+    this.localGrowthGraph.layout.xaxis.range = [
+      (this.selectedDateIndex.localGrowth.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+      (this.selectedDateIndex.localGrowth.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+    ];
   }
 
   buildLocalCompareTrace(data: number[], threshold: number, name: string, color: string, dotted: boolean = true) {
@@ -879,9 +898,9 @@ export class CoronaComponent implements OnInit {
 
   linkAllLocal(index: number) {
     this.selectedDateIndex.localStats = index;
-    this.selectedDateIndex.localBreakdown = index;
-    this.selectedDateIndex.localGrowth = index;
-    this.selectedDateIndex.localOverview = index;
+    this.selectedDateIndex.localBreakdown.max = index;
+    this.selectedDateIndex.localGrowth.max = index;
+    this.selectedDateIndex.localOverview.max = index;
 
     this.updateLocalStats();
     this.updateLocalOverview();
@@ -908,35 +927,18 @@ export class CoronaComponent implements OnInit {
         else this.updateLocalStats();
         break;
       case "localoverview":
-        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localOverview);
+        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localOverview.max);
         else this.updateLocalOverview();
         break;
       case "localbreakdown":
-        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localBreakdown);
+        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localBreakdown.max);
         else this.updateLocalBreakdown();
         break;
       case "localgrowth":
-        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localGrowth);
+        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localGrowth.max);
         else this.updateLocalGrowth();
         break;
     }
-  }
-
-  animateSlider(name: string, event: MouseEvent, repeat: boolean): void {
-    let slider = <any>document.getElementById("date-slider-" + name);
-    slider.toggleAnimate(repeat);
-  }
-
-  linkSlider(group: string, name: string, event: MouseEvent): void {
-    switch (group) {
-      case "local":
-        this.selectedDateIndex.linkLocal = !this.selectedDateIndex.linkLocal;
-        break;
-      case "global":
-        this.selectedDateIndex.linkGlobal = !this.selectedDateIndex.linkGlobal;
-        break;
-    }
-    this.onDateSliderChange(name);
   }
 
   share() {

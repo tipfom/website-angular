@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-range-slider',
@@ -10,6 +11,8 @@ export class RangeSliderComponent implements OnInit {
   @Input() max: number;
   @Input() distance: number;
 
+  @Input() isMinMax: boolean = true;
+
   @Input() lower: number;
   @Output() lowerChange = new EventEmitter<number>();
 
@@ -17,10 +20,7 @@ export class RangeSliderComponent implements OnInit {
   @Output() upperChange = new EventEmitter<number>();
 
   @Input() linked: boolean;
-  @Output() linkedChange = new EventEmitter<{ state: boolean, group: string, graph: string }>();
-
-  @Input() group: string;
-  @Input() graph: string;
+  @Output() linkedChange = new EventEmitter<boolean>();
 
   @Output() change = new EventEmitter();
 
@@ -29,7 +29,9 @@ export class RangeSliderComponent implements OnInit {
   @ViewChild('upperdiv') upperDiv: ElementRef;
   @ViewChild('filledpolediv') filledPoleDiv: ElementRef;
 
-  animateInterval: any;
+  @Input() animateGroup: RangeSliderComponent[];
+  @Input() animateInterval: any;
+  @Output() animateIntervalChange = new EventEmitter();
 
   constructor() {
   }
@@ -44,10 +46,19 @@ export class RangeSliderComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.upper || changes.lower) {
+      if (this.lowerDiv && this.upperDiv)
+        this.updateCursorPositions();
+    }
+  }
+
   ngAfterViewInit(): void {
     this.lower = this.min;
     this.upper = this.max;
     this.updateCursorPositions();
+
+    this.animateGroup.push(this);
   }
 
   isDraggingLower: boolean;
@@ -83,24 +94,32 @@ export class RangeSliderComponent implements OnInit {
         } else {
           this.lowerChange.emit(this.lower);
         }
-        this.change.emit("lower");
-        this.updateCursorPositions();
       }
+      this.change.emit("lower");
+      this.updateCursorPositions();
     } else if (this.isDraggingUpper) {
       let rect = this.containerDiv.nativeElement.getBoundingClientRect();
       let newUpper = Math.round(this.min + (this.max - this.min) * Math.max(0, Math.min(1, (event.clientX - rect.x) / rect.width)));
       if (this.upper != newUpper) {
         this.upper = newUpper;
-        if (this.upper - this.lower < this.distance) {
-          this.lower = this.upper - this.distance;
-          if (this.lower < this.min) {
-            this.lower = this.min;
-            this.upper = this.lower + this.distance;
+        if (this.isMinMax) {
+          if (this.upper - this.lower < this.distance) {
+            this.lower = this.upper - this.distance;
+            if (this.lower < this.min) {
+              this.lower = this.min;
+              this.upper = this.lower + this.distance;
+            }
+            this.lowerChange.emit(this.lower);
+            this.upperChange.emit(this.upper);
+          } else {
+            this.upperChange.emit(newUpper);
           }
-          this.lowerChange.emit(this.lower);
+        }
+        else {
+          if (this.upper < this.min) {
+            this.upper = this.min;
+          }
           this.upperChange.emit(this.upper);
-        } else {
-          this.upperChange.emit(newUpper);
         }
         this.change.emit("upper");
         this.updateCursorPositions();
@@ -108,17 +127,30 @@ export class RangeSliderComponent implements OnInit {
     }
   }
   updateCursorPositions() {
-    let leftPercent = (this.lower - this.min) / (this.max - this.min) * 100;
     let rightPercent = (this.upper - this.min) / (this.max - this.min) * 100;
-    this.lowerDiv.nativeElement.style.left = "calc(" + leftPercent.toString() + "%" + " - 20px)";
     this.upperDiv.nativeElement.style.left = "calc(" + rightPercent.toString() + "%" + " - 20px)";
-    this.filledPoleDiv.nativeElement.style.left = leftPercent + "%";
-    this.filledPoleDiv.nativeElement.style.width = (rightPercent - leftPercent) + "%";
+    if (this.isMinMax) {
+      let leftPercent = (this.lower - this.min) / (this.max - this.min) * 100;
+      this.lowerDiv.nativeElement.style.left = "calc(" + leftPercent.toString() + "%" + " - 20px)";
+      this.filledPoleDiv.nativeElement.style.left = leftPercent + "%";
+      this.filledPoleDiv.nativeElement.style.width = (rightPercent - leftPercent) + "%";
+    } else {
+      this.filledPoleDiv.nativeElement.style.width = rightPercent + "%";
+    }
   }
 
   mouseLeave(event: MouseEvent) {
     this.isDraggingLower = false;
     this.isDraggingUpper = false;
+  }
+
+  copyAnimate(upper: number) {
+    this.upper = upper;
+    if(this.upper - this.lower < this.distance){
+      this.upper = this.lower + this.distance;
+    }
+    this.upperChange.emit(this.upper);
+    this.change.emit("upper");
   }
 
   toggleAnimate(loop: boolean) {
@@ -137,15 +169,23 @@ export class RangeSliderComponent implements OnInit {
             this.animateInterval = undefined;
           }
         }
+        if (this.linked) {
+          this.animateGroup.forEach(el => {
+            if (el != this) {
+              el.copyAnimate(this.upper);
+            }
+          })
+        }
         this.upperChange.emit(this.upper);
         this.change.emit("upper");
         this.updateCursorPositions();
       }, 200);
     }
+    this.animateIntervalChange.emit(this.animateInterval);
   }
 
   toggleLink() {
     this.linked = !this.linked;
-    this.linkedChange.emit({ state: this.linked, group: this.group, graph: this.graph });
+    this.linkedChange.emit(this.linked);
   }
 }

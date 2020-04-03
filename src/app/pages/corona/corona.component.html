@@ -22,14 +22,12 @@
                     </div>
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
-                        <div>
-                            <app-range-slider class="date-slider" [min]="18" [max]="71" [distance]="16"
-                                [(upper)]="selectedDateIndex.globalOverview.max"
-                                [(lower)]="selectedDateIndex.globalOverview.min"
-                                (change)="onDateSliderChange('globaloverview')" id="date-slider-globaloverview"
-                                [group]="'global'" [graph]="'overview'" [(linked)]="selectedDateIndex.linkGlobal">
-                            </app-range-slider>
-                        </div>
+                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                            [(upper)]="selectedDateIndex.globalOverview.max"
+                            [(lower)]="selectedDateIndex.globalOverview.min" [isMinMax]="true"
+                            [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
+                            (change)="onDateSliderChange('globaloverview')" [(linked)]="selectedDateIndex.linkGlobal">
+                        </app-range-slider>
                     </div>
                     <div class="plot-div">
                         <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
@@ -80,6 +78,14 @@
                 </div>
                 <div class="plot-item-small">
                     <h3 translate>pages.corona.global.status</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                            [(upper)]="selectedDateIndex.globalStatus" [isMinMax]="false"
+                            [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
+                            (change)="onDateSliderChange('globalstatus')" [(linked)]="selectedDateIndex.linkGlobal">
+                        </app-range-slider>
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="globalDeadInfectedHealedGraph.data"
                             [layout]="globalDeadInfectedHealedGraph.layout"
@@ -89,6 +95,14 @@
                 </div>
                 <div class="plot-item-small">
                     <h3 translate>pages.corona.global.statistics</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                            [(upper)]="selectedDateIndex.globalStats" [isMinMax]="false"
+                            [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
+                            (change)="onDateSliderChange('globalstats')" [(linked)]="selectedDateIndex.linkGlobal">
+                        </app-range-slider>
+                    </div>
                     <table class="stats-table">
                         <tr class="stats-tr-confirmed">
                             <th translate>pages.corona.global.stats.confirmed</th>
@@ -403,6 +417,14 @@
                     </div>
                     <div class="plot-item-small">
                         <h3 translate>pages.corona.global.statistics</h3>
+                        <div class="date-slider-div">
+                            <span translate>pages.corona.slider</span>
+                            <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                                [(upper)]="selectedDateIndex.localStats" [isMinMax]="false"
+                                [(animateInterval)]="localAnimateInterval" [animateGroup]="localAnimateGroup"
+                                (change)="onDateSliderChange('localstats')" [(linked)]="selectedDateIndex.linkLocal">
+                            </app-range-slider>
+                        </div>
                         <table class="stats-table">
                             <tr class="stats-tr-confirmed">
                                 <th translate>pages.corona.global.stats.confirmed</th>
@@ -442,6 +464,15 @@
                     <div class="description-div" translate>pages.corona.local.comparison.description
                         <a href="article/corona" translate>pages.corona.learn-more</a>
                     </div>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                            [(lower)]="selectedDateIndex.localOverview.min"
+                            [(upper)]="selectedDateIndex.localOverview.max" [(animateInterval)]="localAnimateInterval"
+                            [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localoverview')"
+                            [(linked)]="selectedDateIndex.linkLocal">
+                        </app-range-slider>
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localOverviewGraph.data" [layout]="localOverviewGraph.layout"
                             [config]="localOverviewGraph.config">
@@ -450,6 +481,15 @@
                 </div>
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.local.breakdown</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                            [(lower)]="selectedDateIndex.localBreakdown.min"
+                            [(upper)]="selectedDateIndex.localBreakdown.max" [(animateInterval)]="localAnimateInterval"
+                            [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localbreakdown')"
+                            [(linked)]="selectedDateIndex.linkLocal">
+                        </app-range-slider>
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localDeadInfectedHealedGraph.data"
                             [layout]="localDeadInfectedHealedGraph.layout"
@@ -459,6 +499,14 @@
                 </div>
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.local.growth</h3>
+                    <div class="date-slider-div">
+                        <span translate>pages.corona.slider</span>
+                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                            [(lower)]="selectedDateIndex.localGrowth.min" [(upper)]="selectedDateIndex.localGrowth.max"
+                            [(animateInterval)]="localAnimateInterval" [animateGroup]="localAnimateGroup"
+                            (change)="onDateSliderChange('localgrowth')" [(linked)]="selectedDateIndex.linkLocal">
+                        </app-range-slider>
+                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
                             [config]="localGrowthGraph.config">

@@ -53,7 +53,7 @@
     <div class="container" #containerdiv>
         <div class="pole"></div>
         <div class="filled-pole" #filledpolediv></div>
-        <div class="button" (mousedown)="lowerDragStart($event)" (mouseup)="lowerDragEnd($event)"
+        <div class="button" [hidden]="!isMinMax" (mousedown)="lowerDragStart($event)" (mouseup)="lowerDragEnd($event)"
             [ngClass]="isDraggingLower ? 'selected' : ''" #lowerdiv></div>
         <div class="button" (mousedown)="upperDragStart($event)" (mouseup)="upperDragEnd($event)"
             [ngClass]="isDraggingUpper ? 'selected' : ''" #upperdiv></div>
@@ -90,7 +90,7 @@
                         </path>
                     </g>
                 </g>
-            </svg> 
+            </svg>
         </button>
     </div>
 </div>
