@@ -23,10 +23,11 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(upper)]="selectedDateIndex.globalOverview.max"
-                            [(lower)]="selectedDateIndex.globalOverview.min" [isMinMax]="true"
+                            [(upper)]="controlSettings.globalOverview.max"
+                            [(lower)]="controlSettings.globalOverview.min"
+                            [(resize)]="controlSettings.globalOverview.resize"
                             [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
-                            (change)="onDateSliderChange('globaloverview')" [(linked)]="selectedDateIndex.linkGlobal">
+                            (change)="onDateSliderChange('globaloverview')" [(linked)]="controlSettings.linkGlobal">
                         </app-range-slider>
                     </div>
                     <div class="plot-div">
@@ -81,9 +82,9 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(upper)]="selectedDateIndex.globalStatus" [isMinMax]="false"
+                            [(upper)]="controlSettings.globalStatus.index" [hasMinMax]="false" [hasResize]="false"
                             [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
-                            (change)="onDateSliderChange('globalstatus')" [(linked)]="selectedDateIndex.linkGlobal">
+                            (change)="onDateSliderChange('globalstatus')" [(linked)]="controlSettings.linkGlobal">
                         </app-range-slider>
                     </div>
                     <div class="plot-div">
@@ -98,9 +99,9 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(upper)]="selectedDateIndex.globalStats" [isMinMax]="false"
+                            [(upper)]="controlSettings.globalStats.index" [hasMinMax]="false" [hasResize]="false"
                             [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
-                            (change)="onDateSliderChange('globalstats')" [(linked)]="selectedDateIndex.linkGlobal">
+                            (change)="onDateSliderChange('globalstats')" [(linked)]="controlSettings.linkGlobal">
                         </app-range-slider>
                     </div>
                     <table class="stats-table">
@@ -420,9 +421,9 @@
                         <div class="date-slider-div">
                             <span translate>pages.corona.slider</span>
                             <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                                [(upper)]="selectedDateIndex.localStats" [isMinMax]="false"
+                                [(upper)]="controlSettings.localStats.index" [hasMinMax]="false" [hasResize]="false"
                                 [(animateInterval)]="localAnimateInterval" [animateGroup]="localAnimateGroup"
-                                (change)="onDateSliderChange('localstats')" [(linked)]="selectedDateIndex.linkLocal">
+                                (change)="onDateSliderChange('localstats')" [(linked)]="controlSettings.linkLocal">
                             </app-range-slider>
                         </div>
                         <table class="stats-table">
@@ -467,10 +468,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(lower)]="selectedDateIndex.localOverview.min"
-                            [(upper)]="selectedDateIndex.localOverview.max" [(animateInterval)]="localAnimateInterval"
+                            [(lower)]="controlSettings.localOverview.min" [(resize)]="controlSettings.localOverview.resize"
+                            [(upper)]="controlSettings.localOverview.max" [(animateInterval)]="localAnimateInterval"
                             [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localoverview')"
-                            [(linked)]="selectedDateIndex.linkLocal">
+                            [(linked)]="controlSettings.linkLocal">
                         </app-range-slider>
                     </div>
                     <div class="plot-div">
@@ -484,10 +485,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(lower)]="selectedDateIndex.localBreakdown.min"
-                            [(upper)]="selectedDateIndex.localBreakdown.max" [(animateInterval)]="localAnimateInterval"
+                            [(lower)]="controlSettings.localBreakdown.min" [(resize)]="controlSettings.localBreakdown.resize"
+                            [(upper)]="controlSettings.localBreakdown.max" [(animateInterval)]="localAnimateInterval"
                             [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localbreakdown')"
-                            [(linked)]="selectedDateIndex.linkLocal">
+                            [(linked)]="controlSettings.linkLocal">
                         </app-range-slider>
                     </div>
                     <div class="plot-div">
@@ -502,9 +503,10 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(lower)]="selectedDateIndex.localGrowth.min" [(upper)]="selectedDateIndex.localGrowth.max"
+                            [(lower)]="controlSettings.localGrowth.min" [(upper)]="controlSettings.localGrowth.max"
+                            [(resize)]="controlSettings.localGrowth.resize"
                             [(animateInterval)]="localAnimateInterval" [animateGroup]="localAnimateGroup"
-                            (change)="onDateSliderChange('localgrowth')" [(linked)]="selectedDateIndex.linkLocal">
+                            (change)="onDateSliderChange('localgrowth')" [(linked)]="controlSettings.linkLocal">
                         </app-range-slider>
                     </div>
                     <div class="plot-div">

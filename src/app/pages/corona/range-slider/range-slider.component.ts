@@ -11,7 +11,8 @@ export class RangeSliderComponent implements OnInit {
   @Input() max: number;
   @Input() distance: number;
 
-  @Input() isMinMax: boolean = true;
+  @Input() hasResize: boolean = true;
+  @Input() hasMinMax: boolean = true;
 
   @Input() lower: number;
   @Output() lowerChange = new EventEmitter<number>();
@@ -21,6 +22,9 @@ export class RangeSliderComponent implements OnInit {
 
   @Input() linked: boolean;
   @Output() linkedChange = new EventEmitter<boolean>();
+
+  @Input() resize: boolean;
+  @Output() resizeChange = new EventEmitter<boolean>();
 
   @Output() change = new EventEmitter();
 
@@ -102,7 +106,7 @@ export class RangeSliderComponent implements OnInit {
       let newUpper = Math.round(this.min + (this.max - this.min) * Math.max(0, Math.min(1, (event.clientX - rect.x) / rect.width)));
       if (this.upper != newUpper) {
         this.upper = newUpper;
-        if (this.isMinMax) {
+        if (this.hasMinMax) {
           if (this.upper - this.lower < this.distance) {
             this.lower = this.upper - this.distance;
             if (this.lower < this.min) {
@@ -129,7 +133,7 @@ export class RangeSliderComponent implements OnInit {
   updateCursorPositions() {
     let rightPercent = (this.upper - this.min) / (this.max - this.min) * 100;
     this.upperDiv.nativeElement.style.left = "calc(" + rightPercent.toString() + "%" + " - 20px)";
-    if (this.isMinMax) {
+    if (this.hasMinMax) {
       let leftPercent = (this.lower - this.min) / (this.max - this.min) * 100;
       this.lowerDiv.nativeElement.style.left = "calc(" + leftPercent.toString() + "%" + " - 20px)";
       this.filledPoleDiv.nativeElement.style.left = leftPercent + "%";
@@ -187,5 +191,12 @@ export class RangeSliderComponent implements OnInit {
   toggleLink() {
     this.linked = !this.linked;
     this.linkedChange.emit(this.linked);
+    this.change.emit("linked");
+  }
+
+  toggleResize(){
+    this.resize = !this.resize;
+    this.resizeChange.emit(this.resize);
+    this.change.emit("resize");
   }
 }

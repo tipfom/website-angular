@@ -26,28 +26,38 @@ export class CoronaComponent implements OnInit {
   selectedRegion: string = "global";
 
   maxDateIndex: number;
-  selectedDateIndex = {
+  controlSettings = {
     linkGlobal: false,
     globalOverview: {
       min: 0,
-      max: 1
+      max: 1,
+      resize: true
     },
-    globalStatus: 0,
-    globalStats: 0,
+    globalStatus: {
+      index: 0,
+    },
+    globalStats: {
+      index: 0,
+    },
 
     linkLocal: false,
-    localStats: 0,
+    localStats: {
+      index: 0,
+    },
     localOverview: {
       min: 0,
-      max: 0
+      max: 0,
+      resize: true
     },
     localBreakdown: {
       min: 0,
-      max: 0
+      max: 0,
+      resize: true
     },
     localGrowth: {
       min: 0,
-      max: 0
+      max: 0,
+      resize: true
     }
   }
 
@@ -466,13 +476,13 @@ export class CoronaComponent implements OnInit {
     this.axisEndDate = new Date(this.dataEndDate);
     this.axisEndDate.setDate(this.axisEndDate.getDate() + 3);
 
-    this.selectedDateIndex.globalOverview.max = dateLength;
-    this.selectedDateIndex.globalStatus = dateLength;
-    this.selectedDateIndex.globalStats = dateLength;
-    this.selectedDateIndex.localOverview.max = dateLength;
-    this.selectedDateIndex.localBreakdown.max = dateLength;
-    this.selectedDateIndex.localGrowth.max = dateLength;
-    this.selectedDateIndex.localStats = dateLength;
+    this.controlSettings.globalOverview.max = dateLength;
+    this.controlSettings.globalStatus.index = dateLength;
+    this.controlSettings.globalStats.index = dateLength;
+    this.controlSettings.localOverview.max = dateLength;
+    this.controlSettings.localBreakdown.max = dateLength;
+    this.controlSettings.localGrowth.max = dateLength;
+    this.controlSettings.localStats.index = dateLength;
     this.ready = true;
     this.updateAll();
   }
@@ -499,21 +509,33 @@ export class CoronaComponent implements OnInit {
 
   updateGlobalOverview() {
     let newGlobalGraphData = [];
-    this.buildFitTraces(this.data.get("China"), this.selectedDateIndex.globalOverview.max - 15, "sig", "china", "5899DA8C", "5899DA46").forEach(x => newGlobalGraphData.push(x));
-    this.buildFitTraces(this.data.get("row"), this.selectedDateIndex.globalOverview.max - 15, "exp", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
-    newGlobalGraphData.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview.max, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
-    newGlobalGraphData.push(this.buildTrace(this.data.get("row").confirmed, this.selectedDateIndex.globalOverview.max, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
+    this.buildFitTraces(this.data.get("China"), this.controlSettings.globalOverview.max - 15, "sig", "china", "5899DA8C", "5899DA46").forEach(x => newGlobalGraphData.push(x));
+    this.buildFitTraces(this.data.get("row"), this.controlSettings.globalOverview.max - 15, "exp", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
+    newGlobalGraphData.push(this.buildTrace(this.data.get("China").confirmed, this.controlSettings.globalOverview.max, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
+    newGlobalGraphData.push(this.buildTrace(this.data.get("row").confirmed, this.controlSettings.globalOverview.max, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
 
     this.globalGraph.data = newGlobalGraphData;
-    this.globalGraph.layout.xaxis.range = [
-      (this.selectedDateIndex.globalOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
-      (this.selectedDateIndex.globalOverview.max + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
-    ];
-    this.globalGraph.layout.yaxis.range = [0,
-      Math.max(
-        this.data.get("China").confirmed[this.selectedDateIndex.globalOverview.max],
-        this.data.get("row").confirmed[this.selectedDateIndex.globalOverview.max]
-      ) * 1.1];
+    if (this.controlSettings.globalOverview.resize) {
+      this.globalGraph.layout.xaxis.range = [
+        (this.controlSettings.globalOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+        (this.controlSettings.globalOverview.max + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+      ];
+      this.globalGraph.layout.yaxis.range = [0,
+        Math.max(
+          this.data.get("China").confirmed[this.controlSettings.globalOverview.max],
+          this.data.get("row").confirmed[this.controlSettings.globalOverview.max]
+        ) * 1.1];
+    } else {
+      this.globalGraph.layout.xaxis.range = [
+        this.axisStartDate.getTime(),
+        this.axisEndDate.getTime()
+      ];
+      this.globalGraph.layout.yaxis.range = [0,
+        Math.max(
+          this.data.get("China").confirmed[this.maxDateIndex],
+          this.data.get("row").confirmed[this.maxDateIndex]
+        ) * 1.1];
+    }
   }
 
   updateGlobalTests() {
@@ -570,7 +592,7 @@ export class CoronaComponent implements OnInit {
     let globalData = this.data.get("global");
     this.globalDeadInfectedHealedGraph.data = [];
     this.globalDeadInfectedHealedGraph.data.push(
-      this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, this.selectedDateIndex.globalStatus, [this.colors.infected, this.colors.dead, this.colors.recovered])
+      this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, this.controlSettings.globalStatus.index, [this.colors.infected, this.colors.dead, this.colors.recovered])
     );
   }
 
@@ -581,7 +603,7 @@ export class CoronaComponent implements OnInit {
 
   updateGlobalStats() {
     let globalData = this.data.get("global");
-    let date = this.selectedDateIndex.globalStats;
+    let date = this.controlSettings.globalStats.index;
     this.statistics.global.confirmed = this.getValueDelta(globalData.confirmed[date], globalData.confirmed[date - 1]);
     this.statistics.global.dead = this.getValueDelta(globalData.dead[date], globalData.dead[date - 1]);
     this.statistics.global.recovered = this.getValueDelta(globalData.recovered[date], globalData.recovered[date - 1]);
@@ -598,7 +620,7 @@ export class CoronaComponent implements OnInit {
 
   updateLocalStats() {
     let localData = this.data.get(this.selectedRegion);
-    let date = this.selectedDateIndex.localStats;
+    let date = this.controlSettings.localStats.index;
 
     this.statistics.local.confirmed = this.getValueDelta(localData.confirmed[date], localData.confirmed[date - 1]);
     this.statistics.local.dead = this.getValueDelta(localData.dead[date], localData.dead[date - 1]);
@@ -667,42 +689,64 @@ export class CoronaComponent implements OnInit {
   updateLocalOverview() {
     let regionData = this.data.get(this.selectedRegion);
     let newData = [];
-    newData.push(this.buildTrace(regionData.confirmed, this.selectedDateIndex.localOverview.max, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
+    newData.push(this.buildTrace(regionData.confirmed, this.controlSettings.localOverview.max, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
     if (regionData.fits != undefined) {
-      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview.max - 15, "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => newData.push(x));
-      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview.max - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => newData.push(x));
+      this.buildFitTraces(regionData, this.controlSettings.localOverview.max - 15, "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => newData.push(x));
+      this.buildFitTraces(regionData, this.controlSettings.localOverview.max - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => newData.push(x));
     }
     this.localOverviewGraph.data = newData;
-    this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.selectedDateIndex.localOverview.max] * 1.2];
-    this.localOverviewGraph.layout.xaxis.range = [
-      (this.selectedDateIndex.localOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
-      (this.selectedDateIndex.localOverview.max + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
-    ];
-  }
+    if(this.controlSettings.localOverview.resize){
+      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.controlSettings.localOverview.max] * 1.2];
+      this.localOverviewGraph.layout.xaxis.range = [
+        (this.controlSettings.localOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+        (this.controlSettings.localOverview.max + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+      ];
+    } else {
+      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.maxDateIndex] * 1.2];
+      this.localOverviewGraph.layout.xaxis.range = [
+        this.axisStartDate.getTime(),
+        this.axisEndDate.getTime()
+      ];
+    }
+  } 
 
   updateLocalBreakdown() {
     let regionData = this.data.get(this.selectedRegion);
     let newData = []
-    newData.push(this.buildTrace(regionData.dead, this.selectedDateIndex.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
-    newData.push(this.buildTrace(regionData.recovered, this.selectedDateIndex.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
+    newData.push(this.buildTrace(regionData.dead, this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
+    newData.push(this.buildTrace(regionData.recovered, this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
     newData.push(this.buildTrace(
       this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
-      this.selectedDateIndex.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
+      this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
     );
     this.localDeadInfectedHealedGraph.data = newData;
-    this.localDeadInfectedHealedGraph.layout.xaxis.range = [
-      (this.selectedDateIndex.localBreakdown.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
-      (this.selectedDateIndex.localBreakdown.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
-    ];
+    if(this.controlSettings.localBreakdown.resize){
+      this.localDeadInfectedHealedGraph.layout.xaxis.range = [
+        (this.controlSettings.localBreakdown.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+        (this.controlSettings.localBreakdown.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+      ];
+    } else {
+      this.localDeadInfectedHealedGraph.layout.xaxis.range = [
+        this.axisStartDate.getTime(),
+        this.dataEndDate.getTime()
+      ];
+    }
   }
 
   updateLocalGrowth() {
     let regionData = this.data.get(this.selectedRegion);
-    this.localGrowthGraph.data = this.buildGrowthTraces(regionData.confirmed, this.selectedDateIndex.localGrowth.max, this.colors.growth.rel, this.colors.growth.tot);
-    this.localGrowthGraph.layout.xaxis.range = [
-      (this.selectedDateIndex.localGrowth.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
-      (this.selectedDateIndex.localGrowth.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
-    ];
+    this.localGrowthGraph.data = this.buildGrowthTraces(regionData.confirmed, this.controlSettings.localGrowth.max, this.colors.growth.rel, this.colors.growth.tot);
+    if(this.controlSettings.localGrowth.resize) {
+      this.localGrowthGraph.layout.xaxis.range = [
+        (this.controlSettings.localGrowth.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+        (this.controlSettings.localGrowth.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+      ];
+    } else {
+      this.localGrowthGraph.layout.xaxis.range = [
+        this.axisStartDate.getTime(),
+        this.dataEndDate.getTime()
+      ];
+    }
   }
 
   buildLocalCompareTrace(data: number[], threshold: number, name: string, color: string, dotted: boolean = true) {
@@ -887,9 +931,9 @@ export class CoronaComponent implements OnInit {
   }
 
   linkAllGlobal(index: number) {
-    this.selectedDateIndex.globalOverview.max = index;
-    this.selectedDateIndex.globalStatus = index;
-    this.selectedDateIndex.globalStats = index;
+    this.controlSettings.globalOverview.max = index;
+    this.controlSettings.globalStatus.index = index;
+    this.controlSettings.globalStats.index = index;
 
     this.updateGlobalOverview();
     this.updateGlobalStats();
@@ -897,10 +941,10 @@ export class CoronaComponent implements OnInit {
   };
 
   linkAllLocal(index: number) {
-    this.selectedDateIndex.localStats = index;
-    this.selectedDateIndex.localBreakdown.max = index;
-    this.selectedDateIndex.localGrowth.max = index;
-    this.selectedDateIndex.localOverview.max = index;
+    this.controlSettings.localStats.index = index;
+    this.controlSettings.localBreakdown.max = index;
+    this.controlSettings.localGrowth.max = index;
+    this.controlSettings.localOverview.max = index;
 
     this.updateLocalStats();
     this.updateLocalOverview();
@@ -911,31 +955,31 @@ export class CoronaComponent implements OnInit {
   onDateSliderChange(name: string): void {
     switch (name) {
       case "globaloverview":
-        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalOverview.max);
+        if (this.controlSettings.linkGlobal) this.linkAllGlobal(this.controlSettings.globalOverview.max);
         else this.updateGlobalOverview();
         break;
       case "globalstatus":
-        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalStatus);
+        if (this.controlSettings.linkGlobal) this.linkAllGlobal(this.controlSettings.globalStatus.index);
         else this.updateGlobalStatus();
         break;
       case "globalstats":
-        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalStats);
+        if (this.controlSettings.linkGlobal) this.linkAllGlobal(this.controlSettings.globalStats.index);
         else this.updateGlobalStats();
         break;
       case "localstats":
-        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localStats);
+        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localStats.index);
         else this.updateLocalStats();
         break;
       case "localoverview":
-        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localOverview.max);
+        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localOverview.max);
         else this.updateLocalOverview();
         break;
       case "localbreakdown":
-        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localBreakdown.max);
+        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localBreakdown.max);
         else this.updateLocalBreakdown();
         break;
       case "localgrowth":
-        if (this.selectedDateIndex.linkLocal) this.linkAllLocal(this.selectedDateIndex.localGrowth.max);
+        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localGrowth.max);
         else this.updateLocalGrowth();
         break;
     }
