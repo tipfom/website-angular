@@ -23,28 +23,22 @@
                     <div class="date-slider-div">
                         <span translate>pages.corona.slider</span>
                         <div>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('globaloverview') ? 'play-stop' : 'play-start'"
-                                (click)="animateSlider('globaloverview', $event, false)"></button>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('globaloverview') ? 'repeat-stop' : 'repeat-start'"
-                                (click)="animateSlider('globaloverview', $event, true)"></button>
-                            <input type="range" min="18" (input)="onDateSliderChange('globaloverview')"
-                                (change)="onDateSliderChange('globaloverview')" class="date-slider"
-                                [(ngModel)]="selectedDateIndex.globalOverview" id="date-slider-globaloverview"
-                                list="datesteplist">
-                            <button class="date-slider-control-button"
-                                [ngClass]="selectedDateIndex.linkGlobal ? 'linked' : 'unlinked'"
-                                (click)="linkSlider('global', 'globaloverview', $event)"></button>
+                            <app-range-slider class="date-slider" [min]="18" [max]="71" [distance]="16"
+                                [(upper)]="selectedDateIndex.globalOverview.max"
+                                [(lower)]="selectedDateIndex.globalOverview.min"
+                                (change)="onDateSliderChange('globaloverview')" id="date-slider-globaloverview"
+                                [group]="'global'" [graph]="'overview'" [(linked)]="selectedDateIndex.linkGlobal">
+                            </app-range-slider>
                         </div>
                     </div>
                     <div class="plot-div">
                         <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
-                            [config]="globalGraph.config">
+                            [config]="globalGraph.config" id="global-overview-plot">
                         </plotly-plot>
                     </div>
                 </div>
-                <div class="plot-item-large" style="display:inline-flex; justify-content: center;flex-direction: column;">
+                <div class="plot-item-large"
+                    style="display:inline-flex; justify-content: center;flex-direction: column;">
                     <h3 translate>pages.corona.global.test-map.header</h3>
                     <div class="description-div">
                         {{ 'pages.corona.global.test-map.description' | translate }}
@@ -55,17 +49,26 @@
                                 <option value="europe" translate>pages.corona.global.test-map.scope.europe</option>
                                 <option value="asia" translate>pages.corona.global.test-map.scope.asia</option>
                                 <option value="africa" translate>pages.corona.global.test-map.scope.africa</option>
-                                <option value="north america" translate>pages.corona.global.test-map.scope.north_america</option>
-                                <option value="south america"translate>pages.corona.global.test-map.scope.south_america</option>
+                                <option value="north america" translate>
+                                    pages.corona.global.test-map.scope.north_america
+                                </option>
+                                <option value="south america" translate>
+                                    pages.corona.global.test-map.scope.south_america
+                                </option>
                             </select>
                         </div>
                     </div>
-                    <div style="width: 86%; height: 20px; margin: 5px 7%; background-image: linear-gradient(to right, #AA00FF, #FFD80D, #12B313)"></div>
+                    <div
+                        style="width: 86%; height: 20px; margin: 5px 7%; background-image: linear-gradient(to right, #AA00FF, #FFD80D, #12B313)">
+                    </div>
                     <table style="width: 86%; margin: 5px 7%;">
                         <tr>
-                            <td style="width:33%; text-align: left; vertical-align: text-top;" translate>pages.corona.global.test-map.lower</td>
-                            <td style="width:33%; text-align: center; vertical-align: text-top;" translate>pages.corona.global.test-map.middle</td>
-                            <td style="width:33%; text-align: right; vertical-align: text-top;" translate>pages.corona.global.test-map.upper</td>
+                            <td style="width:33%; text-align: left; vertical-align: text-top;" translate>
+                                pages.corona.global.test-map.lower</td>
+                            <td style="width:33%; text-align: center; vertical-align: text-top;" translate>
+                                pages.corona.global.test-map.middle</td>
+                            <td style="width:33%; text-align: right; vertical-align: text-top;" translate>
+                                pages.corona.global.test-map.upper</td>
                         </tr>
                     </table>
                     <div class="plot-div">
@@ -77,24 +80,6 @@
                 </div>
                 <div class="plot-item-small">
                     <h3 translate>pages.corona.global.status</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <div>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('globalstatus') ? 'play-stop' : 'play-start'"
-                                (click)="animateSlider('globalstatus', $event, false)"></button>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('globalstatus') ? 'repeat-stop' : 'repeat-start'"
-                                (click)="animateSlider('globalstatus', $event, true)"></button>
-                            <input type="range" min="18" (input)="onDateSliderChange('globalstatus')"
-                                (change)="onDateSliderChange('globalstatus')" class="date-slider"
-                                [(ngModel)]="selectedDateIndex.globalStatus" id="date-slider-globalstatus"
-                                list="datesteplist">
-                            <button class="date-slider-control-button"
-                                [ngClass]="selectedDateIndex.linkGlobal ? 'linked' : 'unlinked'"
-                                (click)="linkSlider('global', 'globalstatus', $event)"></button>
-                        </div>
-                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="globalDeadInfectedHealedGraph.data"
                             [layout]="globalDeadInfectedHealedGraph.layout"
@@ -104,24 +89,6 @@
                 </div>
                 <div class="plot-item-small">
                     <h3 translate>pages.corona.global.statistics</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <div>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('globalstats') ? 'play-stop' : 'play-start'"
-                                (click)="animateSlider('globalstats', $event, false)"></button>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('globalstats') ? 'repeat-stop' : 'repeat-start'"
-                                (click)="animateSlider('globalstats', $event, true)"></button>
-                            <input type="range" min="18" (input)="onDateSliderChange('globalstats')"
-                                (change)="onDateSliderChange('globalstats')" class="date-slider"
-                                [(ngModel)]="selectedDateIndex.globalStats" id="date-slider-globalstats"
-                                list="datesteplist">
-                            <button class="date-slider-control-button"
-                                [ngClass]="selectedDateIndex.linkGlobal ? 'linked' : 'unlinked'"
-                                (click)="linkSlider('global', 'globalstats', $event)"></button>
-                        </div>
-                    </div>
                     <table class="stats-table">
                         <tr class="stats-tr-confirmed">
                             <th translate>pages.corona.global.stats.confirmed</th>
@@ -411,7 +378,8 @@
                         <h3 translate>pages.corona.local.serious.header</h3>
                         <h2>{{statistics.local.serious.value}}</h2>
                         <div style="width: 100%; text-align:right;">
-                            {{ 'pages.corona.local.serious.updated' | translate }} {{statistics.local.serious.updated}}
+                            {{ 'pages.corona.local.serious.updated' | translate }}
+                            {{statistics.local.serious.updated}}
                         </div>
                     </div>
                     <div class="plot-item-small" style="padding-bottom: 5px;">
@@ -429,29 +397,12 @@
                             </table>
                         </div>
                         <div style="width: 100%; text-align:right;">
-                            {{ 'pages.corona.local.tests.published' | translate }} {{statistics.local.tests.updated}}
+                            {{ 'pages.corona.local.tests.published' | translate }}
+                            {{statistics.local.tests.updated}}
                         </div>
                     </div>
                     <div class="plot-item-small">
                         <h3 translate>pages.corona.global.statistics</h3>
-                        <div class="date-slider-div">
-                            <span translate>pages.corona.slider</span>
-                            <div>
-                                <button class="date-slider-control-button"
-                                    [ngClass]="activeAnimations.has('localstats') ? 'play-stop' : 'play-start'"
-                                    (click)="animateSlider('localstats', $event, false)"></button>
-                                <button class="date-slider-control-button"
-                                    [ngClass]="activeAnimations.has('localstats') ? 'repeat-stop' : 'repeat-start'"
-                                    (click)="animateSlider('localstats', $event, true)"></button>
-                                <input type="range" min="18" (input)="onDateSliderChange('localstats')"
-                                    (change)="onDateSliderChange('localstats')" class="date-slider"
-                                    [(ngModel)]="selectedDateIndex.localStats" id="date-slider-localstats"
-                                    list="datesteplist">
-                                <button class="date-slider-control-button"
-                                    [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
-                                    (click)="linkSlider('local', 'localstats', $event)"></button>
-                            </div>
-                        </div>
                         <table class="stats-table">
                             <tr class="stats-tr-confirmed">
                                 <th translate>pages.corona.global.stats.confirmed</th>
@@ -491,24 +442,6 @@
                     <div class="description-div" translate>pages.corona.local.comparison.description
                         <a href="article/corona" translate>pages.corona.learn-more</a>
                     </div>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <div>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localoverview') ? 'play-stop' : 'play-start'"
-                                (click)="animateSlider('localoverview', $event, false)"></button>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localoverview') ? 'repeat-stop' : 'repeat-start'"
-                                (click)="animateSlider('localoverview', $event, true)"></button>
-                            <input type="range" min="18" (input)="onDateSliderChange('localoverview')"
-                                (change)="onDateSliderChange('localoverview')" class="date-slider"
-                                [(ngModel)]="selectedDateIndex.localOverview" id="date-slider-localoverview"
-                                list="datesteplist">
-                            <button class="date-slider-control-button"
-                                [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
-                                (click)="linkSlider('local', 'localoverview', $event)"></button>
-                        </div>
-                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localOverviewGraph.data" [layout]="localOverviewGraph.layout"
                             [config]="localOverviewGraph.config">
@@ -517,24 +450,6 @@
                 </div>
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.local.breakdown</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <div>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localbreakdown') ? 'play-stop' : 'play-start'"
-                                (click)="animateSlider('localbreakdown', $event, false)"></button>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localbreakdown') ? 'repeat-stop' : 'repeat-start'"
-                                (click)="animateSlider('localbreakdown', $event, true)"></button>
-                            <input type="range" min="18" (input)="onDateSliderChange('localbreakdown')"
-                                (change)="onDateSliderChange('localbreakdown')" class="date-slider"
-                                [(ngModel)]="selectedDateIndex.localBreakdown" id="date-slider-localbreakdown"
-                                list="datesteplist">
-                            <button class="date-slider-control-button"
-                                [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
-                                (click)="linkSlider('local', 'localbreakdown', $event)"></button>
-                        </div>
-                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localDeadInfectedHealedGraph.data"
                             [layout]="localDeadInfectedHealedGraph.layout"
@@ -544,23 +459,6 @@
                 </div>
                 <div class="plot-item-large">
                     <h3 translate>pages.corona.local.growth</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <div>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localgrowth') ? 'play-stop' : 'play-start'"
-                                (click)="animateSlider('localgrowth', $event, false)"></button>
-                            <button class="date-slider-control-button"
-                                [ngClass]="activeAnimations.has('localgrowth') ? 'repeat-stop' : 'repeat-start'"
-                                (click)="animateSlider('localgrowth', $event, true)"></button>
-                            <input type="range" min="18" (input)="onDateSliderChange('localgrowth')"
-                                [(ngModel)]="selectedDateIndex.localGrowth" (change)="onDateSliderChange('localgrowth')"
-                                class="date-slider" id="date-slider-localgrowth" list="datesteplist">
-                            <button class="date-slider-control-button"
-                                [ngClass]="selectedDateIndex.linkLocal ? 'linked' : 'unlinked'"
-                                (click)="linkSlider('local', 'localgrowth', $event)"></button>
-                        </div>
-                    </div>
                     <div class="plot-div">
                         <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
                             [config]="localGrowthGraph.config">
@@ -572,11 +470,17 @@
         <div id="sources">
             <h2 translate>pages.corona.sources.header</h2>
             <ul>
-                <a href="https://github.com/CSSEGISandData/COVID-19"><li>Johns Hopkins University Center for Systems Science and Engineering</li></a>
-                <a href="https://bnonews.com/index.php/2020/04/the-latest-coronavirus-cases/"><li>BNO News</li></a>
-                <a href="https://ourworldindata.org/coronavirus"><li>Our World in Data</li></a>
+                <a href="https://github.com/CSSEGISandData/COVID-19">
+                    <li>Johns Hopkins University Center for Systems Science and Engineering</li>
+                </a>
+                <a href="https://bnonews.com/index.php/2020/04/the-latest-coronavirus-cases/">
+                    <li>BNO News</li>
+                </a>
+                <a href="https://ourworldindata.org/coronavirus">
+                    <li>Our World in Data</li>
+                </a>
             </ul>
-            <div [innerHTML]="'pages.corona.sources.explanation' | translate"></div> 
+            <div [innerHTML]="'pages.corona.sources.explanation' | translate"></div>
         </div>
     </div>
     <app-footer></app-footer>

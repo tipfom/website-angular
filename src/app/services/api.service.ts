@@ -108,7 +108,7 @@ export class ApiService {
   }
 
   getCoronaData(id: string): Observable<CoronaData> {
-    return this.httpClient.get<CoronaData>(this.serverAddress + 'corona/' + id);
+    return this.httpClient.get<CoronaData>(this.serverAddress + 'corona/' + id).pipe(map(data => new CoronaData(data)));
   }
 
   getCoronaTopCountries(): Observable<Map<string, number>[]> {
@@ -116,10 +116,10 @@ export class ApiService {
   }
 
   getCoronaSeriousCases(region: string) {
-    return this.httpClient.get(this.serverAddress + 'coronaserious/' + region, {responseType: "text"});
+    return this.httpClient.get(this.serverAddress + 'coronaserious/' + region, { responseType: "text" });
   }
 
-  getCoronaTestData() : Observable<Map<string, CoronaTestData>> {
+  getCoronaTestData(): Observable<Map<string, CoronaTestData>> {
     return this.httpClient.get<Map<string, CoronaTestData>>(this.serverAddress + 'coronatests');
   }
 }

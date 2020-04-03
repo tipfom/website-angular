@@ -26,7 +26,10 @@ export class CoronaComponent implements OnInit {
 
   selectedDateIndex = {
     linkGlobal: false,
-    globalOverview: 0,
+    globalOverview: {
+      min: 0,
+      max: 1
+    },
     globalStatus: 0,
     globalStats: 0,
 
@@ -453,7 +456,7 @@ export class CoronaComponent implements OnInit {
     this.axisEndDate = new Date(this.dataEndDate);
     this.axisEndDate.setDate(this.axisEndDate.getDate() + 3);
 
-    this.selectedDateIndex.globalOverview = dateLength;
+    this.selectedDateIndex.globalOverview.max = dateLength;
     this.selectedDateIndex.globalStatus = dateLength;
     this.selectedDateIndex.globalStats = dateLength;
     this.selectedDateIndex.localOverview = dateLength;
@@ -486,17 +489,22 @@ export class CoronaComponent implements OnInit {
   }
 
   updateGlobalOverview() {
-    this.globalGraph.data = [];
-    this.buildFitTraces(this.data.get("China").fits.sig[this.selectedDateIndex.globalOverview - 15], "sig", "china", "5899DA8C", "5899DA46").forEach(x => this.globalGraph.data.push(x));
-    this.buildFitTraces(this.data.get("row").fits.exp[this.selectedDateIndex.globalOverview - 15], "exp", "row", "E8743B8C", "E8743B46").forEach(x => this.globalGraph.data.push(x));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
-    this.globalGraph.data.push(this.buildTrace(this.data.get("row").confirmed, this.selectedDateIndex.globalOverview, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
+    let newGlobalGraphData = [];
+    this.buildFitTraces(this.data.get("China"), this.selectedDateIndex.globalOverview.max - 15, "sig", "china", "5899DA8C", "5899DA46").forEach(x => newGlobalGraphData.push(x));
+    this.buildFitTraces(this.data.get("row"), this.selectedDateIndex.globalOverview.max - 15, "exp", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
+    newGlobalGraphData.push(this.buildTrace(this.data.get("China").confirmed, this.selectedDateIndex.globalOverview.max, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
+    newGlobalGraphData.push(this.buildTrace(this.data.get("row").confirmed, this.selectedDateIndex.globalOverview.max, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
+
+    this.globalGraph.data = newGlobalGraphData;
+    this.globalGraph.layout.xaxis.range = [
+      (this.selectedDateIndex.globalOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
+      (this.selectedDateIndex.globalOverview.max + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
+    ];
     this.globalGraph.layout.yaxis.range = [0,
       Math.max(
-        this.data.get("China").confirmed[this.selectedDateIndex.globalOverview],
-        this.data.get("row").confirmed[this.selectedDateIndex.globalOverview]
+        this.data.get("China").confirmed[this.selectedDateIndex.globalOverview.max],
+        this.data.get("row").confirmed[this.selectedDateIndex.globalOverview.max]
       ) * 1.1];
-    this.globalGraph.layout.xaxis.range[1] = (this.selectedDateIndex.globalOverview + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
   }
 
   updateGlobalTests() {
@@ -652,8 +660,8 @@ export class CoronaComponent implements OnInit {
     this.localOverviewGraph.data = [];
     this.localOverviewGraph.data.push(this.buildTrace(regionData.confirmed, this.selectedDateIndex.localOverview, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
     if (regionData.fits != undefined) {
-      this.buildFitTraces(regionData.fits.exp[this.selectedDateIndex.localOverview - 15], "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
-      this.buildFitTraces(regionData.fits.sig[this.selectedDateIndex.localOverview - 15], "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
+      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview - 15, "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => this.localOverviewGraph.data.push(x));
+      this.buildFitTraces(regionData, this.selectedDateIndex.localOverview - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => this.localOverviewGraph.data.push(x));
     }
     this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.selectedDateIndex.localOverview] * 1.2];
     this.localOverviewGraph.layout.xaxis.range[1] = (this.selectedDateIndex.localOverview + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime();
@@ -796,79 +804,12 @@ export class CoronaComponent implements OnInit {
     return piedata;
   }
 
-  getRelativeDate(x: Date) {
-    return (x.getTime() - this.dataStartDate.getTime()) / (60 * 60 * 24 * 1000);
-  }
-
-  getExpErrormargins(a, b, da, db, x: Date[]) {
-    let delta = (x: Date) => {
-      let rel = this.getRelativeDate(x);
-      return Math.sqrt(
-        Math.pow(Math.exp(b * rel) * da, 2) +
-        Math.pow(a * Math.exp(b * rel) * db, 2)
-      );
-    }
-    let err = [];
-    for (var i = 0; i < x.length; i++) {
-      err.push(delta(x[i]));
-    }
-    return err;
-  }
-
-  getSigErrormargins(a, b, c, da, db, dc, x: Date[]) {
-    let delta = (x: Date) => {
-      let rel = this.getRelativeDate(x);
-      return Math.sqrt(
-        Math.pow(1 / (1 + Math.exp(-b * (rel - c))) * da, 2) +
-        Math.pow(-a / Math.pow((1 + Math.exp(-b * (rel - c))), 2) * (c - rel) * Math.exp(-b * (rel - c)) * db, 2) +
-        Math.pow(-a / Math.pow((1 + Math.exp(-b * (rel - c))), 2) * b * Math.exp(-b * (rel - c)) * dc, 2)
-      );
-    }
-    let err = [];
-    for (var i = 0; i < x.length; i++) {
-      err.push(delta(x[i]));
-    }
-    return err;
-  }
-
-  buildFitTraces(fit: CoronaFit, type: string, group: string, color: string, fill: string, sampleCount: number = 300.0) {
-    let x: Date[] = [];
-    let y = [];
-    let yLower = [], yUpper = [];
-    for (var i = 0; i < sampleCount; i++) {
-      let date = new Date(this.axisStartDate);
-      date.setDate(this.axisStartDate.getDate() + i / sampleCount * this.getRelativeDate(this.axisEndDate));
-      x.push(date);
-    }
-
-    switch (type) {
-      case "exp": {
-        let a = fit.param[0], b = fit.param[1];
-        let da = 2 * fit.err[0], db = 2 * fit.err[1];
-        let err = this.getExpErrormargins(a, b, da, db, x);
-        for (var i = 0; i < sampleCount; i++) {
-          let cy = a * Math.exp(b * this.getRelativeDate(x[i]));
-          y.push(cy);
-          yLower.push(cy - err[i]);
-          yUpper.push(cy + err[i]);
-        }
-      } break;
-      case "sig": {
-        let a = fit.param[0], b = fit.param[1], c = fit.param[2];
-        let da = 2 * fit.err[0], db = 2 * fit.err[1], dc = 2 * fit.err[2];
-        let err = this.getSigErrormargins(a, b, c, da, db, dc, x);
-        for (var i = 0; i < sampleCount; i++) {
-          let cy = a / (1 + Math.exp(-b * (this.getRelativeDate(x[i]) - c)));
-          y.push(cy);
-          yLower.push(cy - err[i]);
-          yUpper.push(cy + err[i]);
-        }
-      } break;
-    }
+  buildFitTraces(data: CoronaData, index: number, type: string, group: string, color: string, fill: string, sampleCount: number = 100.0) {
+    let fit = data.cachedFits.get(type + index);
 
     var trace = {
-      x: x,
-      y: y,
+      x: fit.x,
+      y: fit.y,
       mode: 'line',
       type: 'scatter',
       name: this.translateService.instant(type == "sig" ? 'pages.corona.legend.sig-fit' : 'pages.corona.legend.exp-fit'),
@@ -881,8 +822,8 @@ export class CoronaComponent implements OnInit {
     };
 
     var errorBandLower = {
-      x: x,
-      y: yLower,
+      x: fit.x,
+      y: fit.lower,
       fill: 'toself',
       type: 'scatter',
       mode: 'none',
@@ -891,8 +832,8 @@ export class CoronaComponent implements OnInit {
     };
 
     var errorBandUpper = {
-      x: x,
-      y: yUpper,
+      x: fit.x,
+      y: fit.upper,
       fill: 'tonexty',
       type: 'scatter',
       mode: 'none',
@@ -927,7 +868,7 @@ export class CoronaComponent implements OnInit {
   }
 
   linkAllGlobal(index: number) {
-    this.selectedDateIndex.globalOverview = index;
+    this.selectedDateIndex.globalOverview.max = index;
     this.selectedDateIndex.globalStatus = index;
     this.selectedDateIndex.globalStats = index;
 
@@ -951,7 +892,7 @@ export class CoronaComponent implements OnInit {
   onDateSliderChange(name: string): void {
     switch (name) {
       case "globaloverview":
-        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalOverview);
+        if (this.selectedDateIndex.linkGlobal) this.linkAllGlobal(this.selectedDateIndex.globalOverview.max);
         else this.updateGlobalOverview();
         break;
       case "globalstatus":
@@ -981,34 +922,9 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  activeAnimations: Map<string, any> = new Map<string, any>();
   animateSlider(name: string, event: MouseEvent, repeat: boolean): void {
-    let slider = <HTMLInputElement>document.getElementById("date-slider-" + name);
-
-    if (this.activeAnimations.has(name)) {
-      clearInterval(this.activeAnimations.get(name));
-      this.activeAnimations.delete(name);
-    } else {
-      if (slider.value == slider.max) slider.value = slider.min;
-      let updateInterval = setInterval(async () => {
-        slider.value = (Number(slider.value) + 1).toString();
-        slider.dispatchEvent(new Event('input'));
-
-        if (slider.value == slider.max) {
-          if (repeat) {
-            await new Promise(resolve => setTimeout(() => {
-              if (slider.value == slider.max) slider.value = slider.min;
-              resolve();
-            }, 1000));
-          } else {
-            clearInterval(updateInterval);
-            this.activeAnimations.delete(name);
-          }
-        }
-      }, 200);
-
-      this.activeAnimations.set(name, updateInterval);
-    }
+    let slider = <any>document.getElementById("date-slider-" + name);
+    slider.toggleAnimate(repeat);
   }
 
   linkSlider(group: string, name: string, event: MouseEvent): void {

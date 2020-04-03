@@ -28,6 +28,7 @@ import { CoronaComponent } from './pages/corona/corona.component';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { RangeSliderComponent } from './pages/corona/range-slider/range-slider.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -52,6 +53,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     LanguagePopupComponent,
     Error404Component,
     CoronaComponent,
+    RangeSliderComponent,
   ],
   imports: [
     BrowserModule,

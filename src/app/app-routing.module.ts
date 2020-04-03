@@ -11,12 +11,13 @@ import { ArticleComponent } from './pages/article/article.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { CoronaComponent } from './pages/corona/corona.component';
+import { RangeSliderComponent } from './pages/corona/range-slider/range-slider.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent
+    component: RangeSliderComponent
   },
   {
     path: 'aboutme',

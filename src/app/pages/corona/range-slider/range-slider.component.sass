@@ -1,0 +1,74 @@
+@import "src/variables"
+
+.container
+    height: 30px
+    width: calc(100% - 40px)
+    position: relative
+    margin: 0 20px
+
+.pole
+    width: 100%
+    position: absolute
+    top: 12px
+    height: 6px
+    background-color: $color-lightshadow
+    border-radius: 3px
+    border: $color-accent-faded 1px solid
+
+.filled-pole
+    position: absolute
+    top: 12px
+    height: 6px
+    background-color: $color-accent
+    border: $color-accent-secondary 1px solid
+
+.button
+    position: absolute
+    top: 5px
+    height: 20px
+    width: 20px
+    background-color: red
+    border-radius: 20%
+    transform: translateX(10px)
+    background-color: $color-accent
+    border: 1px solid $color-accent-secondary
+    &:hover, &.selected
+        background-color: $color-accent-secondary
+        
+
+.date-slider-control-button
+    border: none
+    background-color: transparent
+    width: 30px
+    height: 30px
+    margin: 0 5px
+    padding: 0
+    background-size: cover
+
+    &:focus
+        outline: none
+
+    svg
+        height: 100%
+        width: 100%
+    
+    &:hover
+        g
+            fill: $color-accent-secondary
+    g
+        fill: $color-accent
+
+   
+.play-stop 
+    margin: 0 24px
+
+.repeat-stop
+    width: 0px
+    margin: 0px
+
+.container-div
+    display: inline-flex
+    align-content: center
+
+.container-div[hidden]
+    display: none

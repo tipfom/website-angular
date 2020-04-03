@@ -1,0 +1,96 @@
+<div class="container-div" style="width: 100%;">
+    <div [hidden]="animateInterval" class="container-div">
+        <button class="date-slider-control-button play-start" (click)="toggleAnimate(false)">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 172 172" style=" fill:#000000;">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                    stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                    font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                    style="mix-blend-mode: normal">
+                    <path d="M0,172v-172h172v172z" fill="none"></path>
+                    <g fill="#21999c">
+                        <path
+                            d="M133.67728,78.42849l-88.01562,-43.62019c-2.66166,-1.34375 -5.84015,-1.21454 -8.39844,0.33594c-2.55829,1.52464 -4.08294,4.26382 -4.08294,7.20974v87.31791c0,2.92007 1.52464,5.65925 4.08294,7.18389c1.39543,0.85276 2.94591,1.26622 4.52223,1.26622c1.34375,0 2.66166,-0.3101 3.87621,-0.90444l88.04147,-43.67188c2.89423,-1.42128 4.72896,-4.34135 4.72896,-7.54567c0,-3.20433 -1.86058,-6.1244 -4.75481,-7.57151z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </button>
+        <button class="date-slider-control-button repeat-start" (click)="toggleAnimate(true)">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 172 172" style=" fill:#000000;">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                    stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                    font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                    style="mix-blend-mode: normal">
+                    <path d="M0,172v-172h172v172z" fill="none"></path>
+                    <g fill="#2ecc71">
+                        <path
+                            d="M128.32813,7.19466c-0.69819,0.06607 -1.39974,0.24199 -2.07161,0.5179c-2.68034,1.11083 -4.42318,3.72543 -4.42318,6.62077v14.33333h-93.16667c-7.83362,0 -14.33333,6.49972 -14.33333,14.33333v35.83333c-0.03655,2.58456 1.32136,4.98858 3.55376,6.29153c2.2324,1.30295 4.99342,1.30295 7.22582,0c2.2324,-1.30295 3.59031,-3.70697 3.55376,-6.29153v-35.83333h93.16667v14.33333c0,2.89533 1.74285,5.50993 4.42318,6.62077c0.88866,0.3655 1.81899,0.5459 2.74349,0.5459c1.86333,0 3.69822,-0.73078 5.06706,-2.09961l21.5,-21.5c2.80217,-2.80217 2.80217,-7.33195 0,-10.13411l-21.5,-21.5c-1.53725,-1.53725 -3.64436,-2.26982 -5.73893,-2.07162zM150.38802,85.90202c-3.95253,0.06178 -7.10882,3.312 -7.05469,7.26465v35.83333h-93.16667v-14.33333c0,-2.89533 -1.74284,-5.50993 -4.42318,-6.62077c-0.88867,-0.3655 -1.81899,-0.5459 -2.74349,-0.5459c-1.86333,0 -3.69822,0.73078 -5.06706,2.09961l-21.5,21.5c-2.80217,2.80217 -2.80217,7.33911 0,10.13411l21.5,21.5c2.04967,2.04967 5.12305,2.65738 7.81055,1.55371c2.68033,-1.11083 4.42318,-3.71827 4.42318,-6.62077v-14.33333h93.16667c7.83362,0 14.33333,-6.49972 14.33333,-14.33333v-35.83333c0.02653,-1.93715 -0.73227,-3.80254 -2.10349,-5.17112c-1.37122,-1.36858 -3.23806,-2.12378 -5.17516,-2.09353z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </button>
+    </div>
+    <div [hidden]="!animateInterval" class="container-div">
+        <button class="date-slider-control-button play-stop" (click)="toggleAnimate(false)">
+
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 172 172" style=" fill:#000000;">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                    stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                    font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                    style="mix-blend-mode: normal">
+                    <path d="M0,172v-172h172v172z" fill="none"></path>
+                    <g fill="#e67e22">
+                        <path
+                            d="M121.83333,136.16667h-71.66667c-7.91917,0 -14.33333,-6.41417 -14.33333,-14.33333v-71.66667c0,-7.91917 6.41417,-14.33333 14.33333,-14.33333h71.66667c7.91917,0 14.33333,6.41417 14.33333,14.33333v71.66667c0,7.91917 -6.41417,14.33333 -14.33333,14.33333z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </button>
+    </div>
+
+    <div class="container" #containerdiv>
+        <div class="pole"></div>
+        <div class="filled-pole" #filledpolediv></div>
+        <div class="button" (mousedown)="lowerDragStart($event)" (mouseup)="lowerDragEnd($event)"
+            [ngClass]="isDraggingLower ? 'selected' : ''" #lowerdiv></div>
+        <div class="button" (mousedown)="upperDragStart($event)" (mouseup)="upperDragEnd($event)"
+            [ngClass]="isDraggingUpper ? 'selected' : ''" #upperdiv></div>
+    </div>
+
+    <div [hidden]="!linked" class="container-div">
+        <button class="date-slider-control-button" (click)="toggleLink()">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 172 172" style=" fill:#000000;">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                    stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                    font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                    style="mix-blend-mode: normal">
+                    <path d="M0,172v-172h172v172z" fill="none"></path>
+                    <g id="original-icon" fill="#ecf0f1">
+                        <path
+                            d="M43,50.16667c-20.94817,0 -37.7007,17.97568 -35.66536,39.34668c1.77733,18.63333 18.48575,32.31999 37.20508,32.31999h19.96029c3.956,0 7.16667,-3.21067 7.16667,-7.16667c0,-3.956 -3.21067,-7.16667 -7.16667,-7.16667h-20.28223c-11.63867,0 -22.07378,-8.72072 -22.67578,-20.35222c-0.65217,-12.39833 9.20301,-22.64778 21.45801,-22.64778h21.5c3.956,0 7.16667,-3.21067 7.16667,-7.16667c0,-3.956 -3.21067,-7.16667 -7.16667,-7.16667zM107.5,50.16667c-3.956,0 -7.16667,3.21067 -7.16667,7.16667c0,3.956 3.21067,7.16667 7.16667,7.16667h20.28223c11.63867,0 22.07378,8.72072 22.67578,20.35222c0.65217,12.39833 -9.20301,22.64778 -21.45801,22.64778h-21.5c-3.956,0 -7.16667,3.21067 -7.16667,7.16667c0,3.956 3.21067,7.16667 7.16667,7.16667h21.5c20.94817,0 37.7007,-17.97568 35.66536,-39.34668c-1.77733,-18.63334 -18.48574,-32.31999 -37.20508,-32.31999zM57.33333,78.83333c-3.956,0 -7.16667,3.21067 -7.16667,7.16667c0,3.956 3.21067,7.16667 7.16667,7.16667h57.33333c3.956,0 7.16667,-3.21067 7.16667,-7.16667c0,-3.956 -3.21067,-7.16667 -7.16667,-7.16667z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </button>
+    </div>
+    <div [hidden]="linked" class="container-div">
+        <button class="date-slider-control-button" (click)="toggleLink()">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 172 172" style=" fill:#000000;">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                    stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                    font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                    style="mix-blend-mode: normal">
+                    <path d="M0,172v-172h172v172z" fill="none"></path>
+                    <g fill="#666666">
+                        <path
+                            d="M43,50.16667c-20.94817,0 -37.70786,17.98968 -35.66536,39.36068c1.77733,18.62616 18.49974,32.30599 37.21908,32.30599h19.94629c3.956,0 7.16667,-3.21067 7.16667,-7.16667c0,-3.956 -3.21067,-7.16667 -7.16667,-7.16667h-20.28223c-11.64583,0 -22.06661,-8.72788 -22.67578,-20.35222c-0.65217,-12.39833 9.20301,-22.64778 21.45801,-22.64778h21.5c3.956,0 7.16667,-3.21067 7.16667,-7.16667c0,-3.956 -3.21067,-7.16667 -7.16667,-7.16667zM130.03581,58.73307c-1.806,0.24098 -3.5307,1.16391 -4.73112,2.7155c-2.43667,3.15333 -1.83825,7.69812 1.34375,10.10612c5.32483,4.0205 12.80728,9.68631 15.50912,11.77181c9.39549,7.25983 11.10911,20.75489 3.84928,30.15039c-7.25983,9.3955 -20.75489,11.12312 -30.15039,3.86328c-2.72333,-2.107 -10.2891,-7.82813 -15.6211,-11.8558c-3.13183,-2.365 -7.57931,-1.77341 -9.98014,1.32975c-2.43667,3.15333 -1.83825,7.68412 1.34375,10.09212c5.3965,4.07783 12.98678,9.82964 15.49511,11.77181c15.652,12.1045 38.16015,9.22037 50.26465,-6.4388c12.1045,-15.65917 9.2132,-38.14615 -6.4388,-50.25065c-2.52267,-1.94933 -10.21743,-7.77763 -15.6211,-11.86979c-1.56592,-1.1825 -3.45702,-1.62672 -5.26302,-1.38574zM57.33333,78.83333c-3.956,0 -7.16667,3.21067 -7.16667,7.16667c0,3.956 3.21067,7.16667 7.16667,7.16667h50.16667c3.956,0 7.16667,-3.21067 7.16667,-7.16667c0,-3.956 -3.21067,-7.16667 -7.16667,-7.16667z">
+                        </path>
+                    </g>
+                </g>
+            </svg> 
+        </button>
+    </div>
+</div>
