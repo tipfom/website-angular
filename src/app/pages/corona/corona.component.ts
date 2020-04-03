@@ -193,7 +193,8 @@ export class CoronaComponent implements OnInit {
     layout: {
       height: 450,
       plot_bgcolor: this.colors.background,
-      paper_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background, 
+      autosize: true,
       font: {
         family: 'sans-serif',
         color: '#00254D',
@@ -223,10 +224,9 @@ export class CoronaComponent implements OnInit {
         xanchor: 'right',
         y: 0.01,
         yanchor: 'bottom',
-        bgcolor: '#e6e2e7',
-        bordercolor: '#21999c',
-        borderwidth: 1,
-        borderradius: 3
+        bgcolor: '#e6e2e746',
+        opacity: 0.5,
+        orientation: 'h',
       },
       margin: { l: 0, r: 0, t: 0, b: 0 }
     },
@@ -695,7 +695,7 @@ export class CoronaComponent implements OnInit {
       this.buildFitTraces(regionData, this.controlSettings.localOverview.max - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => newData.push(x));
     }
     this.localOverviewGraph.data = newData;
-    if(this.controlSettings.localOverview.resize){
+    if (this.controlSettings.localOverview.resize) {
       this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.controlSettings.localOverview.max] * 1.2];
       this.localOverviewGraph.layout.xaxis.range = [
         (this.controlSettings.localOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
@@ -708,7 +708,7 @@ export class CoronaComponent implements OnInit {
         this.axisEndDate.getTime()
       ];
     }
-  } 
+  }
 
   updateLocalBreakdown() {
     let regionData = this.data.get(this.selectedRegion);
@@ -720,7 +720,7 @@ export class CoronaComponent implements OnInit {
       this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
     );
     this.localDeadInfectedHealedGraph.data = newData;
-    if(this.controlSettings.localBreakdown.resize){
+    if (this.controlSettings.localBreakdown.resize) {
       this.localDeadInfectedHealedGraph.layout.xaxis.range = [
         (this.controlSettings.localBreakdown.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
         (this.controlSettings.localBreakdown.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
@@ -736,7 +736,7 @@ export class CoronaComponent implements OnInit {
   updateLocalGrowth() {
     let regionData = this.data.get(this.selectedRegion);
     this.localGrowthGraph.data = this.buildGrowthTraces(regionData.confirmed, this.controlSettings.localGrowth.max, this.colors.growth.rel, this.colors.growth.tot);
-    if(this.controlSettings.localGrowth.resize) {
+    if (this.controlSettings.localGrowth.resize) {
       this.localGrowthGraph.layout.xaxis.range = [
         (this.controlSettings.localGrowth.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
         (this.controlSettings.localGrowth.max + 0.5) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()

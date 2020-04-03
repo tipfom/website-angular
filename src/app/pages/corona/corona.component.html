@@ -453,9 +453,9 @@
                 <div class="plot-item-rowcontainer">
                     <div class="plot-item-small">
                         <h3 translate>pages.corona.local.compare.header</h3>
-                        <div class="plot-div">
+                        <div class="plot-div" style="width: 100%;">
                             <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
-                                [config]="localCompareGraph.config">
+                                [config]="localCompareGraph.config" style="width: 100%;" id="local-compare-graph">
                             </plotly-plot>
                         </div>
                     </div>
