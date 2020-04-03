@@ -41,12 +41,18 @@ export class RangeSliderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    document.addEventListener("mouseup", () => {
+    let endAllDrags = () => {
       this.isDraggingLower = false;
       this.isDraggingUpper = false;
+    };
+    document.addEventListener("mouseup", endAllDrags);
+    document.addEventListener("touchend", endAllDrags);
+    document.addEventListener("touchcancel", endAllDrags);
+    document.addEventListener("touchmove", (event: TouchEvent) => {
+      this.mouseMove(event.changedTouches[0].clientX);
     });
     document.addEventListener("mousemove", (event: MouseEvent) => {
-      this.mouseMove(event);
+      this.mouseMove(event.clientX);
     });
   }
 
@@ -66,25 +72,19 @@ export class RangeSliderComponent implements OnInit {
   }
 
   isDraggingLower: boolean;
-  lowerDragStart(event: MouseEvent) {
+  lowerDragStart() {
     this.isDraggingLower = true;
     this.isDraggingUpper = false;
   }
-  lowerDragEnd(event: MouseEvent) {
-    this.isDraggingLower = false;
-  }
   isDraggingUpper: boolean;
-  upperDragStart(event: MouseEvent) {
+  upperDragStart() {
     this.isDraggingUpper = true;
     this.isDraggingLower = false;
   }
-  upperDragEnd(event: MouseEvent) {
-    this.isDraggingUpper = false;
-  }
-  mouseMove(event: MouseEvent) {
+  mouseMove(x: number) {
     if (this.isDraggingLower) {
       let rect = this.containerDiv.nativeElement.getBoundingClientRect();
-      let newLower = Math.round(this.min + (this.max - this.min) * Math.max(0, Math.min(1, (event.clientX - rect.x) / rect.width)));
+      let newLower = Math.round(this.min + (this.max - this.min) * Math.max(0, Math.min(1, (x - rect.x) / rect.width)));
       if (this.lower != newLower) {
         this.lower = newLower;
         if (this.upper - this.lower < this.distance) {
@@ -103,7 +103,7 @@ export class RangeSliderComponent implements OnInit {
       this.updateCursorPositions();
     } else if (this.isDraggingUpper) {
       let rect = this.containerDiv.nativeElement.getBoundingClientRect();
-      let newUpper = Math.round(this.min + (this.max - this.min) * Math.max(0, Math.min(1, (event.clientX - rect.x) / rect.width)));
+      let newUpper = Math.round(this.min + (this.max - this.min) * Math.max(0, Math.min(1, (x - rect.x) / rect.width)));
       if (this.upper != newUpper) {
         this.upper = newUpper;
         if (this.hasMinMax) {
@@ -172,6 +172,7 @@ export class RangeSliderComponent implements OnInit {
             this.upper = this.max;
             clearInterval(this.animateInterval);
             this.animateInterval = undefined;
+            this.animateIntervalChange.emit(this.animateInterval);
           }
         }
         if (this.linked) {

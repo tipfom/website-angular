@@ -53,9 +53,9 @@
     <div class="container" #containerdiv>
         <div class="pole"></div>
         <div class="filled-pole" #filledpolediv></div>
-        <div class="button" [hidden]="!hasMinMax" (mousedown)="lowerDragStart($event)" (mouseup)="lowerDragEnd($event)"
+        <div class="button" [hidden]="!hasMinMax" (mousedown)="lowerDragStart()" (touchstart)="lowerDragStart()"
             [ngClass]="isDraggingLower ? 'selected' : ''" #lowerdiv></div>
-        <div class="button" (mousedown)="upperDragStart($event)" (mouseup)="upperDragEnd($event)"
+        <div class="button" (mousedown)="upperDragStart()" (touchstart)="upperDragStart()"
             [ngClass]="isDraggingUpper ? 'selected' : ''" #upperdiv></div>
     </div>
 
