@@ -115,7 +115,7 @@
                     "description": "Diese Karte bildet die Anstrengung der verschiedenen Länder ab, auf das Coronavirus zu testen. Die Färbungen werden durch das Verhältnis von gemeldeten durchgeführten Tests und den jeweiligen Infiziertenzahlen am Tag der Meldung berechnet.",
                     "lower": "3 Tests pro 2 Infizierten",
                     "middle": "10 Tests pro Infiziertem",
-                    "upper": "1000 oder mehr Tests pro Infiziertem",
+                    "upper": "100 oder mehr Tests pro Infiziertem",
                     "hover-info":{
                         "published": "Veröffentlicht",
                         "ratio": "Tests pro Infiziertem",
@@ -366,7 +366,8 @@
                 "Sierra_Leone": "Sierra Leone",
                 "Burundi": "Burundi",
                 "Saint_Kitts_and_Nevis": "Sankt Kitts und Nevis",
-                "MS_Zaandam": "MS Zaandam (Shiff)"
+                "MS_Zaandam": "MS Zaandam (Shiff)",
+                "Greenland": "Grönland"
             },
             "slider": "Hiermit kannst du den Zeitraum der Betrachtung ändern",
             "sources": {

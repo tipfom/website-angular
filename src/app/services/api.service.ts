@@ -13,7 +13,7 @@ import { CoronaData, CoronaTestData } from '../structures/corona-structures';
 })
 export class ApiService {
 
-  private useProductionApiServerInDebug = true;
+  private useProductionApiServerInDebug = false;
   private serverAddress = (environment.production || this.useProductionApiServerInDebug) ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
   constructor(private httpClient: HttpClient) {

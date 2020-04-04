@@ -193,7 +193,7 @@ export class CoronaComponent implements OnInit {
     layout: {
       height: 450,
       plot_bgcolor: this.colors.background,
-      paper_bgcolor: this.colors.background, 
+      paper_bgcolor: this.colors.background,
       autosize: true,
       font: {
         family: 'sans-serif',
@@ -549,8 +549,8 @@ export class CoronaComponent implements OnInit {
       locations.push(countryData.original_name);
       z.push(Math.log10(countryData.total / countryData.confirmed_cases));
       texts.push(
-        `</br>${this.translateService.instant("pages.corona.names." + country)} 
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.ratio")}: ${Math.round(countryData.total / countryData.confirmed_cases)}
+        `</br>${this.translateService.instant("pages.corona.names." + country.replace(" ", "_"))} 
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.ratio")}: ${Math.round(countryData.total / countryData.confirmed_cases * 10) / 10}
         </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.tests")}: ${countryData.total}
         </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.infected")}: ${countryData.confirmed_cases}
         </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.published")}: ${new Date(countryData.updated).toLocaleString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" })}
@@ -568,10 +568,9 @@ export class CoronaComponent implements OnInit {
       colorbar: { showcolorbar: false, hidden: true, y: 1, yanchor: "top", orientation: "h" },
       autocolorscale: false,
       colorscale: [
-        [0, '#AA00FF'], [0.8 / 2.8, '#FFD80D'], [1, '#12B313']],
+        [0, '#AA00FF'], [0.8 / 1.8, '#FFD80D'], [1, '#12B313']],
       zmin: 0.2,
-      zmax: 3
-
+      zmax: 2
     });
   }
 

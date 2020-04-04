@@ -115,7 +115,7 @@
                     "description": "This map shows the efforts of different countries to test for the Coronavirus. To color the map the ratio between total tests performed and the amount of confirmed infections as of the date of reporting the test count is computed.",
                     "lower": "3 tests per 2 infections",
                     "middle": "10 tests per infection",
-                    "upper": "1000 or more tests per infection",
+                    "upper": "100 or more tests per infection",
                     "hover-info":{
                         "published": "published",
                         "ratio": "tests per infected",
@@ -366,7 +366,8 @@
                 "Sierra_Leone": "Sierra Leone",
                 "Burundi": "Burundi",
                 "Saint_Kitts_and_Nevis": "Saint Kitts and Nevis",
-                "MS_Zaandam": "MS Zaandam (ship)"
+                "MS_Zaandam": "MS Zaandam (ship)",
+                "Greenland": "Greenland"
             },
             "slider": "You can use this slider to adjust the date of inspection",
             "sources": {
