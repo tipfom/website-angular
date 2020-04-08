@@ -116,7 +116,7 @@
                     "lower": "3 Tests pro 2 Infizierten",
                     "middle": "10 Tests pro Infiziertem",
                     "upper": "100 oder mehr Tests pro Infiziertem",
-                    "hover-info":{
+                    "hover-info": {
                         "published": "Veröffentlicht",
                         "ratio": "Tests pro Infiziertem",
                         "infected": "Infizierte",
@@ -141,7 +141,7 @@
                     "updated": "Aktualisiert: ",
                     "not-available": "Keine Daten verfügbar"
                 },
-                "share":{
+                "share": {
                     "click": "Klicke ",
                     "here": "hier",
                     "to-share": " um die Entwicklung der ausgewählten Region zu teilen.",
@@ -159,7 +159,7 @@
                 "breakdown": "Aufschlüsselung nach Toten, Infizierten und Gesundeten",
                 "growth": "Wachstum der Infiziertenzahlen",
                 "tests": {
-                    "header":"Durchgeführte Tests",
+                    "header": "Durchgeführte Tests",
                     "published": "Veröffentlicht: "
                 }
             },
@@ -169,11 +169,11 @@
                 "error": "95% Fehlerintervall",
                 "tot-growth": "Gesamte neue Fälle",
                 "rel-growth": "Prozentuales Wachstum",
-                "total":"Bestätige Fälle",
+                "total": "Bestätige Fälle",
                 "infected": "Infizierte",
                 "dead": "Tote",
                 "recovered": "Gesundete",
-                "row":"Fälle außerhalb von China",
+                "row": "Fälle außerhalb von China",
                 "china": "Fälle in China"
             },
             "names": {
@@ -367,7 +367,8 @@
                 "Burundi": "Burundi",
                 "Saint_Kitts_and_Nevis": "Sankt Kitts und Nevis",
                 "MS_Zaandam": "MS Zaandam (Shiff)",
-                "Greenland": "Grönland"
+                "Greenland": "Grönland",
+                "Myanmar": "Myanmar"
             },
             "slider": "Hiermit kannst du den Zeitraum der Betrachtung ändern",
             "sources": {
