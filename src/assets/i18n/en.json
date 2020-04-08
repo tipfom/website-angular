@@ -368,7 +368,10 @@
                 "Saint_Kitts_and_Nevis": "Saint Kitts and Nevis",
                 "MS_Zaandam": "MS Zaandam (ship)",
                 "Greenland": "Greenland",
-                "Myanmar": "Myanmar"
+                "Myanmar": "Burma",
+                "Sao_Tome_and_Principe": "Sao Tome and Principe",
+                "Western_Sahara": "Western Sahara",
+                "South_Sudan": "South Sudan"
             },
             "slider": "You can use this slider to adjust the date of inspection",
             "sources": {
