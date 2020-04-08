@@ -568,7 +568,7 @@ export class CoronaComponent implements OnInit {
       colorbar: { showcolorbar: false, hidden: true, y: 1, yanchor: "top", orientation: "h" },
       autocolorscale: false,
       colorscale: [
-        [0, '#AA00FF'], [0.8 / 1.8, '#FFD80D'], [1, '#12B313']],
+        [0, '#d73027'], [0.8 / 1.8, '#ffffbf'], [1, '#1a9850']],
       zmin: 0.2,
       zmax: 2
     });
