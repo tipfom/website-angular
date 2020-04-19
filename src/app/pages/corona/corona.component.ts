@@ -389,18 +389,18 @@ export class CoronaComponent implements OnInit {
 
   statistics = {
     global: {
-      confirmed: { value: 0, delta: "0" },
-      infected: { value: 0, delta: "0" },
-      recovered: { value: 0, delta: "0" },
-      dead: { value: 0, delta: "0" },
+      confirmed: { value: 0, delta: 0 },
+      infected: { value: 0, delta: 0 },
+      recovered: { value: 0, delta: 0 },
+      dead: { value: 0, delta: 0 },
       fatalityrate: 0,
       topcountries: []
     },
     local: {
-      confirmed: { value: 0, delta: "0" },
-      infected: { value: 0, delta: "0" },
-      recovered: { value: 0, delta: "0" },
-      dead: { value: 0, delta: "0" },
+      confirmed: { value: 0, delta: 0 },
+      infected: { value: 0, delta: 0 },
+      recovered: { value: 0, delta: 0 },
+      dead: { value: 0, delta: 0 },
       fatalityrate: 0,
       serious: { value: "0", updated: "0" },
       tests: { value: "0", updated: "0", regions: new Map<string, number>() }
@@ -597,7 +597,7 @@ export class CoronaComponent implements OnInit {
 
   getValueDelta(current: number, previous: number) {
     let delta = (current - previous);
-    return { value: current, delta: delta > 0 ? "+" + delta : delta.toString() };
+    return { value: current, delta: delta};
   }
 
   updateGlobalStats() {
