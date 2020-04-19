@@ -510,7 +510,7 @@ export class CoronaComponent implements OnInit {
   updateGlobalOverview() {
     let newGlobalGraphData = [];
     this.buildFitTraces(this.data.get("China"), this.controlSettings.globalOverview.max - 15, "sig", "china", "5899DA8C", "5899DA46").forEach(x => newGlobalGraphData.push(x));
-    this.buildFitTraces(this.data.get("row"), this.controlSettings.globalOverview.max - 15, "exp", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
+    this.buildFitTraces(this.data.get("row"), this.controlSettings.globalOverview.max - 15, "sig", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
     newGlobalGraphData.push(this.buildTrace(this.data.get("China").confirmed, this.controlSettings.globalOverview.max, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
     newGlobalGraphData.push(this.buildTrace(this.data.get("row").confirmed, this.controlSettings.globalOverview.max, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
 
