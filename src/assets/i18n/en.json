@@ -94,7 +94,7 @@
         },
         "corona": {
             "learn-more": "Learn more",
-            "help": "Thanks for surpassing 500 users! If you have any wishes for improvement or noticed missing data, please let me know! You can find my contact details <a href=\"#contact\">here</a>",
+            "help": "Thanks for surpassing 500 users! If you have any wishes for improvement or noticed missing data, please let me know! You can find my contact details <a href=\"/#contact\">here</a>.",
             "global": {
                 "title": "Global development",
                 "comparison": {
