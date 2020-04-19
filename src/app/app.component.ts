@@ -16,9 +16,9 @@ export class AppComponent {
   title = 'website-angular';
 
   constructor(private translateService: TranslateService, private anchorService: AnchorService, private router: Router) {
-    if (localStorage.getItem("lang")) translateService.setDefaultLang(localStorage.getItem("lang"));
-    else if (navigator.language.startsWith("de")) translateService.setDefaultLang("de");
-    else translateService.setDefaultLang("en");
+    translateService.setDefaultLang("en");
+    if (localStorage.getItem("lang")) translateService.use(localStorage.getItem("lang"));
+    else if (navigator.language.startsWith("de")) translateService.use("de");
 
     this.router.events.subscribe(event => {
       if (!environment.production && event instanceof NavigationStart) console.log(event);

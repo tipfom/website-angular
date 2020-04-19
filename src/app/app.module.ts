@@ -29,7 +29,8 @@ import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { RangeSliderComponent } from './pages/corona/range-slider/range-slider.component';
-import { DeltaNumberPipe } from './pipes/deltanumberpipe.pipe';
+import { LocaleintPipe } from './pipes/localeint.pipe';
+import { LocaledeltaPipe } from './pipes/localedelta.pipe';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -55,7 +56,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     Error404Component,
     CoronaComponent,
     RangeSliderComponent,
-    DeltaNumberPipe,
+    LocaleintPipe,
+    LocaledeltaPipe,
   ],
   imports: [
     BrowserModule,

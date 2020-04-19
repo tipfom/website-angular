@@ -110,23 +110,23 @@
                     <table class="stats-table">
                         <tr class="stats-tr-confirmed">
                             <th translate>pages.corona.global.stats.confirmed</th>
-                            <td>{{statistics.global.confirmed.value | number}}</td>
-                            <td>({{statistics.global.confirmed.delta | delta}})</td>
+                            <td>{{statistics.global.confirmed.value | localeint}}</td>
+                            <td>({{statistics.global.confirmed.delta | localedelta}})</td>
                         </tr>
                         <tr class="stats-tr-infected">
                             <th translate>pages.corona.global.stats.infected</th>
-                            <td>{{statistics.global.infected.value | number}}</td>
-                            <td>({{statistics.global.infected.delta | delta}})</td>
+                            <td>{{statistics.global.infected.value |  localeint}}</td>
+                            <td>({{statistics.global.infected.delta | localedelta}})</td>
                         </tr>
                         <tr class="stats-tr-healed">
                             <th translate>pages.corona.global.stats.recovered</th>
-                            <td>{{statistics.global.recovered.value | number}}</td>
-                            <td>({{statistics.global.recovered.delta | delta}})</td>
+                            <td>{{statistics.global.recovered.value |  localeint}}</td>
+                            <td>({{statistics.global.recovered.delta | localedelta}})</td>
                         </tr>
                         <tr class="stats-tr-dead">
                             <th translate>pages.corona.global.stats.dead</th>
-                            <td>{{statistics.global.dead.value | number}}</td>
-                            <td>({{statistics.global.dead.delta | delta}})</td>
+                            <td>{{statistics.global.dead.value |  localeint}}</td>
+                            <td>({{statistics.global.dead.delta | localedelta}})</td>
                         </tr>
                         <tr class="stats-tr-fatality">
                             <th translate>pages.corona.global.stats.fatality</th>
@@ -137,7 +137,7 @@
                     <table class="stats-table">
                         <tr *ngFor="let country of statistics.global.topcountries">
                             <th>{{country.name}}</th>
-                            <td>{{country.infected | number}}</td>
+                            <td>{{country.infected | localeint}}</td>
                         </tr>
                     </table>
                 </div>
@@ -439,23 +439,23 @@
                         <table class="stats-table">
                             <tr class="stats-tr-confirmed">
                                 <th translate>pages.corona.global.stats.confirmed</th>
-                                <td>{{statistics.local.confirmed.value | number}}</td>
-                                <td>({{statistics.local.confirmed.delta | delta}})</td>
+                                <td>{{statistics.local.confirmed.value | localeint}}</td>
+                                <td>({{statistics.local.confirmed.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-infected">
                                 <th translate>pages.corona.global.stats.infected</th>
-                                <td>{{statistics.local.infected.value | number}}</td>
-                                <td>({{statistics.local.infected.delta | delta}})</td>
+                                <td>{{statistics.local.infected.value | localeint}}</td>
+                                <td>({{statistics.local.infected.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-healed">
                                 <th translate>pages.corona.global.stats.recovered</th>
-                                <td>{{statistics.local.recovered.value | number}}</td>
-                                <td>({{statistics.local.recovered.delta | delta}})</td>
+                                <td>{{statistics.local.recovered.value | localeint}}</td>
+                                <td>({{statistics.local.recovered.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-dead">
                                 <th translate>pages.corona.global.stats.dead</th>
-                                <td>{{statistics.local.dead.value | number}}</td>
-                                <td>({{statistics.local.dead.delta | delta}})</td>
+                                <td>{{statistics.local.dead.value | localeint}}</td>
+                                <td>({{statistics.local.dead.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-fatality">
                                 <th translate>pages.corona.global.stats.fatality</th>
@@ -467,9 +467,9 @@
                 <div class="plot-item-rowcontainer">
                     <div class="plot-item-small">
                         <h3 translate>pages.corona.local.compare.header</h3>
-                        <div class="plot-div" style="width: 100%;">
+                        <div class="plot-div">
                             <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
-                                [config]="localCompareGraph.config" style="width: 100%;" id="local-compare-graph">
+                                [config]="localCompareGraph.config" id="local-compare-graph">
                             </plotly-plot>
                         </div>
                     </div>

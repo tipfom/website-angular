@@ -407,12 +407,12 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  constructor(private apiService: ApiService, private translateService: TranslateService, private deviceService: DeviceDetectorService, private route: ActivatedRoute) {
+  constructor(private apiService: ApiService, public translateService: TranslateService, private deviceService: DeviceDetectorService, private route: ActivatedRoute) {
     this.translateService.onLangChange.subscribe(() => {
-      this.updateAll();
       setTimeout(() => {
+        if (this.ready) this.updateAll();
         this.sortRegionSelect();
-      }, 100);
+      }, 20);
     });
   }
 
@@ -550,10 +550,9 @@ export class CoronaComponent implements OnInit {
       z.push(Math.log10(countryData.total / countryData.confirmed_cases));
       texts.push(
         `</br>${this.translateService.instant("pages.corona.names." + country.replace(" ", "_"))} 
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.ratio")}: ${Math.round(countryData.total / countryData.confirmed_cases * 10) / 10}
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.tests")}: ${countryData.total}
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.infected")}: ${countryData.confirmed_cases}
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.published")}: ${new Date(countryData.updated).toLocaleString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" })}
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.ratio")}: ${(countryData.total / countryData.confirmed_cases).toLocaleString(this.translateService.currentLang, { useGrouping: true, minimumFractionDigits: 1, maximumFractionDigits: 1, minimumIntegerDigits: 1 })}
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.tests")}: ${Math.abs(countryData.total).toLocaleString(this.translateService.currentLang, { useGrouping: true })}
+        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.infected")}: ${Math.abs(countryData.confirmed_cases).toLocaleString(this.translateService.currentLang, { useGrouping: true })}
         `);
     });
 
@@ -597,7 +596,7 @@ export class CoronaComponent implements OnInit {
 
   getValueDelta(current: number, previous: number) {
     let delta = (current - previous);
-    return { value: current, delta: delta};
+    return { value: current, delta: delta };
   }
 
   updateGlobalStats() {
@@ -631,7 +630,7 @@ export class CoronaComponent implements OnInit {
 
     if (this.dataOnTests != undefined && this.dataOnTests[this.selectedRegion] != undefined) {
       let data = this.dataOnTests[this.selectedRegion];
-      this.statistics.local.tests.value = data.total.toString();
+      this.statistics.local.tests.value = Number.parseInt(data.total).toLocaleString(this.translateService.currentLang, { useGrouping: true });
       this.statistics.local.tests.updated = new Date(data.updated).toLocaleString(undefined, {
         weekday: "short",
         year: "numeric",
@@ -667,7 +666,7 @@ export class CoronaComponent implements OnInit {
       if (data[1] == "not-available") {
         this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");
       } else {
-        this.statistics.local.serious.value = data[1];
+        this.statistics.local.serious.value = Number.parseInt(data[1].replace(",", "")).toLocaleString(this.translateService.currentLang, { useGrouping: true });
       }
     });
   }
