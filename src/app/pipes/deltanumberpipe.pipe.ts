@@ -10,7 +10,7 @@ export class DeltaNumberPipe implements PipeTransform {
   }
 
   transform(value: number, ...args: unknown[]): string {
-    return (Math.sign(value) > 0 ? "+" : "-") + Math.abs(value).toLocaleString('en', { useGrouping: true });
+    return (Math.sign(value) > 0 ? "+" : "−") + Math.abs(value).toLocaleString('en', { useGrouping: true });
   }
 
 }
