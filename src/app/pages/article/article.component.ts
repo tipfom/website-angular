@@ -29,9 +29,6 @@ export class ArticleComponent implements OnInit {
     this.apiService.getArticle(name).subscribe(r => {
       this.article = r;
 
-      let lang = this.translateService.currentLang;
-      if (lang == undefined) lang = this.translateService.defaultLang;
-
       if (this.route.snapshot.paramMap.get('version') == undefined) this.articleVersion = this.article.files.length - 1;
       else this.articleVersion = +this.route.snapshot.paramMap.get('version');
 
@@ -40,7 +37,7 @@ export class ArticleComponent implements OnInit {
 
       this.isOldVersion = this.articleVersion != this.article.files.length - 1;
 
-      this.loadArticle(lang);
+      this.loadArticle(this.translateService.currentLang);
     }, (error) => this.router.navigate(['404']));
 
     this.translateService.onLangChange.subscribe((e: LangChangeEvent) => this.loadArticle(e.lang));
@@ -50,13 +47,11 @@ export class ArticleComponent implements OnInit {
   }
 
   loadArticle(lang: string) {
-    if (this.article.files != undefined) {
+    if (this.article != undefined && this.article.files != undefined) {
       let file = this.article.files[this.articleVersion].find(x => x.lang == lang);
       this.languageAvailable = file != undefined;
       if (!this.languageAvailable) file = this.article.files[this.articleVersion][0];
       this.articleContentUrl = this.apiService.getArticleContentUrl(file.path);
-    } else {
-      this.router.navigate(['404']);
     }
   }
   

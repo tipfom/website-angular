@@ -2,23 +2,26 @@
     <app-navigation-bar></app-navigation-bar>
     <div class="backgrounddiv">
         <div class="contentdiv-large">
-            <span id="warningspan" *ngIf="isOldVersion"
-                [innerHTML]="'pages.article.deprecated-warning' | translate:{newestVersionHref: newestVersionHref}"></span>
-            <div
-                *ngIf="translateService.currentLang == 'de' || (translateService.currentLang == undefined && translateService.defaultLang == 'de'); then germanBlock else englishBlock">
+            <div *ngIf="article">
+                <span id="warningspan" *ngIf="isOldVersion"
+                    [innerHTML]="'pages.article.deprecated-warning' | translate:{newestVersionHref: newestVersionHref}"></span>
+                <div
+                    *ngIf="translateService.currentLang == 'de' || (translateService.currentLang == undefined && translateService.defaultLang == 'de'); then germanBlock else englishBlock">
+                </div>
+                <ng-template #germanBlock>
+                    <h1 class="titleheader">{{article.title_de}}</h1>
+                </ng-template>
+                <ng-template #englishBlock>
+                    <h1 class="titleheader">{{article.title_en}}</h1>
+                </ng-template>
+                <span *ngIf="!languageAvailable" id="languageinfospan"
+                    [innerHTML]="'pages.article.language-not-available' | translate"></span>
+                <markdown [src]="articleContentUrl" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers></markdown>
+                <span id="editedspan" translate
+                    [translateParams]="{lastChanged: article.creation_time}">pages.article.created <a
+                        *ngIf="previousVersionHref" [href]="previousVersionHref"
+                        translate>pages.article.previous-version</a></span>
             </div>
-            <ng-template #germanBlock>
-                <h1 class="titleheader">{{article.title_de}}</h1>
-            </ng-template>
-            <ng-template #englishBlock>
-                <h1 class="titleheader">{{article.title_en}}</h1>
-            </ng-template>
-            <span *ngIf="!languageAvailable" id="languageinfospan" [innerHTML]="'pages.article.language-not-available' | translate"></span>
-            <markdown [src]="articleContentUrl" id="markdowndiv" (ready)="onMarkdownLoad()" lineNumbers></markdown>
-            <span id="editedspan" translate
-                [translateParams]="{lastChanged: article.creation_time}">pages.article.created <a
-                    *ngIf="previousVersionHref" [href]="previousVersionHref"
-                    translate>pages.article.previous-version</a></span>
         </div>
     </div>
     <app-footer></app-footer>
