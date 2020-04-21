@@ -431,6 +431,10 @@ export class CoronaComponent implements OnInit {
       }
     });
 
+    let testMapDiv = document.getElementById("test-map-div");
+    testMapDiv.addEventListener("mousemove", (ev) => {ev.stopImmediatePropagation();});
+    testMapDiv.addEventListener("touchmove", (ev) => {ev.stopImmediatePropagation();});
+
     let requiredRegions = ["China", "row", "global", "US", "Italy", "Spain"];
     let loadedRegions = 0;
     requiredRegions.forEach(country => {

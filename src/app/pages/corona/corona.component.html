@@ -73,7 +73,7 @@
                                 pages.corona.global.test-map.upper</td>
                         </tr>
                     </table>
-                    <div class="plot-div">
+                    <div class="plot-div" id="test-map-div">
                         <plotly-plot [data]="globalTestsGraph.data" [layout]="globalTestsGraph.layout"
                             [config]="globalTestsGraph.config" (update)="globalTestsMapUpdated()"
                             id="global-tests-plot">
