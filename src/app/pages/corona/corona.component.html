@@ -12,418 +12,90 @@
             <option value="63"></option>
         </datalist>
         <h1>COVID-19 Dashboard</h1>
-        <div class="contentdiv-large" id="help-div">
-            <span [innerHTML]="'pages.corona.help' | translate"></span>
-        </div>
-        <div class="contentdiv-large" id="global">
-            <h2 translate>pages.corona.global.title</h2>
-            <div class="plot-container">
-                <div class="plot-item-large">
-                    <h3 translate>pages.corona.global.comparison.header</h3>
-                    <div class="description-div" translate>pages.corona.global.comparison.description
-                        <a href="article/corona" translate>pages.corona.learn-more</a>
-                    </div>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(upper)]="controlSettings.globalOverview.max"
-                            [(lower)]="controlSettings.globalOverview.min"
-                            [(resize)]="controlSettings.globalOverview.resize"
-                            [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
-                            (change)="onDateSliderChange('globaloverview')" [(linked)]="controlSettings.linkGlobal">
-                        </app-range-slider>
-                    </div>
-                    <div class="plot-div">
-                        <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
-                            [config]="globalGraph.config" id="global-overview-plot">
-                        </plotly-plot>
-                    </div>
-                </div>
-                <div class="plot-item-large"
-                    style="display:inline-flex; justify-content: center;flex-direction: column;">
-                    <h3 translate>pages.corona.global.test-map.header</h3>
-                    <div class="description-div">
-                        {{ 'pages.corona.global.test-map.description' | translate }}
-                        <div>
-                            {{ 'pages.corona.global.test-map.scope.description' | translate }}
-                            <select (change)="selectedScopeChanged()" id="scope-select" style="min-width: 150px;">
-                                <option value="world" translate>pages.corona.global.test-map.scope.world</option>
-                                <option value="europe" translate>pages.corona.global.test-map.scope.europe</option>
-                                <option value="asia" translate>pages.corona.global.test-map.scope.asia</option>
-                                <option value="africa" translate>pages.corona.global.test-map.scope.africa</option>
-                                <option value="north america" translate>
-                                    pages.corona.global.test-map.scope.north_america
-                                </option>
-                                <option value="south america" translate>
-                                    pages.corona.global.test-map.scope.south_america
-                                </option>
-                            </select>
+        <div class="containerdiv">
+            <div class="contentdiv-large" id="help-div">
+                <span [innerHTML]="'pages.corona.help' | translate"></span>
+            </div>
+            <div class="contentdiv-large" id="global">
+                <h2 translate>pages.corona.global.title</h2>
+                <div class="plot-container">
+                    <div class="plot-item-large">
+                        <h3 translate>pages.corona.global.comparison.header</h3>
+                        <div class="description-div" translate>pages.corona.global.comparison.description
+                            <a href="article/corona" translate>pages.corona.learn-more</a>
+                        </div>
+                        <div class="date-slider-div">
+                            <span translate>pages.corona.slider</span>
+                            <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                                [(upper)]="controlSettings.globalOverview.max"
+                                [(lower)]="controlSettings.globalOverview.min"
+                                [(resize)]="controlSettings.globalOverview.resize"
+                                [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
+                                (change)="onDateSliderChange('globaloverview')" [(linked)]="controlSettings.linkGlobal">
+                            </app-range-slider>
+                        </div>
+                        <div class="plot-div">
+                            <plotly-plot [data]="globalGraph.data" [layout]="globalGraph.layout"
+                                [config]="globalGraph.config" id="global-overview-plot">
+                            </plotly-plot>
                         </div>
                     </div>
-                    <div
-                        style="width: 86%; height: 20px; margin: 5px 7%; background-image: linear-gradient(to right, #d73027, #ffffbf, #1a9850)">
-                    </div>
-                    <table style="width: 86%; margin: 5px 7%;">
-                        <tr>
-                            <td style="width:33%; text-align: left; vertical-align: text-top;" translate>
-                                pages.corona.global.test-map.lower</td>
-                            <td style="width:33%; text-align: center; vertical-align: text-top;" translate>
-                                pages.corona.global.test-map.middle</td>
-                            <td style="width:33%; text-align: right; vertical-align: text-top;" translate>
-                                pages.corona.global.test-map.upper</td>
-                        </tr>
-                    </table>
-                    <div class="plot-div" id="test-map-div">
-                        <plotly-plot [data]="globalTestsGraph.data" [layout]="globalTestsGraph.layout"
-                            [config]="globalTestsGraph.config" (update)="globalTestsMapUpdated()"
-                            id="global-tests-plot">
-                        </plotly-plot>
-                    </div>
-                </div>
-                <div class="plot-item-small">
-                    <h3 translate>pages.corona.global.status</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(upper)]="controlSettings.globalStatus.index" [hasMinMax]="false" [hasResize]="false"
-                            [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
-                            (change)="onDateSliderChange('globalstatus')" [(linked)]="controlSettings.linkGlobal">
-                        </app-range-slider>
-                    </div>
-                    <div class="plot-div">
-                        <plotly-plot [data]="globalDeadInfectedHealedGraph.data"
-                            [layout]="globalDeadInfectedHealedGraph.layout"
-                            [config]="globalDeadInfectedHealedGraph.config">
-                        </plotly-plot>
-                    </div>
-                </div>
-                <div class="plot-item-small">
-                    <h3 translate>pages.corona.global.statistics</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(upper)]="controlSettings.globalStats.index" [hasMinMax]="false" [hasResize]="false"
-                            [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
-                            (change)="onDateSliderChange('globalstats')" [(linked)]="controlSettings.linkGlobal">
-                        </app-range-slider>
-                    </div>
-                    <table class="stats-table">
-                        <tr class="stats-tr-confirmed">
-                            <th translate>pages.corona.global.stats.confirmed</th>
-                            <td>{{statistics.global.confirmed.value | localeint}}</td>
-                            <td>({{statistics.global.confirmed.delta | localedelta}})</td>
-                        </tr>
-                        <tr class="stats-tr-infected">
-                            <th translate>pages.corona.global.stats.infected</th>
-                            <td>{{statistics.global.infected.value |  localeint}}</td>
-                            <td>({{statistics.global.infected.delta | localedelta}})</td>
-                        </tr>
-                        <tr class="stats-tr-healed">
-                            <th translate>pages.corona.global.stats.recovered</th>
-                            <td>{{statistics.global.recovered.value |  localeint}}</td>
-                            <td>({{statistics.global.recovered.delta | localedelta}})</td>
-                        </tr>
-                        <tr class="stats-tr-dead">
-                            <th translate>pages.corona.global.stats.dead</th>
-                            <td>{{statistics.global.dead.value |  localeint}}</td>
-                            <td>({{statistics.global.dead.delta | localedelta}})</td>
-                        </tr>
-                        <tr class="stats-tr-fatality">
-                            <th translate>pages.corona.global.stats.fatality</th>
-                            <td>{{statistics.global.fatalityrate | number:'1.2-2'}}%</td>
-                        </tr>
-                    </table>
-                    <h3 translate>pages.corona.global.top5</h3>
-                    <table class="stats-table">
-                        <tr *ngFor="let country of statistics.global.topcountries">
-                            <th>{{country.name}}</th>
-                            <td>{{country.infected | localeint}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="contentdiv-large" id="regional">
-            <h2 translate>pages.corona.local.title</h2>
-            <div id="region-div" translate>
-                pages.corona.local.change-region
-            </div>
-            <select (change)="selectedRegionChanged()" id="region-select">
-                <option value="global" translate>pages.corona.names.global</option>
-
-                <optgroup label="{{ 'pages.corona.names.Regions' | translate}}">
-                    <option value="China" translate>pages.corona.names.China</option>
-                    <option value="western_pacific_region" translate>pages.corona.names.western_pacific_region
-                    </option>
-                    <option value="european_region" translate>pages.corona.names.european_region</option>
-                    <option value="south_east_asia_region" translate>pages.corona.names.south_east_asia_region
-                    </option>
-                    <option value="eastern_mediterranean_region" translate>
-                        pages.corona.names.eastern_mediterranean_region</option>
-                    <option value="region_of_the_americans" translate>pages.corona.names.region_of_the_americans
-                    </option>
-                    <option value="african_region" translate>pages.corona.names.african_region</option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.china' | translate }}">
-                    <option value="China" translate>pages.corona.names.China</option>
-                    <option value="Taiwan*" translate>pages.corona.names.Taiwan*</option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.western_pacific_region' | translate }}">
-                    <option value="Korea,_South" translate>pages.corona.names.Korea,_South</option>
-                    <option value="Japan" translate>pages.corona.names.Japan</option>
-                    <option value="Singapore" translate>pages.corona.names.Singapore</option>
-                    <option value="Australia" translate>pages.corona.names.Australia</option>
-                    <option value="Malaysia" translate>pages.corona.names.Malaysia</option>
-                    <option value="Vietnam" translate>pages.corona.names.Vietnam</option>
-                    <option value="Philippines" translate>pages.corona.names.Philippines</option>
-                    <option value="Cambodia" translate>pages.corona.names.Cambodia</option>
-                    <option value="New_Zealand" translate>pages.corona.names.New_Zealand</option>
-                    <option value="Fiji" translate>pages.corona.names.Fiji</option>
-                    <option value="Papua_New_Guinea" translate>pages.corona.names.Papua_New_Guinea</option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.european_region' | translate }}">
-                    <option value="Italy" translate>pages.corona.names.Italy</option>
-                    <option value="France" translate>pages.corona.names.France</option>
-                    <option value="Germany" translate>pages.corona.names.Germany</option>
-                    <option value="Spain" translate>pages.corona.names.Spain</option>
-                    <option value="United_Kingdom" translate>pages.corona.names.United_Kingdom</option>
-                    <option value="Switzerland" translate>pages.corona.names.Switzerland</option>
-                    <option value="Norway" translate>pages.corona.names.Norway</option>
-                    <option value="Sweden" translate>pages.corona.names.Sweden</option>
-                    <option value="Austria" translate>pages.corona.names.Austria</option>
-                    <option value="Croatia" translate>pages.corona.names.Croatia</option>
-                    <option value="Netherlands" translate>pages.corona.names.Netherlands</option>
-                    <option value="Azerbaijan" translate>pages.corona.names.Azerbaijan</option>
-                    <option value="Denmark" translate>pages.corona.names.Denmark</option>
-                    <option value="Georgia" translate>pages.corona.names.Georgia</option>
-                    <option value="Greece" translate>pages.corona.names.Greece</option>
-                    <option value="Romania" translate>pages.corona.names.Romania</option>
-                    <option value="Finland" translate>pages.corona.names.Finland</option>
-                    <option value="Russia" translate>pages.corona.names.Russia</option>
-                    <option value="Belarus" translate>pages.corona.names.Belarus</option>
-                    <option value="Belgium" translate>pages.corona.names.Belgium</option>
-                    <option value="Estonia" translate>pages.corona.names.Estonia</option>
-                    <option value="Ireland" translate>pages.corona.names.Ireland</option>
-                    <option value="Lithuania" translate>pages.corona.names.Lithuania</option>
-                    <option value="Monaco" translate>pages.corona.names.Monaco</option>
-                    <option value="North_Macedonia" translate>pages.corona.names.North_Macedonia</option>
-                    <option value="San_Marino" translate>pages.corona.names.San_Marino</option>
-                    <option value="Luxembourg" translate>pages.corona.names.Luxembourg</option>
-                    <option value="Iceland" translate>pages.corona.names.Iceland</option>
-                    <option value="Czechia" translate>pages.corona.names.Czechia</option>
-                    <option value="Andorra" translate>pages.corona.names.Andorra</option>
-                    <option value="Portugal" translate>pages.corona.names.Portugal</option>
-                    <option value="Latvia" translate>pages.corona.names.Latvia</option>
-                    <option value="Ukraine" translate>pages.corona.names.Ukraine</option>
-                    <option value="Hungary" translate>pages.corona.names.Hungary</option>
-                    <option value="Liechtenstein" translate>pages.corona.names.Liechtenstein</option>
-                    <option value="Poland" translate>pages.corona.names.Poland</option>
-                    <option value="Bosnia_and_Herzegovina" translate>pages.corona.names.Bosnia_and_Herzegovina
-                    </option>
-                    <option value="Slovenia" translate>pages.corona.names.Slovenia</option>
-                    <option value="Serbia" translate>pages.corona.names.Serbia</option>
-                    <option value="Slovakia" translate>pages.corona.names.Slovakia</option>
-                    <option value="Malta" translate>pages.corona.names.Malta</option>
-                    <option value="Bulgaria" translate>pages.corona.names.Bulgaria</option>
-                    <option value="Moldova" translate>pages.corona.names.Moldova</option>
-                    <option value="Albania" translate>pages.corona.names.Albania</option>
-                    <option value="Cyprus" translate>pages.corona.names.Cyprus</option>
-                    <option value="Turkey" translate>pages.corona.names.Turkey</option>
-                    <option value="Holy_See" translate>pages.corona.names.Holy_See</option>
-                    <option value="Kosovo" translate>pages.corona.names.Kosovo</option>
-                    <option value="Montenegro" translate>pages.corona.names.Montenegro</option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.south_east_asia_region' | translate }}">
-                    <option value="Thailand" translate>pages.corona.names.Thailand</option>
-                    <option value="Indonesia" translate>pages.corona.names.Indonesia</option>
-                    <option value="India" translate>pages.corona.names.India</option>
-                    <option value="Nepal" translate>pages.corona.names.Nepal</option>
-                    <option value="Sri_Lanka" translate>pages.corona.names.Sri_Lanka</option>
-                    <option value="Bhutan" translate>pages.corona.names.Bhutan</option>
-                    <option value="Maldives" translate>pages.corona.names.Maldives</option>
-                    <option value="Bangladesh" translate>pages.corona.names.Bangladesh</option>
-                    <option value="Brunei" translate>pages.corona.names.Brunei</option>
-                    <option value="Mongolia" translate>pages.corona.names.Mongolia</option>
-                    <option value="Uzbekistan" translate>pages.corona.names.Uzbekistan</option>
-                    <option value="Kazakhstan" translate>pages.corona.names.Kazakhstan</option>
-                    <option value="Kyrgyzstan" translate>pages.corona.names.Kyrgyzstan</option>
-                    <option value="Timor-Leste" translate>pages.corona.names.Timor-Leste</option>
-                    <option value="Laos" translate>pages.corona.names.Laos</option>
-                    <option value="Burma" translate>pages.corona.names.Burma</option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.eastern_mediterranean_region' | translate }}">
-                    <option value="Armenia" translate>pages.corona.names.Armenia</option>
-                    <option value="Iran" translate>pages.corona.names.Iran</option>
-                    <option value="Kuwait" translate>pages.corona.names.Kuwait</option>
-                    <option value="Bahrain" translate>pages.corona.names.Bahrain</option>
-                    <option value="United_Arab_Emirates" translate>pages.corona.names.United_Arab_Emirates
-                    </option>
-                    <option value="Iraq" translate>pages.corona.names.Iraq</option>
-                    <option value="Oman" translate>pages.corona.names.Oman</option>
-                    <option value="Pakistan" translate>pages.corona.names.Pakistan</option>
-                    <option value="Lebanon" translate>pages.corona.names.Lebanon</option>
-                    <option value="Afghanistan" translate>pages.corona.names.Afghanistan</option>
-                    <option value="Egypt" translate>pages.corona.names.Egypt</option>
-                    <option value="Qatar" translate>pages.corona.names.Qatar</option>
-                    <option value="Saudi_Arabia" translate>pages.corona.names.Saudi_Arabia</option>
-                    <option value="Jordan" translate>pages.corona.names.Jordan</option>
-                    <option value="Israel" translate>pages.corona.names.Israel</option>
-                    <option value="Syria" translate>pages.corona.names.Syria</option>
-                    <option value="West_Bank_and_Gaza" translate>pages.corona.names.West_Bank_and_Gaza</option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.region_of_the_americans' | translate }}">
-                    <option value="US" translate>pages.corona.names.US</option>
-                    <option value="Canada" translate>pages.corona.names.Canada</option>
-                    <option value="Brazil" translate>pages.corona.names.Brazil</option>
-                    <option value="Mexico" translate>pages.corona.names.Mexico</option>
-                    <option value="Ecuador" translate>pages.corona.names.Ecuador</option>
-                    <option value="Dominican_Republic" translate>pages.corona.names.Dominican_Republic</option>
-                    <option value="Chile" translate>pages.corona.names.Chile</option>
-                    <option value="Argentina" translate>pages.corona.names.Argentina</option>
-                    <option value="Peru" translate>pages.corona.names.Peru</option>
-                    <option value="Colombia" translate>pages.corona.names.Colombia</option>
-                    <option value="Costa_Rica" translate>pages.corona.names.Costa_Rica</option>
-                    <option value="Paraguay" translate>pages.corona.names.Paraguay</option>
-                    <option value="Honduras" translate>pages.corona.names.Honduras</option>
-                    <option value="Jamaica" translate>pages.corona.names.Jamaica</option>
-                    <option value="Cuba" translate>pages.corona.names.Cuba</option>
-                    <option value="Guyana" translate>pages.corona.names.Guyana</option>
-                    <option value="Panama" translate>pages.corona.names.Panama</option>
-                    <option value="Bolivia" translate>pages.corona.names.Bolivia</option>
-                    <option value="Venezuela" translate>pages.corona.names.Venezuela</option>
-                    <option value="Guatemala" translate>pages.corona.names.Guatemala</option>
-                    <option value="Saint_Lucia" translate>pages.corona.names.Saint_Lucia</option>
-                    <option value="Saint_Vincent_and_the_Grenadines" translate>
-                        pages.corona.names.Saint_Vincent_and_the_Grenadines</option>
-                    <option value="Antigua_and_Barbuda" translate>pages.corona.names.Antigua_and_Barbuda
-                    </option>
-                    <option value="Uruguay" translate>pages.corona.names.Uruguay</option>
-                    <option value="Trinidad_and_Tobago" translate>pages.corona.names.Trinidad_and_Tobago
-                    </option>
-                    <option value="Suriname" translate>pages.corona.names.Suriname</option>
-                    <option value="Bahamas" translate>pages.corona.names.Bahamas</option>
-                    <option value="Barbados" translate>pages.corona.names.Barbados</option>
-                    <option value="Nicaragua" translate>pages.corona.names.Nicaragua</option>
-                    <option value="El_Salvador" translate>pages.corona.names.El_Salvador</option>
-                    <option value="Haiti" translate>pages.corona.names.Haiti</option>
-                    <option value="Dominica" translate>pages.corona.names.Dominica</option>
-                    <option value="Grenada" translate>pages.corona.names.Grenada</option>
-                    <option value="Belize" translate>pages.corona.names.Belize</option>
-                    <option value="Saint_Kitts_and_Nevis" translate>pages.corona.names.Saint_Kitts_and_Nevis
-                    </option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.african_region' | translate }}">
-                    <option value="Algeria" translate>pages.corona.names.Algeria</option>
-                    <option value="Nigeria" translate>pages.corona.names.Nigeria</option>
-                    <option value="Morocco" translate>pages.corona.names.Morocco</option>
-                    <option value="Senegal" translate>pages.corona.names.Senegal</option>
-                    <option value="Tunisia" translate>pages.corona.names.Tunisia</option>
-                    <option value="South_Africa" translate>pages.corona.names.South_Africa</option>
-                    <option value="Togo" translate>pages.corona.names.Togo</option>
-                    <option value="Cameroon" translate>pages.corona.names.Cameroon</option>
-                    <option value="Congo_(Kinshasa)" translate>pages.corona.names.Congo_(Kinshasa)</option>
-                    <option value="Cote_d'Ivoire" translate>pages.corona.names.Cote_d'Ivoire</option>
-                    <option value="Burkina_Faso" translate>pages.corona.names.Burkina_Faso</option>
-                    <option value="Ghana" translate>pages.corona.names.Ghana</option>
-                    <option value="Namibia" translate>pages.corona.names.Namibia</option>
-                    <option value="Seychelles" translate>pages.corona.names.Seychelles</option>
-                    <option value="Eswatini" translate>pages.corona.names.Eswatini</option>
-                    <option value="Gabon" translate>pages.corona.names.Gabon</option>
-                    <option value="Mauritania" translate>pages.corona.names.Mauritania</option>
-                    <option value="Rwanda" translate>pages.corona.names.Rwanda</option>
-                    <option value="Sudan" translate>pages.corona.names.Sudan</option>
-                    <option value="Kenya" translate>pages.corona.names.Kenya</option>
-                    <option value="Guinea" translate>pages.corona.names.Guinea</option>
-                    <option value="Congo_(Brazzaville)" translate>pages.corona.names.Congo_(Brazzaville)
-                    </option>
-                    <option value="Equatorial_Guinea" translate>pages.corona.names.Equatorial_Guinea</option>
-                    <option value="Central_African_Republic" translate>
-                        pages.corona.names.Central_African_Republic
-                    </option>
-                    <option value="Ethiopia" translate>pages.corona.names.Ethiopia</option>
-                    <option value="Benin" translate>pages.corona.names.Benin</option>
-                    <option value="Liberia" translate>pages.corona.names.Liberia</option>
-                    <option value="Somalia" translate>pages.corona.names.Somalia</option>
-                    <option value="Tanzania" translate>pages.corona.names.Tanzania</option>
-                    <option value="Mauritius" translate>pages.corona.names.Mauritius</option>
-                    <option value="Zambia" translate>pages.corona.names.Zambia</option>
-                    <option value="Djibouti" translate>pages.corona.names.Djibouti</option>
-                    <option value="Chad" translate>pages.corona.names.Chad</option>
-                    <option value="Zimbabwe" translate>pages.corona.names.Zimbabwe</option>
-                    <option value="Niger" translate>pages.corona.names.Niger</option>
-                    <option value="Madagascar" translate>pages.corona.names.Madagascar</option>
-                    <option value="Cabo_Verde" translate>pages.corona.names.Cabo_Verde</option>
-                    <option value="Angola" translate>pages.corona.names.Angola</option>
-                    <option value="Eritrea" translate>pages.corona.names.Eritrea</option>
-                    <option value="Uganda" translate>pages.corona.names.Uganda</option>
-                    <option value="Mozambique" translate>pages.corona.names.Mozambique</option>
-                    <option value="Gambia" translate>pages.corona.names.Gambia</option>
-                    <option value="Libya" translate>pages.corona.names.Libya</option>
-                    <option value="Guinea-Bissau" translate>pages.corona.names.Guinea-Bissau</option>
-                    <option value="Mali" translate>pages.corona.names.Mali</option>
-                    <option value="Botswana" translate>pages.corona.names.Botswana</option>
-                    <option value="Burundi" translate>pages.corona.names.Burundi</option>
-                    <option value="Sao_Tome_and_Principe" translate>pages.corona.names.Sao_Tome_and_Principe</option>
-                    <option value="Western_Sahara" translate>pages.corona.names.Western_Sahara</option>
-                    <option value="South_Sudan" translate>pages.corona.names.South_Sudan</option>
-                    <option value="Sierra_Leone" translate>pages.corona.names.Sierra_Leone</option>
-                </optgroup>
-                <optgroup label="{{ 'pages.corona.names.other' | translate }}">
-                    <option value="Diamond_Princess" translate>pages.corona.names.Diamond_Princess</option>
-                    <option value="MS_Zaandam" translate>pages.corona.names.MS_Zaandam</option>
-                </optgroup>
-            </select>
-            <div id="share-div">
-                <span translate>pages.corona.local.share.click</span> <a (click)="share()" translate>
-                    pages.corona.local.share.here
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="144" height="144"
-                        viewBox="0 0 172 172" style=" fill:#000000;">
-                        <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
-                            stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
-                            font-family="none" font-weight="none" font-size="none" text-anchor="none"
-                            style="mix-blend-mode: normal">
-                            <path d="M0,172v-172h172v172z" fill="none"></path>
-                            <g fill="#34495e">
-                                <path
-                                    d="M129,14.33333c-11.87412,0 -21.5,9.62588 -21.5,21.5c0.00438,1.34841 0.1356,2.69342 0.39193,4.01725l-50.99252,29.74447c-3.88392,-3.29017 -8.80922,-5.09561 -13.89941,-5.09505c-11.87412,0 -21.5,9.62588 -21.5,21.5c0,11.87412 9.62588,21.5 21.5,21.5c5.08233,-0.00997 9.99681,-1.82005 13.87142,-5.10905l51.02051,29.75847c-0.25633,1.32383 -0.38755,2.66884 -0.39193,4.01725c0,11.87412 9.62588,21.5 21.5,21.5c11.87412,0 21.5,-9.62588 21.5,-21.5c0,-11.87412 -9.62588,-21.5 -21.5,-21.5c-5.08714,0.00666 -10.00713,1.81694 -13.88542,5.10905l-51.00651,-29.75847c0.25633,-1.32383 0.38755,-2.66884 0.39193,-4.01725c-0.00438,-1.34841 -0.1356,-2.69342 -0.39193,-4.01725l50.99251,-29.74447c3.88392,3.29017 8.80922,5.09561 13.89941,5.09505c11.87412,0 21.5,-9.62588 21.5,-21.5c0,-11.87412 -9.62588,-21.5 -21.5,-21.5z">
-                                </path>
-                            </g>
-                        </g>
-                    </svg>
-                </a> <span translate>pages.corona.local.share.to-share</span>
-                <div id="copied-div">
-                    <div translate>
-                        pages.corona.local.share.copied
-                    </div>
-                </div>
-            </div>
-            <div class="plot-container">
-                <div class="plot-item-rowcontainer">
-                    <div class="plot-item-small" style="padding-bottom: 5px;">
-                        <h3 translate>pages.corona.local.serious.header</h3>
-                        <h2>{{statistics.local.serious.value}}</h2>
-                        <div style="width: 100%; text-align:right;">
-                            {{ 'pages.corona.local.serious.updated' | translate }}
-                            {{statistics.local.serious.updated}}
+                    <div class="plot-item-large"
+                        style="display:inline-flex; justify-content: center;flex-direction: column;">
+                        <h3 translate>pages.corona.global.test-map.header</h3>
+                        <div class="description-div">
+                            {{ 'pages.corona.global.test-map.description' | translate }}
+                            <div>
+                                {{ 'pages.corona.global.test-map.scope.description' | translate }}
+                                <select (change)="selectedScopeChanged()" id="scope-select" style="min-width: 150px;">
+                                    <option value="world" translate>pages.corona.global.test-map.scope.world</option>
+                                    <option value="europe" translate>pages.corona.global.test-map.scope.europe</option>
+                                    <option value="asia" translate>pages.corona.global.test-map.scope.asia</option>
+                                    <option value="africa" translate>pages.corona.global.test-map.scope.africa</option>
+                                    <option value="north america" translate>
+                                        pages.corona.global.test-map.scope.north_america
+                                    </option>
+                                    <option value="south america" translate>
+                                        pages.corona.global.test-map.scope.south_america
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div
+                            style="width: 86%; height: 20px; margin: 5px 7%; background-image: linear-gradient(to right, #d73027, #ffffbf, #1a9850)">
+                        </div>
+                        <table style="width: 86%; margin: 5px 7%;">
+                            <tr>
+                                <td style="width:33%; text-align: left; vertical-align: text-top;" translate>
+                                    pages.corona.global.test-map.lower</td>
+                                <td style="width:33%; text-align: center; vertical-align: text-top;" translate>
+                                    pages.corona.global.test-map.middle</td>
+                                <td style="width:33%; text-align: right; vertical-align: text-top;" translate>
+                                    pages.corona.global.test-map.upper</td>
+                            </tr>
+                        </table>
+                        <div class="plot-div" id="test-map-div">
+                            <plotly-plot [data]="globalTestsGraph.data" [layout]="globalTestsGraph.layout"
+                                [config]="globalTestsGraph.config" (update)="globalTestsMapUpdated()"
+                                id="global-tests-plot">
+                            </plotly-plot>
                         </div>
                     </div>
-                    <div class="plot-item-small" style="padding-bottom: 5px;">
-                        <h3 translate>pages.corona.local.tests.header</h3>
-                        <h2>{{statistics.local.tests.value}}</h2>
-                        <div style="width: 100%; margin-bottom: 10px;" *ngIf="showTestRegions">
-                            <table style="width: 90%; margin: 0 5%;">
-                                <tr>
-                                    <th style="text-align: left;">Region</th>
-                                </tr>
-                                <tr *ngFor="let region of statistics.local.tests.regions | keyvalue">
-                                    <td>{{region.key}}</td>
-                                    <td>{{region.value}}</td>
-                                </tr>
-                            </table>
+                    <div class="plot-item-small">
+                        <h3 translate>pages.corona.global.status</h3>
+                        <div class="date-slider-div">
+                            <span translate>pages.corona.slider</span>
+                            <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                                [(upper)]="controlSettings.globalStatus.index" [hasMinMax]="false" [hasResize]="false"
+                                [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
+                                (change)="onDateSliderChange('globalstatus')" [(linked)]="controlSettings.linkGlobal">
+                            </app-range-slider>
                         </div>
-                        <div style="width: 100%; text-align:right;">
-                            {{ 'pages.corona.local.tests.published' | translate }}
-                            {{statistics.local.tests.updated}}
+                        <div class="plot-div">
+                            <plotly-plot [data]="globalDeadInfectedHealedGraph.data"
+                                [layout]="globalDeadInfectedHealedGraph.layout"
+                                [config]="globalDeadInfectedHealedGraph.config">
+                            </plotly-plot>
                         </div>
                     </div>
                     <div class="plot-item-small">
@@ -431,102 +103,434 @@
                         <div class="date-slider-div">
                             <span translate>pages.corona.slider</span>
                             <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                                [(upper)]="controlSettings.localStats.index" [hasMinMax]="false" [hasResize]="false"
-                                [(animateInterval)]="localAnimateInterval" [animateGroup]="localAnimateGroup"
-                                (change)="onDateSliderChange('localstats')" [(linked)]="controlSettings.linkLocal">
+                                [(upper)]="controlSettings.globalStats.index" [hasMinMax]="false" [hasResize]="false"
+                                [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
+                                (change)="onDateSliderChange('globalstats')" [(linked)]="controlSettings.linkGlobal">
                             </app-range-slider>
                         </div>
                         <table class="stats-table">
                             <tr class="stats-tr-confirmed">
                                 <th translate>pages.corona.global.stats.confirmed</th>
-                                <td>{{statistics.local.confirmed.value | localeint}}</td>
-                                <td>({{statistics.local.confirmed.delta | localedelta}})</td>
+                                <td>{{statistics.global.confirmed.value | localeint}}</td>
+                                <td>({{statistics.global.confirmed.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-infected">
                                 <th translate>pages.corona.global.stats.infected</th>
-                                <td>{{statistics.local.infected.value | localeint}}</td>
-                                <td>({{statistics.local.infected.delta | localedelta}})</td>
+                                <td>{{statistics.global.infected.value |  localeint}}</td>
+                                <td>({{statistics.global.infected.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-healed">
                                 <th translate>pages.corona.global.stats.recovered</th>
-                                <td>{{statistics.local.recovered.value | localeint}}</td>
-                                <td>({{statistics.local.recovered.delta | localedelta}})</td>
+                                <td>{{statistics.global.recovered.value |  localeint}}</td>
+                                <td>({{statistics.global.recovered.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-dead">
                                 <th translate>pages.corona.global.stats.dead</th>
-                                <td>{{statistics.local.dead.value | localeint}}</td>
-                                <td>({{statistics.local.dead.delta | localedelta}})</td>
+                                <td>{{statistics.global.dead.value |  localeint}}</td>
+                                <td>({{statistics.global.dead.delta | localedelta}})</td>
                             </tr>
                             <tr class="stats-tr-fatality">
                                 <th translate>pages.corona.global.stats.fatality</th>
-                                <td>{{statistics.local.fatalityrate | number:'1.2-2'}}%</td>
+                                <td>{{statistics.global.fatalityrate | number:'1.2-2'}}%</td>
+                            </tr>
+                        </table>
+                        <h3 translate>pages.corona.global.top5</h3>
+                        <table class="stats-table">
+                            <tr *ngFor="let country of statistics.global.topcountries">
+                                <th>{{country.name}}</th>
+                                <td>{{country.infected | localeint}}</td>
                             </tr>
                         </table>
                     </div>
                 </div>
-                <div class="plot-item-rowcontainer">
-                    <div class="plot-item-small">
-                        <h3 translate>pages.corona.local.compare.header</h3>
-                        <div class="plot-div">
-                            <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
-                                [config]="localCompareGraph.config" id="local-compare-graph">
-                            </plotly-plot>
+            </div>
+            <div class="contentdiv-large" id="regional">
+                <h2 translate>pages.corona.local.title</h2>
+                <div id="region-div" translate>
+                    pages.corona.local.change-region
+                </div>
+                <select (change)="selectedRegionChanged()" id="region-select">
+                    <option value="global" translate>pages.corona.names.global</option>
+    
+                    <optgroup label="{{ 'pages.corona.names.Regions' | translate}}">
+                        <option value="China" translate>pages.corona.names.China</option>
+                        <option value="western_pacific_region" translate>pages.corona.names.western_pacific_region
+                        </option>
+                        <option value="european_region" translate>pages.corona.names.european_region</option>
+                        <option value="south_east_asia_region" translate>pages.corona.names.south_east_asia_region
+                        </option>
+                        <option value="eastern_mediterranean_region" translate>
+                            pages.corona.names.eastern_mediterranean_region</option>
+                        <option value="region_of_the_americans" translate>pages.corona.names.region_of_the_americans
+                        </option>
+                        <option value="african_region" translate>pages.corona.names.african_region</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.china' | translate }}">
+                        <option value="China" translate>pages.corona.names.China</option>
+                        <option value="Taiwan*" translate>pages.corona.names.Taiwan*</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.western_pacific_region' | translate }}">
+                        <option value="Korea,_South" translate>pages.corona.names.Korea,_South</option>
+                        <option value="Japan" translate>pages.corona.names.Japan</option>
+                        <option value="Singapore" translate>pages.corona.names.Singapore</option>
+                        <option value="Australia" translate>pages.corona.names.Australia</option>
+                        <option value="Malaysia" translate>pages.corona.names.Malaysia</option>
+                        <option value="Vietnam" translate>pages.corona.names.Vietnam</option>
+                        <option value="Philippines" translate>pages.corona.names.Philippines</option>
+                        <option value="Cambodia" translate>pages.corona.names.Cambodia</option>
+                        <option value="New_Zealand" translate>pages.corona.names.New_Zealand</option>
+                        <option value="Fiji" translate>pages.corona.names.Fiji</option>
+                        <option value="Papua_New_Guinea" translate>pages.corona.names.Papua_New_Guinea</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.european_region' | translate }}">
+                        <option value="Italy" translate>pages.corona.names.Italy</option>
+                        <option value="France" translate>pages.corona.names.France</option>
+                        <option value="Germany" translate>pages.corona.names.Germany</option>
+                        <option value="Spain" translate>pages.corona.names.Spain</option>
+                        <option value="United_Kingdom" translate>pages.corona.names.United_Kingdom</option>
+                        <option value="Switzerland" translate>pages.corona.names.Switzerland</option>
+                        <option value="Norway" translate>pages.corona.names.Norway</option>
+                        <option value="Sweden" translate>pages.corona.names.Sweden</option>
+                        <option value="Austria" translate>pages.corona.names.Austria</option>
+                        <option value="Croatia" translate>pages.corona.names.Croatia</option>
+                        <option value="Netherlands" translate>pages.corona.names.Netherlands</option>
+                        <option value="Azerbaijan" translate>pages.corona.names.Azerbaijan</option>
+                        <option value="Denmark" translate>pages.corona.names.Denmark</option>
+                        <option value="Georgia" translate>pages.corona.names.Georgia</option>
+                        <option value="Greece" translate>pages.corona.names.Greece</option>
+                        <option value="Romania" translate>pages.corona.names.Romania</option>
+                        <option value="Finland" translate>pages.corona.names.Finland</option>
+                        <option value="Russia" translate>pages.corona.names.Russia</option>
+                        <option value="Belarus" translate>pages.corona.names.Belarus</option>
+                        <option value="Belgium" translate>pages.corona.names.Belgium</option>
+                        <option value="Estonia" translate>pages.corona.names.Estonia</option>
+                        <option value="Ireland" translate>pages.corona.names.Ireland</option>
+                        <option value="Lithuania" translate>pages.corona.names.Lithuania</option>
+                        <option value="Monaco" translate>pages.corona.names.Monaco</option>
+                        <option value="North_Macedonia" translate>pages.corona.names.North_Macedonia</option>
+                        <option value="San_Marino" translate>pages.corona.names.San_Marino</option>
+                        <option value="Luxembourg" translate>pages.corona.names.Luxembourg</option>
+                        <option value="Iceland" translate>pages.corona.names.Iceland</option>
+                        <option value="Czechia" translate>pages.corona.names.Czechia</option>
+                        <option value="Andorra" translate>pages.corona.names.Andorra</option>
+                        <option value="Portugal" translate>pages.corona.names.Portugal</option>
+                        <option value="Latvia" translate>pages.corona.names.Latvia</option>
+                        <option value="Ukraine" translate>pages.corona.names.Ukraine</option>
+                        <option value="Hungary" translate>pages.corona.names.Hungary</option>
+                        <option value="Liechtenstein" translate>pages.corona.names.Liechtenstein</option>
+                        <option value="Poland" translate>pages.corona.names.Poland</option>
+                        <option value="Bosnia_and_Herzegovina" translate>pages.corona.names.Bosnia_and_Herzegovina
+                        </option>
+                        <option value="Slovenia" translate>pages.corona.names.Slovenia</option>
+                        <option value="Serbia" translate>pages.corona.names.Serbia</option>
+                        <option value="Slovakia" translate>pages.corona.names.Slovakia</option>
+                        <option value="Malta" translate>pages.corona.names.Malta</option>
+                        <option value="Bulgaria" translate>pages.corona.names.Bulgaria</option>
+                        <option value="Moldova" translate>pages.corona.names.Moldova</option>
+                        <option value="Albania" translate>pages.corona.names.Albania</option>
+                        <option value="Cyprus" translate>pages.corona.names.Cyprus</option>
+                        <option value="Turkey" translate>pages.corona.names.Turkey</option>
+                        <option value="Holy_See" translate>pages.corona.names.Holy_See</option>
+                        <option value="Kosovo" translate>pages.corona.names.Kosovo</option>
+                        <option value="Montenegro" translate>pages.corona.names.Montenegro</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.south_east_asia_region' | translate }}">
+                        <option value="Thailand" translate>pages.corona.names.Thailand</option>
+                        <option value="Indonesia" translate>pages.corona.names.Indonesia</option>
+                        <option value="India" translate>pages.corona.names.India</option>
+                        <option value="Nepal" translate>pages.corona.names.Nepal</option>
+                        <option value="Sri_Lanka" translate>pages.corona.names.Sri_Lanka</option>
+                        <option value="Bhutan" translate>pages.corona.names.Bhutan</option>
+                        <option value="Maldives" translate>pages.corona.names.Maldives</option>
+                        <option value="Bangladesh" translate>pages.corona.names.Bangladesh</option>
+                        <option value="Brunei" translate>pages.corona.names.Brunei</option>
+                        <option value="Mongolia" translate>pages.corona.names.Mongolia</option>
+                        <option value="Uzbekistan" translate>pages.corona.names.Uzbekistan</option>
+                        <option value="Kazakhstan" translate>pages.corona.names.Kazakhstan</option>
+                        <option value="Kyrgyzstan" translate>pages.corona.names.Kyrgyzstan</option>
+                        <option value="Timor-Leste" translate>pages.corona.names.Timor-Leste</option>
+                        <option value="Laos" translate>pages.corona.names.Laos</option>
+                        <option value="Burma" translate>pages.corona.names.Burma</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.eastern_mediterranean_region' | translate }}">
+                        <option value="Armenia" translate>pages.corona.names.Armenia</option>
+                        <option value="Iran" translate>pages.corona.names.Iran</option>
+                        <option value="Kuwait" translate>pages.corona.names.Kuwait</option>
+                        <option value="Bahrain" translate>pages.corona.names.Bahrain</option>
+                        <option value="United_Arab_Emirates" translate>pages.corona.names.United_Arab_Emirates
+                        </option>
+                        <option value="Iraq" translate>pages.corona.names.Iraq</option>
+                        <option value="Oman" translate>pages.corona.names.Oman</option>
+                        <option value="Pakistan" translate>pages.corona.names.Pakistan</option>
+                        <option value="Lebanon" translate>pages.corona.names.Lebanon</option>
+                        <option value="Afghanistan" translate>pages.corona.names.Afghanistan</option>
+                        <option value="Egypt" translate>pages.corona.names.Egypt</option>
+                        <option value="Qatar" translate>pages.corona.names.Qatar</option>
+                        <option value="Saudi_Arabia" translate>pages.corona.names.Saudi_Arabia</option>
+                        <option value="Jordan" translate>pages.corona.names.Jordan</option>
+                        <option value="Israel" translate>pages.corona.names.Israel</option>
+                        <option value="Syria" translate>pages.corona.names.Syria</option>
+                        <option value="West_Bank_and_Gaza" translate>pages.corona.names.West_Bank_and_Gaza</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.region_of_the_americans' | translate }}">
+                        <option value="US" translate>pages.corona.names.US</option>
+                        <option value="Canada" translate>pages.corona.names.Canada</option>
+                        <option value="Brazil" translate>pages.corona.names.Brazil</option>
+                        <option value="Mexico" translate>pages.corona.names.Mexico</option>
+                        <option value="Ecuador" translate>pages.corona.names.Ecuador</option>
+                        <option value="Dominican_Republic" translate>pages.corona.names.Dominican_Republic</option>
+                        <option value="Chile" translate>pages.corona.names.Chile</option>
+                        <option value="Argentina" translate>pages.corona.names.Argentina</option>
+                        <option value="Peru" translate>pages.corona.names.Peru</option>
+                        <option value="Colombia" translate>pages.corona.names.Colombia</option>
+                        <option value="Costa_Rica" translate>pages.corona.names.Costa_Rica</option>
+                        <option value="Paraguay" translate>pages.corona.names.Paraguay</option>
+                        <option value="Honduras" translate>pages.corona.names.Honduras</option>
+                        <option value="Jamaica" translate>pages.corona.names.Jamaica</option>
+                        <option value="Cuba" translate>pages.corona.names.Cuba</option>
+                        <option value="Guyana" translate>pages.corona.names.Guyana</option>
+                        <option value="Panama" translate>pages.corona.names.Panama</option>
+                        <option value="Bolivia" translate>pages.corona.names.Bolivia</option>
+                        <option value="Venezuela" translate>pages.corona.names.Venezuela</option>
+                        <option value="Guatemala" translate>pages.corona.names.Guatemala</option>
+                        <option value="Saint_Lucia" translate>pages.corona.names.Saint_Lucia</option>
+                        <option value="Saint_Vincent_and_the_Grenadines" translate>
+                            pages.corona.names.Saint_Vincent_and_the_Grenadines</option>
+                        <option value="Antigua_and_Barbuda" translate>pages.corona.names.Antigua_and_Barbuda
+                        </option>
+                        <option value="Uruguay" translate>pages.corona.names.Uruguay</option>
+                        <option value="Trinidad_and_Tobago" translate>pages.corona.names.Trinidad_and_Tobago
+                        </option>
+                        <option value="Suriname" translate>pages.corona.names.Suriname</option>
+                        <option value="Bahamas" translate>pages.corona.names.Bahamas</option>
+                        <option value="Barbados" translate>pages.corona.names.Barbados</option>
+                        <option value="Nicaragua" translate>pages.corona.names.Nicaragua</option>
+                        <option value="El_Salvador" translate>pages.corona.names.El_Salvador</option>
+                        <option value="Haiti" translate>pages.corona.names.Haiti</option>
+                        <option value="Dominica" translate>pages.corona.names.Dominica</option>
+                        <option value="Grenada" translate>pages.corona.names.Grenada</option>
+                        <option value="Belize" translate>pages.corona.names.Belize</option>
+                        <option value="Saint_Kitts_and_Nevis" translate>pages.corona.names.Saint_Kitts_and_Nevis
+                        </option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.african_region' | translate }}">
+                        <option value="Algeria" translate>pages.corona.names.Algeria</option>
+                        <option value="Nigeria" translate>pages.corona.names.Nigeria</option>
+                        <option value="Morocco" translate>pages.corona.names.Morocco</option>
+                        <option value="Senegal" translate>pages.corona.names.Senegal</option>
+                        <option value="Tunisia" translate>pages.corona.names.Tunisia</option>
+                        <option value="South_Africa" translate>pages.corona.names.South_Africa</option>
+                        <option value="Togo" translate>pages.corona.names.Togo</option>
+                        <option value="Cameroon" translate>pages.corona.names.Cameroon</option>
+                        <option value="Congo_(Kinshasa)" translate>pages.corona.names.Congo_(Kinshasa)</option>
+                        <option value="Cote_d'Ivoire" translate>pages.corona.names.Cote_d'Ivoire</option>
+                        <option value="Burkina_Faso" translate>pages.corona.names.Burkina_Faso</option>
+                        <option value="Ghana" translate>pages.corona.names.Ghana</option>
+                        <option value="Namibia" translate>pages.corona.names.Namibia</option>
+                        <option value="Seychelles" translate>pages.corona.names.Seychelles</option>
+                        <option value="Eswatini" translate>pages.corona.names.Eswatini</option>
+                        <option value="Gabon" translate>pages.corona.names.Gabon</option>
+                        <option value="Mauritania" translate>pages.corona.names.Mauritania</option>
+                        <option value="Rwanda" translate>pages.corona.names.Rwanda</option>
+                        <option value="Sudan" translate>pages.corona.names.Sudan</option>
+                        <option value="Kenya" translate>pages.corona.names.Kenya</option>
+                        <option value="Guinea" translate>pages.corona.names.Guinea</option>
+                        <option value="Congo_(Brazzaville)" translate>pages.corona.names.Congo_(Brazzaville)
+                        </option>
+                        <option value="Equatorial_Guinea" translate>pages.corona.names.Equatorial_Guinea</option>
+                        <option value="Central_African_Republic" translate>
+                            pages.corona.names.Central_African_Republic
+                        </option>
+                        <option value="Ethiopia" translate>pages.corona.names.Ethiopia</option>
+                        <option value="Benin" translate>pages.corona.names.Benin</option>
+                        <option value="Liberia" translate>pages.corona.names.Liberia</option>
+                        <option value="Somalia" translate>pages.corona.names.Somalia</option>
+                        <option value="Tanzania" translate>pages.corona.names.Tanzania</option>
+                        <option value="Mauritius" translate>pages.corona.names.Mauritius</option>
+                        <option value="Zambia" translate>pages.corona.names.Zambia</option>
+                        <option value="Djibouti" translate>pages.corona.names.Djibouti</option>
+                        <option value="Chad" translate>pages.corona.names.Chad</option>
+                        <option value="Zimbabwe" translate>pages.corona.names.Zimbabwe</option>
+                        <option value="Niger" translate>pages.corona.names.Niger</option>
+                        <option value="Madagascar" translate>pages.corona.names.Madagascar</option>
+                        <option value="Cabo_Verde" translate>pages.corona.names.Cabo_Verde</option>
+                        <option value="Angola" translate>pages.corona.names.Angola</option>
+                        <option value="Eritrea" translate>pages.corona.names.Eritrea</option>
+                        <option value="Uganda" translate>pages.corona.names.Uganda</option>
+                        <option value="Mozambique" translate>pages.corona.names.Mozambique</option>
+                        <option value="Gambia" translate>pages.corona.names.Gambia</option>
+                        <option value="Libya" translate>pages.corona.names.Libya</option>
+                        <option value="Guinea-Bissau" translate>pages.corona.names.Guinea-Bissau</option>
+                        <option value="Mali" translate>pages.corona.names.Mali</option>
+                        <option value="Botswana" translate>pages.corona.names.Botswana</option>
+                        <option value="Burundi" translate>pages.corona.names.Burundi</option>
+                        <option value="Sao_Tome_and_Principe" translate>pages.corona.names.Sao_Tome_and_Principe</option>
+                        <option value="Western_Sahara" translate>pages.corona.names.Western_Sahara</option>
+                        <option value="South_Sudan" translate>pages.corona.names.South_Sudan</option>
+                        <option value="Sierra_Leone" translate>pages.corona.names.Sierra_Leone</option>
+                    </optgroup>
+                    <optgroup label="{{ 'pages.corona.names.other' | translate }}">
+                        <option value="Diamond_Princess" translate>pages.corona.names.Diamond_Princess</option>
+                        <option value="MS_Zaandam" translate>pages.corona.names.MS_Zaandam</option>
+                    </optgroup>
+                </select>
+                <div id="share-div">
+                    <span translate>pages.corona.local.share.click</span> <a (click)="share()" translate>
+                        pages.corona.local.share.here
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="144" height="144"
+                            viewBox="0 0 172 172" style=" fill:#000000;">
+                            <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                                stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                                font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                                style="mix-blend-mode: normal">
+                                <path d="M0,172v-172h172v172z" fill="none"></path>
+                                <g fill="#34495e">
+                                    <path
+                                        d="M129,14.33333c-11.87412,0 -21.5,9.62588 -21.5,21.5c0.00438,1.34841 0.1356,2.69342 0.39193,4.01725l-50.99252,29.74447c-3.88392,-3.29017 -8.80922,-5.09561 -13.89941,-5.09505c-11.87412,0 -21.5,9.62588 -21.5,21.5c0,11.87412 9.62588,21.5 21.5,21.5c5.08233,-0.00997 9.99681,-1.82005 13.87142,-5.10905l51.02051,29.75847c-0.25633,1.32383 -0.38755,2.66884 -0.39193,4.01725c0,11.87412 9.62588,21.5 21.5,21.5c11.87412,0 21.5,-9.62588 21.5,-21.5c0,-11.87412 -9.62588,-21.5 -21.5,-21.5c-5.08714,0.00666 -10.00713,1.81694 -13.88542,5.10905l-51.00651,-29.75847c0.25633,-1.32383 0.38755,-2.66884 0.39193,-4.01725c-0.00438,-1.34841 -0.1356,-2.69342 -0.39193,-4.01725l50.99251,-29.74447c3.88392,3.29017 8.80922,5.09561 13.89941,5.09505c11.87412,0 21.5,-9.62588 21.5,-21.5c0,-11.87412 -9.62588,-21.5 -21.5,-21.5z">
+                                    </path>
+                                </g>
+                            </g>
+                        </svg>
+                    </a> <span translate>pages.corona.local.share.to-share</span>
+                    <div id="copied-div">
+                        <div translate>
+                            pages.corona.local.share.copied
                         </div>
                     </div>
                 </div>
-                <div class="plot-item-large">
-                    <h3 translate>pages.corona.local.comparison.header</h3>
-                    <div class="description-div" translate>pages.corona.local.comparison.description
-                        <a href="article/corona" translate>pages.corona.learn-more</a>
+                <div class="plot-container">
+                    <div class="plot-item-rowcontainer">
+                        <div class="plot-item-small" style="padding-bottom: 5px;">
+                            <h3 translate>pages.corona.local.serious.header</h3>
+                            <h2>{{statistics.local.serious.value}}</h2>
+                            <div style="width: 100%; text-align:right;">
+                                {{ 'pages.corona.local.serious.updated' | translate }}
+                                {{statistics.local.serious.updated}}
+                            </div>
+                        </div>
+                        <div class="plot-item-small" style="padding-bottom: 5px;">
+                            <h3 translate>pages.corona.local.tests.header</h3>
+                            <h2>{{statistics.local.tests.value}}</h2>
+                            <div style="width: 100%; margin-bottom: 10px;" *ngIf="showTestRegions">
+                                <table style="width: 90%; margin: 0 5%;">
+                                    <tr>
+                                        <th style="text-align: left;">Region</th>
+                                    </tr>
+                                    <tr *ngFor="let region of statistics.local.tests.regions | keyvalue">
+                                        <td>{{region.key}}</td>
+                                        <td>{{region.value}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div style="width: 100%; text-align:right;">
+                                {{ 'pages.corona.local.tests.published' | translate }}
+                                {{statistics.local.tests.updated}}
+                            </div>
+                        </div>
+                        <div class="plot-item-small">
+                            <h3 translate>pages.corona.global.statistics</h3>
+                            <div class="date-slider-div">
+                                <span translate>pages.corona.slider</span>
+                                <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                                    [(upper)]="controlSettings.localStats.index" [hasMinMax]="false" [hasResize]="false"
+                                    [(animateInterval)]="localAnimateInterval" [animateGroup]="localAnimateGroup"
+                                    (change)="onDateSliderChange('localstats')" [(linked)]="controlSettings.linkLocal">
+                                </app-range-slider>
+                            </div>
+                            <table class="stats-table">
+                                <tr class="stats-tr-confirmed">
+                                    <th translate>pages.corona.global.stats.confirmed</th>
+                                    <td>{{statistics.local.confirmed.value | localeint}}</td>
+                                    <td>({{statistics.local.confirmed.delta | localedelta}})</td>
+                                </tr>
+                                <tr class="stats-tr-infected">
+                                    <th translate>pages.corona.global.stats.infected</th>
+                                    <td>{{statistics.local.infected.value | localeint}}</td>
+                                    <td>({{statistics.local.infected.delta | localedelta}})</td>
+                                </tr>
+                                <tr class="stats-tr-healed">
+                                    <th translate>pages.corona.global.stats.recovered</th>
+                                    <td>{{statistics.local.recovered.value | localeint}}</td>
+                                    <td>({{statistics.local.recovered.delta | localedelta}})</td>
+                                </tr>
+                                <tr class="stats-tr-dead">
+                                    <th translate>pages.corona.global.stats.dead</th>
+                                    <td>{{statistics.local.dead.value | localeint}}</td>
+                                    <td>({{statistics.local.dead.delta | localedelta}})</td>
+                                </tr>
+                                <tr class="stats-tr-fatality">
+                                    <th translate>pages.corona.global.stats.fatality</th>
+                                    <td>{{statistics.local.fatalityrate | number:'1.2-2'}}%</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(lower)]="controlSettings.localOverview.min" [(resize)]="controlSettings.localOverview.resize"
-                            [(upper)]="controlSettings.localOverview.max" [(animateInterval)]="localAnimateInterval"
-                            [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localoverview')"
-                            [(linked)]="controlSettings.linkLocal">
-                        </app-range-slider>
+                    <div class="plot-item-rowcontainer">
+                        <div class="plot-item-small">
+                            <h3 translate>pages.corona.local.compare.header</h3>
+                            <div class="plot-div">
+                                <plotly-plot [data]="localCompareGraph.data" [layout]="localCompareGraph.layout"
+                                    [config]="localCompareGraph.config" id="local-compare-graph">
+                                </plotly-plot>
+                            </div>
+                        </div>
                     </div>
-                    <div class="plot-div">
-                        <plotly-plot [data]="localOverviewGraph.data" [layout]="localOverviewGraph.layout"
-                            [config]="localOverviewGraph.config">
-                        </plotly-plot>
+                    <div class="plot-item-large">
+                        <h3 translate>pages.corona.local.comparison.header</h3>
+                        <div class="description-div" translate>pages.corona.local.comparison.description
+                            <a href="article/corona" translate>pages.corona.learn-more</a>
+                        </div>
+                        <div class="date-slider-div">
+                            <span translate>pages.corona.slider</span>
+                            <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                                [(lower)]="controlSettings.localOverview.min"
+                                [(resize)]="controlSettings.localOverview.resize"
+                                [(upper)]="controlSettings.localOverview.max" [(animateInterval)]="localAnimateInterval"
+                                [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localoverview')"
+                                [(linked)]="controlSettings.linkLocal">
+                            </app-range-slider>
+                        </div>
+                        <div class="plot-div">
+                            <plotly-plot [data]="localOverviewGraph.data" [layout]="localOverviewGraph.layout"
+                                [config]="localOverviewGraph.config">
+                            </plotly-plot>
+                        </div>
                     </div>
-                </div>
-                <div class="plot-item-large">
-                    <h3 translate>pages.corona.local.breakdown</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(lower)]="controlSettings.localBreakdown.min" [(resize)]="controlSettings.localBreakdown.resize"
-                            [(upper)]="controlSettings.localBreakdown.max" [(animateInterval)]="localAnimateInterval"
-                            [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localbreakdown')"
-                            [(linked)]="controlSettings.linkLocal">
-                        </app-range-slider>
+                    <div class="plot-item-large">
+                        <h3 translate>pages.corona.local.breakdown</h3>
+                        <div class="date-slider-div">
+                            <span translate>pages.corona.slider</span>
+                            <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                                [(lower)]="controlSettings.localBreakdown.min"
+                                [(resize)]="controlSettings.localBreakdown.resize"
+                                [(upper)]="controlSettings.localBreakdown.max" [(animateInterval)]="localAnimateInterval"
+                                [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localbreakdown')"
+                                [(linked)]="controlSettings.linkLocal">
+                            </app-range-slider>
+                        </div>
+                        <div class="plot-div">
+                            <plotly-plot [data]="localDeadInfectedHealedGraph.data"
+                                [layout]="localDeadInfectedHealedGraph.layout"
+                                [config]="localDeadInfectedHealedGraph.config">
+                            </plotly-plot>
+                        </div>
                     </div>
-                    <div class="plot-div">
-                        <plotly-plot [data]="localDeadInfectedHealedGraph.data"
-                            [layout]="localDeadInfectedHealedGraph.layout"
-                            [config]="localDeadInfectedHealedGraph.config">
-                        </plotly-plot>
-                    </div>
-                </div>
-                <div class="plot-item-large">
-                    <h3 translate>pages.corona.local.growth</h3>
-                    <div class="date-slider-div">
-                        <span translate>pages.corona.slider</span>
-                        <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
-                            [(lower)]="controlSettings.localGrowth.min" [(upper)]="controlSettings.localGrowth.max"
-                            [(resize)]="controlSettings.localGrowth.resize"
-                            [(animateInterval)]="localAnimateInterval" [animateGroup]="localAnimateGroup"
-                            (change)="onDateSliderChange('localgrowth')" [(linked)]="controlSettings.linkLocal">
-                        </app-range-slider>
-                    </div>
-                    <div class="plot-div">
-                        <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
-                            [config]="localGrowthGraph.config">
-                        </plotly-plot>
+                    <div class="plot-item-large">
+                        <h3 translate>pages.corona.local.growth</h3>
+                        <div class="date-slider-div">
+                            <span translate>pages.corona.slider</span>
+                            <app-range-slider class="date-slider" [min]="0" [max]="maxDateIndex" [distance]="16"
+                                [(lower)]="controlSettings.localGrowth.min" [(upper)]="controlSettings.localGrowth.max"
+                                [(resize)]="controlSettings.localGrowth.resize" [(animateInterval)]="localAnimateInterval"
+                                [animateGroup]="localAnimateGroup" (change)="onDateSliderChange('localgrowth')"
+                                [(linked)]="controlSettings.linkLocal">
+                            </app-range-slider>
+                        </div>
+                        <div class="plot-div">
+                            <plotly-plot [data]="localGrowthGraph.data" [layout]="localGrowthGraph.layout"
+                                [config]="localGrowthGraph.config">
+                            </plotly-plot>
+                        </div>
                     </div>
                 </div>
             </div>
