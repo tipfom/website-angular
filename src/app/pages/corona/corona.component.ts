@@ -429,8 +429,8 @@ export class CoronaComponent implements OnInit {
       topcountries: []
     },
     local: {
-      confirmed: { value: 0, delta: 0 },
-      infected: { value: 0, delta: 0 },
+      confirmed: { value: 0, delta: 0, rank: 0 },
+      infected: { value: 0, delta: 0, rank: 0 },
       recovered: { value: 0, delta: 0 },
       dead: { value: 0, delta: 0 },
       fatalityrate: 0,
@@ -552,7 +552,7 @@ export class CoronaComponent implements OnInit {
     let locations = [];
     let z = [];
     let texts = [];
-    
+
     let index = this.controlSettings.globalInfectedMap.index;
     let iterator = this.overviewData.entries();
     let element: IteratorResult<[string, CoronaOverviewData]>;
@@ -702,6 +702,7 @@ export class CoronaComponent implements OnInit {
     let iterator = this.overviewData.entries();
     while (!(element = iterator.next()).done) {
       if (element.value[0] == "global" ||
+        element.value[0] == "row" ||
         element.value[0] == "western_pacific_region" ||
         element.value[0] == "european_region" ||
         element.value[0] == "south_east_asia_region" ||
@@ -719,16 +720,48 @@ export class CoronaComponent implements OnInit {
     }
   }
 
+  getRankedValueDelta(name: string, date: number, evalFn: (data: CoronaOverviewData, date: number) => number) {
+    let current = evalFn(this.overviewData.get(name), date);
+    let previous = evalFn(this.overviewData.get(name), date - 1);
+    let rank = 0;
+    let element;
+    let iterator = this.overviewData.entries();
+    while (!(element = iterator.next()).done) {
+      if (element.value[0] == "global" ||
+        element.value[0] == "row" ||
+        element.value[0] == "western_pacific_region" ||
+        element.value[0] == "european_region" ||
+        element.value[0] == "south_east_asia_region" ||
+        element.value[0] == "eastern_mediterranean_region" ||
+        element.value[0] == "region_of_the_americans" ||
+        element.value[0] == "china" ||
+        element.value[0] == "african_region" ||
+        element.value[0] == "other") continue;
+      if (evalFn(element.value[1], date) >= current) {
+        rank++;
+      }
+    }
+
+    let delta = (current - previous);
+    return { value: current, delta: delta, rank: rank };
+  }
+
+  confirmedEvalFn(data: CoronaOverviewData, date: number) {
+    return data.confirmed[date];
+  }
+
+  infectedEvalFn(data: CoronaOverviewData, date: number) {
+    return data.confirmed[date] - data.recovered[date] - data.dead[date];
+  }
+
   updateLocalStats() {
     let localOverviewData = this.overviewData.get(this.selectedRegion);
     let date = this.controlSettings.localStats.index;
 
-    this.statistics.local.confirmed = this.getValueDelta(localOverviewData.confirmed[date], localOverviewData.confirmed[date - 1]);
+    this.statistics.local.confirmed = this.getRankedValueDelta(this.selectedRegion, date, this.confirmedEvalFn);
     this.statistics.local.dead = this.getValueDelta(localOverviewData.dead[date], localOverviewData.dead[date - 1]);
     this.statistics.local.recovered = this.getValueDelta(localOverviewData.recovered[date], localOverviewData.recovered[date - 1]);
-    this.statistics.local.infected = this.getValueDelta(
-      localOverviewData.confirmed[date] - localOverviewData.dead[date] - localOverviewData.recovered[date],
-      localOverviewData.confirmed[date - 1] - localOverviewData.dead[date - 1] - localOverviewData.recovered[date - 1]);
+    this.statistics.local.infected = this.getRankedValueDelta(this.selectedRegion, date, this.infectedEvalFn);
     this.statistics.local.fatalityrate = localOverviewData.dead[date] / (localOverviewData.confirmed[date]) * 100;
 
     if (localOverviewData.tests != undefined) {

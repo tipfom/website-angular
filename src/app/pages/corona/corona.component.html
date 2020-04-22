@@ -497,11 +497,13 @@
                                     <th translate>pages.corona.global.stats.confirmed</th>
                                     <td>{{statistics.local.confirmed.value | localeint}}</td>
                                     <td>({{statistics.local.confirmed.delta | localedelta}})</td>
+                                    <td *ngIf="statistics.local.confirmed.rank > 0">#{{statistics.local.confirmed.rank}}</td>
                                 </tr>
                                 <tr class="stats-tr-infected">
                                     <th translate>pages.corona.global.stats.infected</th>
                                     <td>{{statistics.local.infected.value | localeint}}</td>
                                     <td>({{statistics.local.infected.delta | localedelta}})</td>
+                                    <td *ngIf="statistics.local.infected.rank > 0">#{{statistics.local.infected.rank}}</td>
                                 </tr>
                                 <tr class="stats-tr-healed">
                                     <th translate>pages.corona.global.stats.recovered</th>
