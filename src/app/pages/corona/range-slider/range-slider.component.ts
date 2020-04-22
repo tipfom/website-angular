@@ -54,6 +54,7 @@ export class RangeSliderComponent implements OnInit {
     document.addEventListener("mousemove", (event: MouseEvent) => {
       this.mouseMove(event.clientX);
     });
+    if (!this.lower) this.lower = this.min;
   }
 
   ngOnChanges(changes: SimpleChanges) {

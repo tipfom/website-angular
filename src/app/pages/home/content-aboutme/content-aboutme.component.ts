@@ -37,15 +37,16 @@ export class ContentAboutmeComponent implements OnInit {
     this.updateWeatherWidget();
   }
 
-  updateWeatherWidget(){
-      let lang = this.translateService.currentLang;
-      if (lang == undefined) lang = this.translateService.defaultLang;
-      (<HTMLLinkElement>document.getElementsByClassName("weatherwidget-io")[0]).href = "https://forecast7.com/" + lang + "/51d0513d74/dresden/";
-      weatherwidget_io_invoke();
+  updateWeatherWidget() {
+    let lang = this.translateService.currentLang;
+    if (lang == undefined) lang = this.translateService.defaultLang;
+    (<HTMLLinkElement>document.getElementsByClassName("weatherwidget-io")[0]).href = "https://forecast7.com/" + lang + "/51d0513d74/dresden/";
+    weatherwidget_io_invoke();
   }
 
   scrollToIndex(): void {
     let x = document.getElementById("shuffleeventsdiv");
+    if (!x) return;
     let start_scroll = x.scrollLeft;
     let target_scroll = (<HTMLDivElement>x.getElementsByClassName("shuffleentrydiv")[this.index]).offsetLeft - x.offsetLeft;
     let animation_time = 1000;
