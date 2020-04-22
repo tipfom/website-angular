@@ -64,10 +64,7 @@ export class RangeSliderComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.lower = this.min;
-    this.upper = this.max;
     this.updateCursorPositions();
-
     this.animateGroup.push(this);
   }
 

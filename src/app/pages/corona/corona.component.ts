@@ -767,7 +767,7 @@ export class CoronaComponent implements OnInit {
     if (localOverviewData.tests != undefined) {
       let data = localOverviewData.tests;
       this.statistics.local.tests.value = data.total.toLocaleString(this.translateService.currentLang, { useGrouping: true });
-      this.statistics.local.tests.updated = new Date(data.updated).toLocaleString(undefined, {
+      this.statistics.local.tests.updated = new Date(data.updated).toLocaleString(this.translateService.currentLang, {
         weekday: "short",
         year: "numeric",
         month: "2-digit",
@@ -783,7 +783,7 @@ export class CoronaComponent implements OnInit {
       }
     } else {
       this.statistics.local.tests.value = this.translateService.instant("pages.corona.local.serious.not-available");
-      this.statistics.local.tests.updated = new Date(Date.now()).toLocaleString(undefined, {
+      this.statistics.local.tests.updated = new Date(Date.now()).toLocaleString(this.translateService.currentLang, {
         weekday: "short",
         year: "numeric",
         month: "2-digit",
@@ -791,16 +791,26 @@ export class CoronaComponent implements OnInit {
       });
     }
 
-    this.statistics.local.serious.updated = localOverviewData.serious.updated.toLocaleString(undefined, {
-      weekday: "short",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-    if (localOverviewData.serious.value == undefined) {
-      this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");
+    if (localOverviewData.serious) {
+      this.statistics.local.serious.updated = localOverviewData.serious.updated.toLocaleString(this.translateService.currentLang, {
+        weekday: "short",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+      if (localOverviewData.serious.value == undefined) {
+        this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");
+      } else {
+        this.statistics.local.serious.value = localOverviewData.serious.value.toLocaleString(this.translateService.currentLang, { useGrouping: true });
+      }
     } else {
-      this.statistics.local.serious.value = localOverviewData.serious.value.toLocaleString(this.translateService.currentLang, { useGrouping: true });
+      this.statistics.local.serious.updated = new Date().toLocaleString(this.translateService.currentLang, {
+        weekday: "short",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+      this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");
     }
   }
 
@@ -1000,6 +1010,7 @@ export class CoronaComponent implements OnInit {
 
   buildFitTraces(data: CoronaFits, index: number, type: string, group: string, color: string, fill: string, sampleCount: number = 100.0) {
     let fit = data.cachedFits.get(type + index);
+    if (!fit) return [];
 
     var trace = {
       x: fit.x,
