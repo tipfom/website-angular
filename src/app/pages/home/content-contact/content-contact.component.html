@@ -34,12 +34,12 @@
         </ng-template>
         <ng-template [ngIf]="sending == false">
             <div class="contact-group-div">
-                <input class="contact-group-input" id="name-input"
+                <input class="contact-group-input" id="name-input" name="lname"
                     placeholder="{{'pages.home.contact.name' | translate}}" [(ngModel)]="name">
                 <label class="contact-group-label" translate>pages.home.contact.name</label>
             </div>
             <div class="contact-group-div">
-                <input class="contact-group-input" id="email-input"
+                <input class="contact-group-input" id="email-input" name="email"
                     placeholder="{{'pages.home.contact.e-mail' | translate}}" [(ngModel)]="email">
                 <label class="contact-group-label" translate>pages.home.contact.e-mail</label>
             </div>
