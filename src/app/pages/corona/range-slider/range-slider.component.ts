@@ -143,18 +143,12 @@ export class RangeSliderComponent implements OnInit {
     }
   }
 
-  mouseLeave(event: MouseEvent) {
-    this.isDraggingLower = false;
-    this.isDraggingUpper = false;
-  }
-
   copyAnimate(upper: number) {
-    this.upper = upper;
-    if (this.upper - this.lower < this.distance) {
-      this.upper = this.lower + this.distance;
+    if (upper - this.lower > this.distance) {
+      this.upper = upper;
+      this.upperChange.emit(this.upper);
+      this.change.emit("upper");
     }
-    this.upperChange.emit(this.upper);
-    this.change.emit("upper");
   }
 
   toggleAnimate(loop: boolean) {

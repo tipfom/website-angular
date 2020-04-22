@@ -33,6 +33,9 @@ export class CoronaComponent implements OnInit {
       max: 1,
       resize: true
     },
+    globalInfectedMap: {
+      index: 0,
+    },
     globalStatus: {
       index: 0,
     },
@@ -81,6 +84,35 @@ export class CoronaComponent implements OnInit {
     background: 'FAFAFA',
     grid: '#bbbbbb'
   }
+
+  public globalInfectedMapGraph = {
+    data: [],
+    layout: {
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
+      font: {
+        family: 'sans-serif',
+        color: '#00254D',
+        size: 14
+      },
+      geo: {
+        scope: 'world',
+        showland: false,
+        showframe: false,
+        projection: {
+          type: this.deviceService.isMobile() ? 'mercator' : 'normal world',
+        }
+      },
+      margin: { l: 0, r: 0, t: 0, b: 0 }
+    },
+    config: {
+      responsive: true,
+      editable: false,
+      displaylogo: false,
+      scrollZoom: false,
+      displayModeBar: false,
+    }
+  };
 
   public globalGraph = {
     data: [],
@@ -431,9 +463,11 @@ export class CoronaComponent implements OnInit {
       }
     });
 
-    let testMapDiv = document.getElementById("test-map-div");
-    testMapDiv.addEventListener("mousemove", (ev) => { ev.stopImmediatePropagation(); });
-    testMapDiv.addEventListener("touchmove", (ev) => { ev.stopImmediatePropagation(); });
+    let mapDivs = document.getElementsByClassName("map-div");
+    for (let i = 0; i < mapDivs.length; i++) {
+      mapDivs.item(i).addEventListener("mousemove", (ev) => { ev.stopImmediatePropagation(); });
+      mapDivs.item(i).addEventListener("touchmove", (ev) => { ev.stopImmediatePropagation(); });
+    }
 
     let loadedRegions = 0;
     let requiredRegions = [this.selectedRegion, "China", "row"];
@@ -488,6 +522,7 @@ export class CoronaComponent implements OnInit {
     this.controlSettings.localBreakdown.max = dateLength;
     this.controlSettings.localGrowth.max = dateLength;
     this.controlSettings.localStats.index = dateLength;
+    this.controlSettings.globalInfectedMap.index = dateLength;
     this.ready = true;
     this.updateAll();
   }
@@ -501,6 +536,7 @@ export class CoronaComponent implements OnInit {
   }
 
   updateAll() {
+    this.updateGlobalInfectedMap();
     this.updateGlobalOverview();
     this.updateGlobalTests();
     this.updateGlobalStats();
@@ -510,6 +546,49 @@ export class CoronaComponent implements OnInit {
     this.updateLocalGrowth();
     this.updateLocalOverview();
     this.updateLocalCompare();
+  }
+
+  updateGlobalInfectedMap() {
+    let locations = [];
+    let z = [];
+    let texts = [];
+    
+    let index = this.controlSettings.globalInfectedMap.index;
+    let iterator = this.overviewData.entries();
+    let element: IteratorResult<[string, CoronaOverviewData]>;
+    while (!(element = iterator.next()).done) {
+      let countryData: CoronaOverviewData = (<CoronaOverviewData>element.value[1]);
+      if (countryData) {
+        let value = countryData.confirmed[index] - countryData.dead[index] - countryData.recovered[index];
+        locations.push(element.value[0]);
+        z.push(Math.log10(value));
+        texts.push(
+          `</br>${this.translateService.instant("pages.corona.names." + element.value[0].replace(" ", "_"))} 
+          </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.infected")}: ${Math.abs(value).toLocaleString(this.translateService.currentLang, { useGrouping: true })}
+          `);
+      }
+    }
+
+    this.globalInfectedMapGraph.data = [];
+    this.globalInfectedMapGraph.data.push({
+      type: 'choropleth',
+      locationmode: 'country names',
+      hoverinfo: 'text',
+      locations: locations,
+      z: z,
+      text: texts,
+      showscale: false,
+      colorbar: { showcolorbar: false, hidden: true, y: 1, yanchor: "top", orientation: "h" },
+      autocolorscale: false,
+      colorscale: [
+        [0 / 6, '#fff7ec'], // 0
+        [3 / 6, '#fdbb84'], // 1000
+        [4 / 6, '#ef6548'],// 10k
+        [6 / 6, '#7f0000'], // 1m
+      ],
+      zmin: 0,
+      zmax: 6
+    });
   }
 
   updateGlobalOverview() {
@@ -581,9 +660,9 @@ export class CoronaComponent implements OnInit {
     });
   }
 
-  globalTestsMapUpdated() {
+  cloroplethMapChanged(name: string) {
     try {
-      let plotLayer = document.getElementById("global-tests-plot").getElementsByClassName("geo").item(0).children;
+      let plotLayer = document.getElementById(name).getElementsByClassName("geo").item(0).children;
       for (let i = 0; i < plotLayer.length; i++) {
         if (plotLayer.item(i).classList.contains("bg")) {
           for (let k = 0; k < plotLayer.item(i).children.length; k++) {
@@ -953,10 +1032,12 @@ export class CoronaComponent implements OnInit {
     this.controlSettings.globalOverview.max = index;
     this.controlSettings.globalStatus.index = index;
     this.controlSettings.globalStats.index = index;
+    this.controlSettings.globalInfectedMap.index = index;
 
     this.updateGlobalOverview();
     this.updateGlobalStats();
     this.updateGlobalStatus();
+    this.updateGlobalInfectedMap();
   };
 
   linkAllLocal(index: number) {
@@ -974,31 +1055,36 @@ export class CoronaComponent implements OnInit {
   onDateSliderChange(name: string): void {
     switch (name) {
       case "globaloverview":
-        if (this.controlSettings.linkGlobal) this.linkAllGlobal(this.controlSettings.globalOverview.max);
+        if (this.controlSettings.linkGlobal && !this.globalAnimateInterval) this.linkAllGlobal(this.controlSettings.globalOverview.max);
         else this.updateGlobalOverview();
         break;
+      case "globalinfectedmap":
+        if (this.controlSettings.linkGlobal && !this.globalAnimateInterval) this.linkAllGlobal(this.controlSettings.globalInfectedMap.index);
+        else this.updateGlobalInfectedMap();
+        break;
+        break;
       case "globalstatus":
-        if (this.controlSettings.linkGlobal) this.linkAllGlobal(this.controlSettings.globalStatus.index);
+        if (this.controlSettings.linkGlobal && !this.globalAnimateInterval) this.linkAllGlobal(this.controlSettings.globalStatus.index);
         else this.updateGlobalStatus();
         break;
       case "globalstats":
-        if (this.controlSettings.linkGlobal) this.linkAllGlobal(this.controlSettings.globalStats.index);
+        if (this.controlSettings.linkGlobal && !this.globalAnimateInterval) this.linkAllGlobal(this.controlSettings.globalStats.index);
         else this.updateGlobalStats();
         break;
       case "localstats":
-        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localStats.index);
+        if (this.controlSettings.linkLocal && !this.localAnimateInterval) this.linkAllLocal(this.controlSettings.localStats.index);
         else this.updateLocalStats();
         break;
       case "localoverview":
-        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localOverview.max);
+        if (this.controlSettings.linkLocal && !this.localAnimateInterval) this.linkAllLocal(this.controlSettings.localOverview.max);
         else this.updateLocalOverview();
         break;
       case "localbreakdown":
-        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localBreakdown.max);
+        if (this.controlSettings.linkLocal && !this.localAnimateInterval) this.linkAllLocal(this.controlSettings.localBreakdown.max);
         else this.updateLocalBreakdown();
         break;
       case "localgrowth":
-        if (this.controlSettings.linkLocal) this.linkAllLocal(this.controlSettings.localGrowth.max);
+        if (this.controlSettings.linkLocal && !this.localAnimateInterval) this.linkAllLocal(this.controlSettings.localGrowth.max);
         else this.updateLocalGrowth();
         break;
     }
@@ -1037,9 +1123,15 @@ export class CoronaComponent implements OnInit {
     }
   }
 
-  selectedScopeChanged() {
-    this.globalTestsGraph.layout.geo.scope = (<HTMLSelectElement>document.getElementById("scope-select")).value;
-    delete this.globalTestsGraph.layout.geo["center"];
-    PlotlyModule.plotlyjs.react(document.getElementById("global-tests-plot").children.item(0), this.globalTestsGraph.data, this.globalTestsGraph.layout);
+  selectedScopeChanged(name: string) {
+    if (name == "infected") {
+      this.globalInfectedMapGraph.layout.geo.scope = (<HTMLSelectElement>document.getElementById("infected-scope-select")).value;
+      delete this.globalInfectedMapGraph.layout.geo["center"];
+      PlotlyModule.plotlyjs.react(document.getElementById("global-infected-plot").children.item(0), this.globalInfectedMapGraph.data, this.globalInfectedMapGraph.layout);
+    } else if (name == "tests") {
+      this.globalTestsGraph.layout.geo.scope = (<HTMLSelectElement>document.getElementById("tests-scope-select")).value;
+      delete this.globalTestsGraph.layout.geo["center"];
+      PlotlyModule.plotlyjs.react(document.getElementById("global-tests-plot").children.item(0), this.globalTestsGraph.data, this.globalTestsGraph.layout);
+    }
   }
 }

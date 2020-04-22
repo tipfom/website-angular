@@ -95,6 +95,17 @@
         "corona": {
             "learn-more": "Erfahre mehr",
             "help": "Vielen Dank für 500 Nutzer. Wenn du Ideen oder Anregungen hast, was noch hinzugefügt oder geändert werden sollte, lass es mich gerne wissen! Du kannst mich <a href=\"/#contact\">hier</a> kontaktieren.",
+            "map": {
+                "scope": {
+                    "description": "Bereich auswählen: ",
+                    "world": "Weltweit",
+                    "europe": "Europa",
+                    "asia": "Asien",
+                    "africa": "Afrika",
+                    "north_america": "Nordamerika",
+                    "south_america": "Südamerika"
+                }
+            },
             "global": {
                 "title": "Globale Entwicklung",
                 "comparison": {
@@ -122,15 +133,17 @@
                         "ratio": "Tests pro Infiziertem",
                         "infected": "Infizierte",
                         "tests": "Tests"
-                    },
-                    "scope": {
-                        "description": "Bereich auswählen: ",
-                        "world": "Weltweit",
-                        "europe": "Europa",
-                        "asia": "Asien",
-                        "africa": "Afrika",
-                        "north_america": "Nordamerika",
-                        "south_america": "Südamerika"
+                    }
+                },
+                "infected-map": {
+                    "header": "Karte der aktuellen absoluten aktiven Infektionen",
+                    "description": "In dieser Karte werden die noch aktiven Infektionen dargestellt. Gesundete oder Verstorbene werden also nicht mitgezählt.",
+                    "0": "Keine Infizierten",
+                    "1k": "1 Tausend Infizierte",
+                    "10k": "10 Tausend Infizierte",
+                    "1m": "1 Million Infizierte",
+                    "hover-info": {
+                        "infected": "Infizierte"
                     }
                 }
             },
