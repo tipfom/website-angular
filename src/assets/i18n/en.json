@@ -24,7 +24,10 @@
                 "name": "name",
                 "e-mail": "e-mail",
                 "message": "message",
-                "send": "send"
+                "send": "send",
+                "success": "Success",
+                "error": "Error",
+                "retry": "Please try again."
             },
             "spotlight": {
                 "spotlight": "Spotlight",

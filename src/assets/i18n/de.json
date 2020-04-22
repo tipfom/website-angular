@@ -24,7 +24,10 @@
                 "name": "Name",
                 "e-mail": "E-Mail",
                 "message": "Nachricht",
-                "send": "Senden"
+                "send": "Senden",
+                "success": "Erfolg",
+                "error": "Fehler",
+                "retry": "Bitte versuche es nochmal."
             },
             "spotlight": {
                 "spotlight": "Rampenlicht",

@@ -10,7 +10,7 @@
             <img src="../../assets/images/glyph-logo_May2016.png">
         </div>
         <div class="contenttilediv" id="emaildiv" (click)="gotoMedia('mailto:timpokart@outlook.de')">
-            <img src="../../assets/images/email.svg"/>
+            <img src="../../assets/images/email.svg" />
         </div>
         <div class="contenttilediv" id="telegramdiv" (click)="gotoMedia('https://t.me/tipfom')">
             <img src="../../assets/images/Telegram_logo.svg">
@@ -21,20 +21,43 @@
     <div class="contentdiv-small">
         <h2 translate>pages.home.contact.contact-form</h2>
         <span translate>pages.home.contact.contact-not-working</span>
-        <div class="contact-group-div">
-            <input class="contact-group-input" id="nameinput" placeholder="{{'pages.home.contact.name' | translate}}">
-            <label class="contact-group-label" translate>pages.home.contact.name</label>
-        </div>
-        <div class="contact-group-div">
-            <input class="contact-group-input" id="emailinput" placeholder="{{'pages.home.contact.e-mail' | translate}}">
-            <label class="contact-group-label" translate>pages.home.contact.e-mail</label>
-        </div>
-        <div class="contact-group-div">
-            <textarea class="contact-group-input" id="messageinput" placeholder="{{'pages.home.contact.message' | translate}}"></textarea>
-            <label class="contact-group-label" translate>pages.home.contact.message</label>
-        </div>
-        <div id="cdiv">
-            <button disabled translate>pages.home.contact.send</button>
-        </div>
+        <ng-template [ngIf]="status == 'success'">
+            <div class="status-div">
+                <div>{{'pages.home.contact.success' | translate}}! ❤</div>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="status == 'error'">
+            <div class="status-div">
+                <div>{{'pages.home.contact.error' | translate}}! 💔</div>
+                <span translate>pages.home.contact.retry</span>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="sending == false">
+            <div class="contact-group-div">
+                <input class="contact-group-input" id="name-input"
+                    placeholder="{{'pages.home.contact.name' | translate}}" [(ngModel)]="name">
+                <label class="contact-group-label" translate>pages.home.contact.name</label>
+            </div>
+            <div class="contact-group-div">
+                <input class="contact-group-input" id="email-input"
+                    placeholder="{{'pages.home.contact.e-mail' | translate}}" [(ngModel)]="email">
+                <label class="contact-group-label" translate>pages.home.contact.e-mail</label>
+            </div>
+            <div class="contact-group-div">
+                <textarea class="contact-group-input" id="message-input"
+                    placeholder="{{'pages.home.contact.message' | translate}}" [(ngModel)]="message"></textarea>
+                <label class="contact-group-label" translate>pages.home.contact.message</label>
+            </div>
+            <div id="cdiv">
+                <button translate (click)="submitContactForm()">pages.home.contact.send</button>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="sending == true">
+            <div style="text-align: center; margin: 20px 0;">
+                <div class="lds-heart">
+                    <div></div>
+                </div>
+            </div>
+        </ng-template>
     </div>
 </div>

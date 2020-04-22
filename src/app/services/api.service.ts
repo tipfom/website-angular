@@ -13,7 +13,7 @@ import { CoronaOverviewData, CoronaFits } from '../structures/corona-structures'
 })
 export class ApiService {
 
-  private useProductionApiServerInDebug = true;
+  private useProductionApiServerInDebug = false;
   private serverAddress = (environment.production || this.useProductionApiServerInDebug) ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
   constructor(private httpClient: HttpClient) {
@@ -121,5 +121,9 @@ export class ApiService {
     return this.httpClient.get<CoronaFits>(this.serverAddress + 'corona/' + id).pipe(map(raw => {
       return new CoronaFits(raw);
     }));
+  }
+
+  sendMail(mail: string, name: string, content: string) {
+    return this.httpClient.post(this.serverAddress + 'contactform?name=' + name + "&mail=" + mail, content, { responseType: "text" });
   }
 }
