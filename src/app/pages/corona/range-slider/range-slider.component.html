@@ -54,9 +54,17 @@
         <div class="pole"></div>
         <div class="filled-pole" #filledpolediv></div>
         <div class="button" [hidden]="!hasMinMax" (mousedown)="lowerDragStart()" (touchstart)="lowerDragStart()"
-            [ngClass]="isDraggingLower ? 'selected' : ''" #lowerdiv></div>
+            [ngClass]="isDraggingLower ? 'selected' : ''" #lowerdiv>
+            <div class="show-value-div">
+                {{lower | sliderdate}}
+            </div>
+        </div>
         <div class="button" (mousedown)="upperDragStart()" (touchstart)="upperDragStart()"
-            [ngClass]="isDraggingUpper ? 'selected' : ''" #upperdiv></div>
+            [ngClass]="isDraggingUpper ? 'selected' : ''" #upperdiv>
+            <div class="show-value-div">
+                {{upper | sliderdate}}
+            </div>
+        </div>
     </div>
 
     <div [hidden]="!linked" class="container-div">

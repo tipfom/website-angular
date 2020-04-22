@@ -34,7 +34,22 @@
     border: 1px solid $color-accent-secondary
     &:hover, &.selected
         background-color: $color-accent-secondary
-        
+        .show-value-div
+            display: block
+
+.show-value-div
+    display: none
+    padding: 5px
+    top: -35px
+    left: 50%
+    transform: translateX(-50%)
+    user-select: none
+    width: fit-content
+    position: relative
+    background: $color-lightshadow
+    border: $color-accent 1px solid
+    border-radius: 3px
+
 
 .date-slider-control-button
     border: none

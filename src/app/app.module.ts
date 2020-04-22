@@ -31,6 +31,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { RangeSliderComponent } from './pages/corona/range-slider/range-slider.component';
 import { LocaleintPipe } from './pipes/localeint.pipe';
 import { LocaledeltaPipe } from './pipes/localedelta.pipe';
+import { SliderdatePipe } from './pipes/sliderdate.pipe';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -58,6 +59,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     RangeSliderComponent,
     LocaleintPipe,
     LocaledeltaPipe,
+    SliderdatePipe,
   ],
   imports: [
     BrowserModule,
