@@ -6,14 +6,14 @@ import { Observable } from 'rxjs';
 import { ResourceEntry } from '../structures/resource-entry';
 import { ArticleEntry } from '../structures/article-entry';
 import { environment } from 'src/environments/environment';
-import { CoronaData, CoronaTestData } from '../structures/corona-structures';
+import { CoronaOverviewData, CoronaFits } from '../structures/corona-structures';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private useProductionApiServerInDebug = true;
+  private useProductionApiServerInDebug = false;
   private serverAddress = (environment.production || this.useProductionApiServerInDebug) ? "https://api.timpokart.de/" : "http://localhost:5764/";
 
   constructor(private httpClient: HttpClient) {
@@ -107,19 +107,19 @@ export class ApiService {
       { headers: headers, responseType: "text" });
   }
 
-  getCoronaData(id: string): Observable<CoronaData> {
-    return this.httpClient.get<CoronaData>(this.serverAddress + 'corona/' + id).pipe(map(data => new CoronaData(data)));
+  getCoronaOverviewData(): Observable<Map<string, CoronaOverviewData>> {
+    return this.httpClient.get<any>(this.serverAddress + 'corona').pipe(map(r => {
+      let res = new Map<string, CoronaOverviewData>();
+      Object.entries(r).forEach(e => {
+        res.set(e[0], new CoronaOverviewData(e[1]));
+      });
+      return res;
+    }));
   }
 
-  getCoronaTopCountries(): Observable<Map<string, number>[]> {
-    return this.httpClient.get<Map<string, number>[]>(this.serverAddress + 'coronatop');
-  }
-
-  getCoronaSeriousCases(region: string) {
-    return this.httpClient.get(this.serverAddress + 'coronaserious/' + region, { responseType: "text" });
-  }
-
-  getCoronaTestData(): Observable<Map<string, CoronaTestData>> {
-    return this.httpClient.get<Map<string, CoronaTestData>>(this.serverAddress + 'coronatests');
+  getCoronaFits(id: string): Observable<CoronaFits> {
+    return this.httpClient.get<CoronaFits>(this.serverAddress + 'corona/' + id).pipe(map(raw => {
+      return new CoronaFits(raw);
+    }));
   }
 }

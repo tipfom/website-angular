@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { CoronaFit, CoronaData, CoronaTestData } from 'src/app/structures/corona-structures';
+import { CoronaFits, CoronaOverviewData, CoronaTestData } from 'src/app/structures/corona-structures';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ActivatedRoute } from '@angular/router';
@@ -21,8 +21,8 @@ export class CoronaComponent implements OnInit {
   axisStartDate: Date = new Date(this.dataStartDate);
   axisEndDate: Date;
 
-  data: Map<string, CoronaData> = new Map<string, CoronaData>();
-  dataOnTests: Map<string, CoronaTestData>;
+  overviewData: Map<string, CoronaOverviewData>;
+  fitData: Map<string, CoronaFits> = new Map<string, CoronaFits>();
   selectedRegion: string = "global";
 
   maxDateIndex: number;
@@ -432,26 +432,27 @@ export class CoronaComponent implements OnInit {
     });
 
     let testMapDiv = document.getElementById("test-map-div");
-    testMapDiv.addEventListener("mousemove", (ev) => {ev.stopImmediatePropagation();});
-    testMapDiv.addEventListener("touchmove", (ev) => {ev.stopImmediatePropagation();});
+    testMapDiv.addEventListener("mousemove", (ev) => { ev.stopImmediatePropagation(); });
+    testMapDiv.addEventListener("touchmove", (ev) => { ev.stopImmediatePropagation(); });
 
-    let requiredRegions = ["China", "row", "global", "US", "Italy", "Spain"];
     let loadedRegions = 0;
+    let requiredRegions = [this.selectedRegion, "China", "row"];
+    let partDataLoad = () => {
+      if (this.overviewData != undefined && loadedRegions == requiredRegions.length) this.onDataLoaded();
+    };
+
+    this.apiService.getCoronaOverviewData().subscribe(res => {
+      this.overviewData = res;
+      partDataLoad();
+    });
     requiredRegions.forEach(country => {
-      this.apiService.getCoronaData(country).subscribe(data => {
-        this.data.set(country, data);
+      this.apiService.getCoronaFits(country).subscribe(data => {
+        this.fitData.set(country, data);
         loadedRegions += 1;
-        if (loadedRegions == requiredRegions.length && this.topcountries != undefined && this.dataOnTests != undefined) this.onDataLoaded();
+        partDataLoad();
       })
     });
-    this.apiService.getCoronaTopCountries().subscribe(tc => {
-      this.topcountries = tc;
-      if (loadedRegions == requiredRegions.length && this.dataOnTests != undefined) this.onDataLoaded();
-    });
-    this.apiService.getCoronaTestData().subscribe(td => {
-      this.dataOnTests = td;
-      if (loadedRegions == requiredRegions.length && this.topcountries != undefined) this.onDataLoaded();
-    });
+
     setTimeout(() => {
       this.sortRegionSelect();
     }, 100);
@@ -472,7 +473,7 @@ export class CoronaComponent implements OnInit {
   }
 
   onDataLoaded() {
-    let dateLength = this.data.get("global").confirmed.length - 1;
+    let dateLength = this.overviewData.get("global").confirmed.length - 1;
     this.maxDateIndex = dateLength;
 
     this.dataEndDate = new Date(this.dataStartDate);
@@ -513,10 +514,10 @@ export class CoronaComponent implements OnInit {
 
   updateGlobalOverview() {
     let newGlobalGraphData = [];
-    this.buildFitTraces(this.data.get("China"), this.controlSettings.globalOverview.max - 15, "sig", "china", "5899DA8C", "5899DA46").forEach(x => newGlobalGraphData.push(x));
-    this.buildFitTraces(this.data.get("row"), this.controlSettings.globalOverview.max - 15, "sig", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
-    newGlobalGraphData.push(this.buildTrace(this.data.get("China").confirmed, this.controlSettings.globalOverview.max, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
-    newGlobalGraphData.push(this.buildTrace(this.data.get("row").confirmed, this.controlSettings.globalOverview.max, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
+    this.buildFitTraces(this.fitData.get("China"), this.controlSettings.globalOverview.max - 15, "sig", "china", "5899DA8C", "5899DA46").forEach(x => newGlobalGraphData.push(x));
+    this.buildFitTraces(this.fitData.get("row"), this.controlSettings.globalOverview.max - 15, "sig", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
+    newGlobalGraphData.push(this.buildTrace(this.overviewData.get("China").confirmed, this.controlSettings.globalOverview.max, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
+    newGlobalGraphData.push(this.buildTrace(this.overviewData.get("row").confirmed, this.controlSettings.globalOverview.max, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
 
     this.globalGraph.data = newGlobalGraphData;
     if (this.controlSettings.globalOverview.resize) {
@@ -526,8 +527,8 @@ export class CoronaComponent implements OnInit {
       ];
       this.globalGraph.layout.yaxis.range = [0,
         Math.max(
-          this.data.get("China").confirmed[this.controlSettings.globalOverview.max],
-          this.data.get("row").confirmed[this.controlSettings.globalOverview.max]
+          this.overviewData.get("China").confirmed[this.controlSettings.globalOverview.max],
+          this.overviewData.get("row").confirmed[this.controlSettings.globalOverview.max]
         ) * 1.1];
     } else {
       this.globalGraph.layout.xaxis.range = [
@@ -536,8 +537,8 @@ export class CoronaComponent implements OnInit {
       ];
       this.globalGraph.layout.yaxis.range = [0,
         Math.max(
-          this.data.get("China").confirmed[this.maxDateIndex],
-          this.data.get("row").confirmed[this.maxDateIndex]
+          this.overviewData.get("China").confirmed[this.maxDateIndex],
+          this.overviewData.get("row").confirmed[this.maxDateIndex]
         ) * 1.1];
     }
   }
@@ -547,18 +548,21 @@ export class CoronaComponent implements OnInit {
     let z = [];
     let texts = [];
 
-    let keys = Object.keys(this.dataOnTests);
-    keys.forEach(country => {
-      let countryData: CoronaTestData = this.dataOnTests[country];
-      locations.push(countryData.original_name);
-      z.push(Math.log10(countryData.total / countryData.confirmed_cases));
-      texts.push(
-        `</br>${this.translateService.instant("pages.corona.names." + country.replace(" ", "_"))} 
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.ratio")}: ${(countryData.total / countryData.confirmed_cases).toLocaleString(this.translateService.currentLang, { useGrouping: true, minimumFractionDigits: 1, maximumFractionDigits: 1, minimumIntegerDigits: 1 })}
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.tests")}: ${Math.abs(countryData.total).toLocaleString(this.translateService.currentLang, { useGrouping: true })}
-        </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.infected")}: ${Math.abs(countryData.confirmed_cases).toLocaleString(this.translateService.currentLang, { useGrouping: true })}
-        `);
-    });
+    let x = this.overviewData.entries();
+    let y: IteratorResult<[string, CoronaOverviewData]>;
+    while (!(y = x.next()).done) {
+      let countryData: CoronaTestData = (<CoronaOverviewData>y.value[1]).tests;
+      if (countryData) {
+        locations.push(countryData.original_name);
+        z.push(Math.log10(countryData.total / countryData.confirmed_cases));
+        texts.push(
+          `</br>${this.translateService.instant("pages.corona.names." + y.value[0].replace(" ", "_"))} 
+          </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.ratio")}: ${(countryData.total / countryData.confirmed_cases).toLocaleString(this.translateService.currentLang, { useGrouping: true, minimumFractionDigits: 1, maximumFractionDigits: 1, minimumIntegerDigits: 1 })}
+          </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.tests")}: ${Math.abs(countryData.total).toLocaleString(this.translateService.currentLang, { useGrouping: true })}
+          </br>${this.translateService.instant("pages.corona.global.test-map.hover-info.infected")}: ${Math.abs(countryData.confirmed_cases).toLocaleString(this.translateService.currentLang, { useGrouping: true })}
+          `);
+      }
+    }
 
     this.globalTestsGraph.data.push({
       type: 'choropleth',
@@ -591,7 +595,7 @@ export class CoronaComponent implements OnInit {
   }
 
   updateGlobalStatus() {
-    let globalData = this.data.get("global");
+    let globalData = this.overviewData.get("global");
     this.globalDeadInfectedHealedGraph.data = [];
     this.globalDeadInfectedHealedGraph.data.push(
       this.buildDeadInfectedHealedPieChart(globalData.confirmed, globalData.dead, globalData.recovered, this.controlSettings.globalStatus.index, [this.colors.infected, this.colors.dead, this.colors.recovered])
@@ -604,7 +608,7 @@ export class CoronaComponent implements OnInit {
   }
 
   updateGlobalStats() {
-    let globalData = this.data.get("global");
+    let globalData = this.overviewData.get("global");
     let date = this.controlSettings.globalStats.index;
     this.statistics.global.confirmed = this.getValueDelta(globalData.confirmed[date], globalData.confirmed[date - 1]);
     this.statistics.global.dead = this.getValueDelta(globalData.dead[date], globalData.dead[date - 1]);
@@ -613,28 +617,44 @@ export class CoronaComponent implements OnInit {
       globalData.confirmed[date] - globalData.dead[date] - globalData.recovered[date],
       globalData.confirmed[date - 1] - globalData.dead[date - 1] - globalData.recovered[date - 1]);
     this.statistics.global.fatalityrate = globalData.dead[date] / (globalData.confirmed[date]) * 100;
-    this.statistics.global.topcountries = [];
-    for (var key in this.topcountries[date]) {
-      this.statistics.global.topcountries.push({ name: this.translateService.instant('pages.corona.names.' + key), infected: this.topcountries[date][key] });
+
+    let temp = [];
+    let element;
+    let iterator = this.overviewData.entries();
+    while (!(element = iterator.next()).done) {
+      if (element.value[0] == "global" ||
+        element.value[0] == "western_pacific_region" ||
+        element.value[0] == "european_region" ||
+        element.value[0] == "south_east_asia_region" ||
+        element.value[0] == "eastern_mediterranean_region" ||
+        element.value[0] == "region_of_the_americans" ||
+        element.value[0] == "african_region" ||
+        element.value[0] == "other") continue;
+      temp.push({ key: element.value[0], infected: element.value[1].confirmed[date] - element.value[1].dead[date] - element.value[1].recovered[date] });
     }
-    this.statistics.global.topcountries.sort((a, b) => b.infected - a.infected);
+    temp.sort((a, b) => b.infected - a.infected);
+
+    this.statistics.global.topcountries = [];
+    for (let i = 0; i < 5; i++) {
+      this.statistics.global.topcountries.push({ name: this.translateService.instant('pages.corona.names.' + temp[i].key), infected: temp[i].infected });
+    }
   }
 
   updateLocalStats() {
-    let localData = this.data.get(this.selectedRegion);
+    let localOverviewData = this.overviewData.get(this.selectedRegion);
     let date = this.controlSettings.localStats.index;
 
-    this.statistics.local.confirmed = this.getValueDelta(localData.confirmed[date], localData.confirmed[date - 1]);
-    this.statistics.local.dead = this.getValueDelta(localData.dead[date], localData.dead[date - 1]);
-    this.statistics.local.recovered = this.getValueDelta(localData.recovered[date], localData.recovered[date - 1]);
+    this.statistics.local.confirmed = this.getValueDelta(localOverviewData.confirmed[date], localOverviewData.confirmed[date - 1]);
+    this.statistics.local.dead = this.getValueDelta(localOverviewData.dead[date], localOverviewData.dead[date - 1]);
+    this.statistics.local.recovered = this.getValueDelta(localOverviewData.recovered[date], localOverviewData.recovered[date - 1]);
     this.statistics.local.infected = this.getValueDelta(
-      localData.confirmed[date] - localData.dead[date] - localData.recovered[date],
-      localData.confirmed[date - 1] - localData.dead[date - 1] - localData.recovered[date - 1]);
-    this.statistics.local.fatalityrate = localData.dead[date] / (localData.confirmed[date]) * 100;
+      localOverviewData.confirmed[date] - localOverviewData.dead[date] - localOverviewData.recovered[date],
+      localOverviewData.confirmed[date - 1] - localOverviewData.dead[date - 1] - localOverviewData.recovered[date - 1]);
+    this.statistics.local.fatalityrate = localOverviewData.dead[date] / (localOverviewData.confirmed[date]) * 100;
 
-    if (this.dataOnTests != undefined && this.dataOnTests[this.selectedRegion] != undefined) {
-      let data = this.dataOnTests[this.selectedRegion];
-      this.statistics.local.tests.value = Number.parseInt(data.total).toLocaleString(this.translateService.currentLang, { useGrouping: true });
+    if (localOverviewData.tests != undefined) {
+      let data = localOverviewData.tests;
+      this.statistics.local.tests.value = data.total.toLocaleString(this.translateService.currentLang, { useGrouping: true });
       this.statistics.local.tests.updated = new Date(data.updated).toLocaleString(undefined, {
         weekday: "short",
         year: "numeric",
@@ -659,52 +679,49 @@ export class CoronaComponent implements OnInit {
       });
     }
 
-    this.apiService.getCoronaSeriousCases(this.selectedRegion).subscribe(res => {
-      let data = res.split("\n");
-      this.statistics.local.serious.updated = new Date(Date.parse(data[0])).toLocaleString(undefined, {
-        weekday: "short",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      });
-      if (data[1] == "not-available") {
-        this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");
-      } else {
-        this.statistics.local.serious.value = Number.parseInt(data[1].replace(",", "")).toLocaleString(this.translateService.currentLang, { useGrouping: true });
-      }
+    this.statistics.local.serious.updated = localOverviewData.serious.updated.toLocaleString(undefined, {
+      weekday: "short",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     });
+    if (localOverviewData.serious.value == undefined) {
+      this.statistics.local.serious.value = this.translateService.instant("pages.corona.local.serious.not-available");
+    } else {
+      this.statistics.local.serious.value = localOverviewData.serious.value.toLocaleString(this.translateService.currentLang, { useGrouping: true });
+    }
   }
 
   updateLocalCompare() {
-    let localData = this.data.get(this.selectedRegion);
+    let localData = this.overviewData.get(this.selectedRegion);
     let threshold = 500;
     this.localCompareGraph.data = [];
     this.localCompareGraph.data.push(this.buildLocalCompareTrace(localData.confirmed, threshold, this.translateService.instant("pages.corona.names." + this.selectedRegion), "#333333", false));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("China").confirmed, threshold, this.translateService.instant("pages.corona.names.China"), "#5899DA"));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("US").confirmed, threshold, this.translateService.instant("pages.corona.names.US"), "#E8743B"));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Italy").confirmed, threshold, this.translateService.instant("pages.corona.names.Italy"), "#19A979"));
-    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.data.get("Spain").confirmed, threshold, this.translateService.instant("pages.corona.names.Spain"), "#ED4A7B"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.overviewData.get("China").confirmed, threshold, this.translateService.instant("pages.corona.names.China"), "#5899DA"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.overviewData.get("US").confirmed, threshold, this.translateService.instant("pages.corona.names.US"), "#E8743B"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.overviewData.get("Italy").confirmed, threshold, this.translateService.instant("pages.corona.names.Italy"), "#19A979"));
+    this.localCompareGraph.data.push(this.buildLocalCompareTrace(this.overviewData.get("Spain").confirmed, threshold, this.translateService.instant("pages.corona.names.Spain"), "#ED4A7B"));
     this.localCompareGraph.layout.xaxis.range[1] = this.localCompareGraph.data[0].x.length + 5;
     this.localCompareGraph.layout.xaxis.title = this.translateService.instant("pages.corona.local.compare.axis");
   }
 
   updateLocalOverview() {
-    let regionData = this.data.get(this.selectedRegion);
+    let regionOverviewData = this.overviewData.get(this.selectedRegion);
     let newData = [];
-    newData.push(this.buildTrace(regionData.confirmed, this.controlSettings.localOverview.max, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
-    if (regionData.fits != undefined) {
-      this.buildFitTraces(regionData, this.controlSettings.localOverview.max - 15, "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => newData.push(x));
-      this.buildFitTraces(regionData, this.controlSettings.localOverview.max - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => newData.push(x));
+    newData.push(this.buildTrace(regionOverviewData.confirmed, this.controlSettings.localOverview.max, "none", this.translateService.instant("pages.corona.legend.total"), "#333333"));
+    if (this.fitData.has(this.selectedRegion)) {
+      this.buildFitTraces(this.fitData.get(this.selectedRegion), this.controlSettings.localOverview.max - 15, "exp", "exp_fit", "#a4650a8C", "#a4650a46").forEach(x => newData.push(x));
+      this.buildFitTraces(this.fitData.get(this.selectedRegion), this.controlSettings.localOverview.max - 15, "sig", "sig_fit", "#2a6d3c8C", "#2a6d3c46").forEach(x => newData.push(x));
     }
     this.localOverviewGraph.data = newData;
     if (this.controlSettings.localOverview.resize) {
-      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.controlSettings.localOverview.max] * 1.2];
+      this.localOverviewGraph.layout.yaxis.range = [0, regionOverviewData.confirmed[this.controlSettings.localOverview.max] * 1.2];
       this.localOverviewGraph.layout.xaxis.range = [
         (this.controlSettings.localOverview.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
         (this.controlSettings.localOverview.max + 3) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime()
       ];
     } else {
-      this.localOverviewGraph.layout.yaxis.range = [0, regionData.confirmed[this.maxDateIndex] * 1.2];
+      this.localOverviewGraph.layout.yaxis.range = [0, regionOverviewData.confirmed[this.maxDateIndex] * 1.2];
       this.localOverviewGraph.layout.xaxis.range = [
         this.axisStartDate.getTime(),
         this.axisEndDate.getTime()
@@ -713,7 +730,7 @@ export class CoronaComponent implements OnInit {
   }
 
   updateLocalBreakdown() {
-    let regionData = this.data.get(this.selectedRegion);
+    let regionData = this.overviewData.get(this.selectedRegion);
     let newData = []
     newData.push(this.buildTrace(regionData.dead, this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.dead"), this.colors.dead, true));
     newData.push(this.buildTrace(regionData.recovered, this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
@@ -736,7 +753,7 @@ export class CoronaComponent implements OnInit {
   }
 
   updateLocalGrowth() {
-    let regionData = this.data.get(this.selectedRegion);
+    let regionData = this.overviewData.get(this.selectedRegion);
     this.localGrowthGraph.data = this.buildGrowthTraces(regionData.confirmed, this.controlSettings.localGrowth.max, this.colors.growth.rel, this.colors.growth.tot);
     if (this.controlSettings.localGrowth.resize) {
       this.localGrowthGraph.layout.xaxis.range = [
@@ -869,7 +886,7 @@ export class CoronaComponent implements OnInit {
     return piedata;
   }
 
-  buildFitTraces(data: CoronaData, index: number, type: string, group: string, color: string, fill: string, sampleCount: number = 100.0) {
+  buildFitTraces(data: CoronaFits, index: number, type: string, group: string, color: string, fill: string, sampleCount: number = 100.0) {
     let fit = data.cachedFits.get(type + index);
 
     var trace = {
@@ -922,11 +939,11 @@ export class CoronaComponent implements OnInit {
       this.updateLocalBreakdown();
       this.updateLocalGrowth();
     };
-    if (this.data.has(this.selectedRegion)) {
+    if (this.fitData.has(this.selectedRegion)) {
       update();
     } else {
-      this.apiService.getCoronaData(this.selectedRegion).subscribe(d => {
-        this.data.set(this.selectedRegion, d);
+      this.apiService.getCoronaFits(this.selectedRegion).subscribe(d => {
+        this.fitData.set(this.selectedRegion, d);
         update();
       });
     }
