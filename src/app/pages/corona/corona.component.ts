@@ -111,6 +111,7 @@ export class CoronaComponent implements OnInit {
       displaylogo: false,
       scrollZoom: false,
       displayModeBar: false,
+      staticPlot: this.deviceService.isMobile()
     }
   };
 
@@ -132,6 +133,7 @@ export class CoronaComponent implements OnInit {
         tick0: this.axisStartDate.getTime(),
         dtick: 1000 * 60 * 60 * 24 * 7,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       yaxis: {
         rangemode: 'nonnegative',
@@ -139,6 +141,7 @@ export class CoronaComponent implements OnInit {
         automargin: true,
         range: [0, 0],
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       legend: {
         x: 0.01,
@@ -217,6 +220,7 @@ export class CoronaComponent implements OnInit {
       displaylogo: false,
       scrollZoom: false,
       displayModeBar: false,
+      staticPlot: this.deviceService.isMobile()
     }
   };
 
@@ -241,6 +245,7 @@ export class CoronaComponent implements OnInit {
         autorange: false,
         range: [0, 1],
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       yaxis: {
         rangemode: 'nonnegative',
@@ -250,6 +255,7 @@ export class CoronaComponent implements OnInit {
         tick0: 2,
         dtick: 1,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       legend: {
         x: 0.99,
@@ -290,6 +296,7 @@ export class CoronaComponent implements OnInit {
         dtick: 1000 * 60 * 60 * 24 * 7,
         automargin: true,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       yaxis: {
         rangemode: 'nonnegative',
@@ -297,6 +304,7 @@ export class CoronaComponent implements OnInit {
         range: [0, 0],
         automargin: true,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       legend: {
         x: 0.01,
@@ -336,12 +344,14 @@ export class CoronaComponent implements OnInit {
         dtick: 1000 * 60 * 60 * 24 * 7,
         automargin: true,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true,
         automargin: true,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       legend: {
         x: 0.01,
@@ -381,12 +391,14 @@ export class CoronaComponent implements OnInit {
         dtick: 1000 * 60 * 60 * 24 * 7,
         automargin: true,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true,
         automargin: true,
         gridcolor: this.colors.grid,
+        fixedrange: true
       },
       yaxis2: {
         range: [0, 1],
@@ -396,6 +408,7 @@ export class CoronaComponent implements OnInit {
         side: 'right',
         showgrid: false,
         tickformat: ',.0%',
+        fixedrange: true
       },
       legend: {
         x: 0.01,
@@ -466,7 +479,6 @@ export class CoronaComponent implements OnInit {
     let mapDivs = document.getElementsByClassName("map-div");
     for (let i = 0; i < mapDivs.length; i++) {
       mapDivs.item(i).addEventListener("mousemove", (ev) => { ev.stopImmediatePropagation(); });
-      mapDivs.item(i).addEventListener("touchmove", (ev) => { ev.stopImmediatePropagation(); });
     }
 
     let loadedRegions = 0;
@@ -523,6 +535,14 @@ export class CoronaComponent implements OnInit {
     this.controlSettings.localGrowth.max = dateLength;
     this.controlSettings.localStats.index = dateLength;
     this.controlSettings.globalInfectedMap.index = dateLength;
+
+    if (this.deviceService.isMobile()) {
+      const mobileRange = 7 * 6;
+      this.controlSettings.globalOverview.min = this.controlSettings.globalOverview.max - mobileRange;
+      this.controlSettings.localOverview.min = this.controlSettings.localOverview.max - mobileRange;
+      this.controlSettings.localBreakdown.min = this.controlSettings.localBreakdown.max - mobileRange;
+      this.controlSettings.localGrowth.min = this.controlSettings.localGrowth.max - mobileRange;
+    }
     this.ready = true;
     this.updateAll();
   }
