@@ -178,7 +178,8 @@
                 "tests": {
                     "header": "Durchgeführte Tests",
                     "published": "Veröffentlicht: "
-                }
+                },
+                "doubling-time": "Verdopplungszeit"
             },
             "legend": {
                 "sig-fit": "Logistische Anpassung",

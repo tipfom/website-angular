@@ -13,9 +13,6 @@
         </datalist>
         <h1>COVID-19 Dashboard</h1>
         <div class="containerdiv">
-            <div class="contentdiv-large" id="help-div">
-                <span [innerHTML]="'pages.corona.help' | translate"></span>
-            </div>
             <div class="contentdiv-large" id="global">
                 <h2 translate>pages.corona.global.title</h2>
                 <div class="plot-container">
@@ -569,6 +566,14 @@
                             <plotly-plot [data]="localDeadInfectedHealedGraph.data"
                                 [layout]="localDeadInfectedHealedGraph.layout"
                                 [config]="localDeadInfectedHealedGraph.config">
+                            </plotly-plot>
+                        </div>
+                    </div>
+                    <div class="plot-item-large">
+                        <h3 translate>pages.corona.local.doubling-time</h3>
+                        <div class="plot-div">
+                            <plotly-plot [data]="localR0Graph.data" [layout]="localR0Graph.layout"
+                                [config]="localR0Graph.config">
                             </plotly-plot>
                         </div>
                     </div>

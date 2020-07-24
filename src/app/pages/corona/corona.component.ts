@@ -351,7 +351,24 @@ export class CoronaComponent implements OnInit {
         autorange: true,
         automargin: true,
         gridcolor: this.colors.grid,
-        fixedrange: true
+        fixedrange: true,
+        title: {
+          text: "",
+          standoff: 10
+        },
+      },
+      yaxis2: {
+        rangemode: 'nonnegative',
+        autorange: true,
+        automargin: true,
+        fixedrange: true,
+        overlaying: 'y',
+        side: 'right',
+        showgrid: false,
+        title: {
+          text: "",
+          standoff: 10
+        },
       },
       legend: {
         x: 0.01,
@@ -451,6 +468,49 @@ export class CoronaComponent implements OnInit {
       tests: { value: "0", updated: "0", regions: new Map<string, number>() }
     }
   }
+
+  public localR0Graph = {
+    data: [],
+    layout: {
+      height: 450,
+      plot_bgcolor: this.colors.background,
+      paper_bgcolor: this.colors.background,
+      font: {
+        family: 'sans-serif',
+        color: '#00254D',
+        size: 14
+      },
+      xaxis: {
+        range: [this.axisStartDate.getTime(), this.axisStartDate.getTime()],
+        tickmode: 'linear',
+        tick0: this.axisStartDate.getTime(),
+        dtick: 1000 * 60 * 60 * 24 * 7,
+        automargin: true,
+        gridcolor: this.colors.grid,
+        fixedrange: true
+      },
+      yaxis: {
+        rangemode: 'nonnegative',
+        autorange: true,
+        automargin: true,
+        gridcolor: this.colors.grid,
+        fixedrange: true,
+        title: {
+          text: 'Days',
+          standoff: 10
+        }
+      },
+      margin: { l: 0, r: 0, t: 0, b: 0 }
+    },
+    config: {
+      responsive: true,
+      scrollZoom: false,
+      editable: false,
+      staticPlot: this.deviceService.isMobile(),
+      displaylogo: false,
+      displayModeBar: false,
+    }
+  };
 
   constructor(private apiService: ApiService, public translateService: TranslateService, private deviceService: DeviceDetectorService, private route: ActivatedRoute) {
     this.translateService.onLangChange.subscribe(() => {
@@ -566,6 +626,7 @@ export class CoronaComponent implements OnInit {
     this.updateLocalGrowth();
     this.updateLocalOverview();
     this.updateLocalCompare();
+    this.updateLocalR0();
   }
 
   updateGlobalInfectedMap() {
@@ -613,10 +674,9 @@ export class CoronaComponent implements OnInit {
 
   updateGlobalOverview() {
     let newGlobalGraphData = [];
-    this.buildFitTraces(this.fitData.get("China"), this.controlSettings.globalOverview.max - 15, "sig", "china", "5899DA8C", "5899DA46").forEach(x => newGlobalGraphData.push(x));
-    this.buildFitTraces(this.fitData.get("row"), this.controlSettings.globalOverview.max - 15, "sig", "row", "E8743B8C", "E8743B46").forEach(x => newGlobalGraphData.push(x));
-    newGlobalGraphData.push(this.buildTrace(this.overviewData.get("China").confirmed, this.controlSettings.globalOverview.max, "china", this.translateService.instant("pages.corona.legend.china"), "#1866b4", false, "square"));
-    newGlobalGraphData.push(this.buildTrace(this.overviewData.get("row").confirmed, this.controlSettings.globalOverview.max, "row", this.translateService.instant("pages.corona.legend.row"), "#cc4300"));
+    this.buildFitTraces(this.fitData.get("global"), this.controlSettings.globalOverview.max - 15, "sig", "global", "#a4650a8C", "#a4650a46").forEach(x => newGlobalGraphData.push(x));
+    this.buildFitTraces(this.fitData.get("global"), this.controlSettings.globalOverview.max - 15, "exp", "global", "#2a6d3c8C", "#2a6d3c46").forEach(x => newGlobalGraphData.push(x));
+    newGlobalGraphData.push(this.buildTrace(this.overviewData.get("global").confirmed, this.controlSettings.globalOverview.max, "global", this.translateService.instant("pages.corona.names.global"), "#333333", false, "square"));
 
     this.globalGraph.data = newGlobalGraphData;
     if (this.controlSettings.globalOverview.resize) {
@@ -878,9 +938,13 @@ export class CoronaComponent implements OnInit {
     newData.push(this.buildTrace(regionData.recovered, this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.recovered"), this.colors.recovered, true));
     newData.push(this.buildTrace(
       this.substract(this.substract(regionData.confirmed, regionData.recovered), regionData.dead),
-      this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true)
+      this.controlSettings.localBreakdown.max, null, this.translateService.instant("pages.corona.legend.infected"), this.colors.infected, true, "circle", "y2")
     );
     this.localDeadInfectedHealedGraph.data = newData;
+
+    this.localDeadInfectedHealedGraph.layout.yaxis.title.text = this.translateService.instant("pages.corona.legend.dead") + ' / ' + this.translateService.instant("pages.corona.legend.recovered") + "\n ";
+    this.localDeadInfectedHealedGraph.layout.yaxis2.title.text = " \n" + this.translateService.instant("pages.corona.legend.infected");
+
     if (this.controlSettings.localBreakdown.resize) {
       this.localDeadInfectedHealedGraph.layout.xaxis.range = [
         (this.controlSettings.localBreakdown.min) * (1000 * 60 * 60 * 24) + this.axisStartDate.getTime(),
@@ -908,6 +972,34 @@ export class CoronaComponent implements OnInit {
         this.dataEndDate.getTime()
       ];
     }
+  }
+
+  updateLocalR0() {
+    let regionData = this.overviewData.get(this.selectedRegion);
+    let rollingAverage = [];
+    for (var i = 0; i < regionData.confirmed.length; i++) {
+      let v = regionData.confirmed[i];
+      for (var k = 10; k > 0; k--) {
+        if (rollingAverage.length > k) {
+          for (var l = 1; l < k + 1; l++) {
+            v += rollingAverage[rollingAverage.length - l];
+          }
+          v /= k + 1;
+          break;
+        }
+      }
+      rollingAverage.push(v);
+    }
+
+    let r0 = [];
+    for (var i = 0; i < regionData.confirmed.length - 2; i++) {
+      r0.push(Math.log(2) / Math.log(rollingAverage[i + 1] / rollingAverage[i]));
+    }
+    this.localR0Graph.data = [this.buildTrace(r0, r0.length, "", "r0", "#888888", true, "none")];
+    this.localR0Graph.layout.xaxis.range = [
+      this.axisStartDate.getTime(),
+      this.dataEndDate.getTime()
+    ];
   }
 
   buildLocalCompareTrace(data: number[], threshold: number, name: string, color: string, dotted: boolean = true) {
@@ -938,7 +1030,7 @@ export class CoronaComponent implements OnInit {
     return trace;
   }
 
-  buildTrace(data: number[], count: number, group: string, name: string, color: string, line: boolean = false, marker: string = "circle") {
+  buildTrace(data: number[], count: number, group: string, name: string, color: string, line: boolean = false, marker: string = "circle", yaxis: string = "y1") {
     let x = []
     let y: number[] = []
     for (var i = 0; i <= count; i++) {
@@ -952,10 +1044,11 @@ export class CoronaComponent implements OnInit {
     let trace = {
       x: x,
       y: y,
-      mode: line ? 'lines+markers' : 'markers',
+      mode: line ? (marker == "none" ? 'lines' : 'lines+markers') : 'markers',
       type: 'scatter',
       name: name,
       legendgroup: group,
+      yaxis: yaxis,
       marker: {
         color: color,
         size: 8,
@@ -1081,6 +1174,7 @@ export class CoronaComponent implements OnInit {
       this.updateLocalOverview();
       this.updateLocalBreakdown();
       this.updateLocalGrowth();
+      this.updateLocalR0();
     };
     if (this.fitData.has(this.selectedRegion)) {
       update();
@@ -1114,6 +1208,7 @@ export class CoronaComponent implements OnInit {
     this.updateLocalOverview();
     this.updateLocalGrowth();
     this.updateLocalBreakdown();
+    this.updateLocalR0();
   };
 
   onDateSliderChange(name: string): void {

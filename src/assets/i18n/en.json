@@ -178,7 +178,8 @@
                 "tests": {
                     "header": "Tests conducted",
                     "published": "Published: "
-                }
+                },
+                "doubling-time": "Doubling time"
             },
             "legend": {
                 "sig-fit": "Logistic fit",
