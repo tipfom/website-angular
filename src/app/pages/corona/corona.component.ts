@@ -492,13 +492,10 @@ export class CoronaComponent implements OnInit {
       yaxis: {
         rangemode: 'nonnegative',
         autorange: true,
+        range: [0.5, 4],
         automargin: true,
         gridcolor: this.colors.grid,
         fixedrange: true,
-        title: {
-          text: 'Days',
-          standoff: 10
-        }
       },
       margin: { l: 0, r: 0, t: 0, b: 0 }
     },
@@ -976,26 +973,41 @@ export class CoronaComponent implements OnInit {
 
   updateLocalR0() {
     let regionData = this.overviewData.get(this.selectedRegion);
-    let rollingAverage = [];
+    let rA = [];
     for (var i = 0; i < regionData.confirmed.length; i++) {
       let v = regionData.confirmed[i];
-      for (var k = 10; k > 0; k--) {
-        if (rollingAverage.length > k) {
+      for (var k = 3; k > 0; k--) {
+        if (rA.length > k) {
           for (var l = 1; l < k + 1; l++) {
-            v += rollingAverage[rollingAverage.length - l];
+            v += rA[rA.length - l];
           }
           v /= k + 1;
           break;
         }
       }
-      rollingAverage.push(v);
+      rA.push(v);
     }
 
     let r0 = [];
-    for (var i = 0; i < regionData.confirmed.length - 2; i++) {
-      r0.push(Math.log(2) / Math.log(rollingAverage[i + 1] / rollingAverage[i]));
+    for (var i = 4; i < rA.length - 4; i += 4) {
+      r0.push((rA[i + 4] - rA[i]) / (rA[i] - rA[i - 4]));
     }
-    this.localR0Graph.data = [this.buildTrace(r0, r0.length, "", "r0", "#888888", true, "none")];
+
+    var horizontalLine = {
+      x: [this.axisStartDate.getTime() - 10000000000, this.dataEndDate.getTime() + 10000000000],
+      y: [1, 1],
+      mode: 'lines',
+      type: 'scatter',
+      name: name,
+      yaxis: "y1",
+      showlegend: false,
+      line: {
+        width: 3,
+        color: '#FF000055'
+      }
+    }
+
+    this.localR0Graph.data = [this.buildR0Trace(r0, r0.length, "#888888"), horizontalLine];
     this.localR0Graph.layout.xaxis.range = [
       this.axisStartDate.getTime(),
       this.dataEndDate.getTime()
@@ -1056,6 +1068,40 @@ export class CoronaComponent implements OnInit {
       },
       line: {
         width: 3,
+      }
+    }
+
+    return trace;
+  }
+
+  buildR0Trace(data: number[], count: number, color: string) {
+    let x = []
+    let y: number[] = []
+    for (var i = 0; i <= count; i++) {
+      if (data[i] == undefined) break;
+      let date = new Date(this.dataStartDate);
+      date.setDate(date.getDate() + (i + 1) * 4);
+      x.push(date);
+      y.push(data[i]);
+    }
+
+    let trace = {
+      x: x,
+      y: y,
+      mode: 'lines+markers',
+      type: 'scatter',
+      name: name,
+      yaxis: "y1",
+      marker: {
+        color: color,
+        size: 8,
+        symbol: "circle"
+      },
+      showlegend: false,
+      line: {
+        width: 2,
+        shape: 'spline',
+        smoothing: 1.3
       }
     }
 

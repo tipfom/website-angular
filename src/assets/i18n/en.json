@@ -179,7 +179,10 @@
                     "header": "Tests conducted",
                     "published": "Published: "
                 },
-                "doubling-time": "Doubling time"
+                "r": {
+                    "header": "Reproduction number R",
+                    "description": "This chart depicts an approximation of the current reproduction number of Coronavirus infections in the selected region. It uses data of a four day interval to compute the R-value based on the method employed by the German Robert Koch Institute. In a simple manner, its values represent how many people one confirmed infected infects. Therefore, if the R-value is greater than 1, the number of infections is increasing, if the values is less than 1, it decreases, while staying approximately constant at 1."
+                }
             },
             "legend": {
                 "sig-fit": "Logistic fit",
