@@ -181,7 +181,8 @@
                 },
                 "r": {
                     "header": "Reproduktionszahl R",
-                    "description": "In dieser Grafik wird eine Abschätzung der aktuellen Reproduktionszahl der Coronavirusinfektionen dargestellt. Die Grundlage der Daten stellt jeweils ein Viertagesintervall an Infektionszahlen und zur Berechnung wird die vom deutschen RKI verwendete Methode benutzt. Als einfache Interpretation gibt dieser Wert wieder, wie viele neue Patienten ein gemeldeter Infizierter ansteckt. Liegt dieser Wert also über 1, erhöht sich die Zahl der aktiven Infektionen in diesem Zeitraum, liegt er unter 1 verringert sie sich."
+                    "description": "In dieser Grafik wird eine Abschätzung der aktuellen Reproduktionszahl der Coronavirusinfektionen dargestellt. Die Grundlage der Daten stellt jeweils ein Viertagesintervall an Infektionszahlen und zur Berechnung wird die vom deutschen RKI verwendete Methode benutzt. Als einfache Interpretation gibt dieser Wert wieder, wie viele neue Patienten ein gemeldeter Infizierter ansteckt. Liegt dieser Wert also über 1, erhöht sich die Zahl der aktiven Infektionen in diesem Zeitraum, liegt er unter 1 verringert sie sich.",
+                    "toggle-zoom": "Drücken, um die y-Achsen Skalierung umzuschalten"
                 }
             },
             "legend": {

@@ -65,7 +65,8 @@
                                 [hasMinMax]="false" [hasResize]="false"
                                 [(upper)]="controlSettings.globalInfectedMap.index"
                                 [(animateInterval)]="globalAnimateInterval" [animateGroup]="globalAnimateGroup"
-                                (change)="onDateSliderChange('globalinfectedmap')" [(linked)]="controlSettings.linkGlobal">
+                                (change)="onDateSliderChange('globalinfectedmap')"
+                                [(linked)]="controlSettings.linkGlobal">
                             </app-range-slider>
                         </div>
                         <div
@@ -494,13 +495,15 @@
                                     <th translate>pages.corona.global.stats.confirmed</th>
                                     <td>{{statistics.local.confirmed.value | localeint}}</td>
                                     <td>({{statistics.local.confirmed.delta | localedelta}})</td>
-                                    <td *ngIf="statistics.local.confirmed.rank > 0">#{{statistics.local.confirmed.rank}}</td>
+                                    <td *ngIf="statistics.local.confirmed.rank > 0">#{{statistics.local.confirmed.rank}}
+                                    </td>
                                 </tr>
                                 <tr class="stats-tr-infected">
                                     <th translate>pages.corona.global.stats.infected</th>
                                     <td>{{statistics.local.infected.value | localeint}}</td>
                                     <td>({{statistics.local.infected.delta | localedelta}})</td>
-                                    <td *ngIf="statistics.local.infected.rank > 0">#{{statistics.local.infected.rank}}</td>
+                                    <td *ngIf="statistics.local.infected.rank > 0">#{{statistics.local.infected.rank}}
+                                    </td>
                                 </tr>
                                 <tr class="stats-tr-healed">
                                     <th translate>pages.corona.global.stats.recovered</th>
@@ -569,16 +572,17 @@
                             </plotly-plot>
                         </div>
                     </div>
-                    <div class="plot-item-large">
+                    <div class="plot-item-large" id="r">
                         <h3 translate>pages.corona.local.r.header</h3>
                         <div class="description-div" translate>pages.corona.local.r.description
                             <a href="article/corona" translate>pages.corona.learn-more</a>
                         </div>
                         <div class="plot-div">
                             <plotly-plot [data]="localR0Graph.data" [layout]="localR0Graph.layout"
-                                [config]="localR0Graph.config">
+                                [config]="localR0Graph.config" id="local-r0-plot">
                             </plotly-plot>
                         </div>
+                        <a (click)="toggleR0YAxisZoom()" style="cursor: pointer; user-select: none; float: right; margin-bottom: -10px;" translate>pages.corona.local.r.toggle-zoom</a>
                     </div>
                     <div class="plot-item-large">
                         <h3 translate>pages.corona.local.growth</h3>

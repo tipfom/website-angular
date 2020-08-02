@@ -491,8 +491,8 @@ export class CoronaComponent implements OnInit {
       },
       yaxis: {
         rangemode: 'nonnegative',
-        autorange: true,
-        range: [0.5, 4],
+        autorange: false,
+        range: [0.4, 3.1],
         automargin: true,
         gridcolor: this.colors.grid,
         fixedrange: true,
@@ -540,6 +540,7 @@ export class CoronaComponent implements OnInit {
 
     let loadedRegions = 0;
     let requiredRegions = [this.selectedRegion, "China", "row"];
+    if (this.selectedRegion != "global") requiredRegions.push("global");
     let partDataLoad = () => {
       if (this.overviewData != undefined && loadedRegions == requiredRegions.length) this.onDataLoaded();
     };
@@ -618,6 +619,8 @@ export class CoronaComponent implements OnInit {
     this.updateGlobalTests();
     this.updateGlobalStats();
     this.updateGlobalStatus();
+
+    if (!this.fitData.has(this.selectedRegion)) return;
     this.updateLocalStats();
     this.updateLocalBreakdown();
     this.updateLocalGrowth();
@@ -1136,6 +1139,7 @@ export class CoronaComponent implements OnInit {
       mode: 'lines+markers',
       type: 'scatter',
       yaxis: 'y2',
+      visible: (this.localGrowthGraph.data.length > 0) ? this.localGrowthGraph.data[1].visible : 'legendonly',
       name: this.translateService.instant("pages.corona.legend.rel-growth"),
       marker: {
         color: relativeColor,
@@ -1338,5 +1342,11 @@ export class CoronaComponent implements OnInit {
       delete this.globalTestsGraph.layout.geo["center"];
       PlotlyModule.plotlyjs.react(document.getElementById("global-tests-plot").children.item(0), this.globalTestsGraph.data, this.globalTestsGraph.layout);
     }
+  }
+
+  toggleR0YAxisZoom() {
+    this.localR0Graph.layout.yaxis.autorange = !this.localR0Graph.layout.yaxis.autorange;
+    if (!this.localR0Graph.layout.yaxis.autorange) this.localR0Graph.layout.yaxis.range = [0.4, 3.1];
+    PlotlyModule.plotlyjs.react(document.getElementById("local-r0-plot").children.item(0), this.localR0Graph.data, this.localR0Graph.layout);
   }
 }
