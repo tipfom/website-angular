@@ -140,13 +140,20 @@ $border-color: rgba($color-light, .7)
 	&:not(:first-child) 
 		&:not(:last-child)
 			margin: 0 10px
+	&:first-child
+		margin-right: 10px
+	&:last-child
+		margin-left: 10px
 
 #skilldiv
 	padding: 10px
 	max-width: 600px
+	align-items: center
+	display: inline-flex
+	flex-direction: column
 
 #csharpcircle
-	--crotation: 180deg
+	--crotation: 175deg
 
 #pythoncircle
 	--crotation: 160deg
@@ -169,7 +176,7 @@ $border-color: rgba($color-light, .7)
 	max-width: 435px
 	flex-wrap: wrap
 	justify-content: center
-	margin: 0 auto 20px auto
+	margin-bottom: 20px
 
 @media (min-width: 360px) 
 	.circle-wrap, .circle .mask, .circle-wrap .circle .fill
@@ -180,7 +187,6 @@ $border-color: rgba($color-light, .7)
 	.circle-wrap, .circle .mask, .circle-wrap .circle .fill
 		--circlesize: calc(calc(100vw - 40px) / 2 * 0.9 - 30px)
 		--halfcirclesize: calc(var(--circlesize) / 2)
-
 
 .circle-wrap 
 	margin: 12.5px 12.5px
@@ -206,8 +212,9 @@ $border-color: rgba($color-light, .7)
 .circle-wrap .circle .mask.full, .circle-wrap .circle .fill 
 	animation: fill ease-in-out 1s
 	transform: rotate(var(--crotation))
+	overflow: hidden
 
- 
+
 @keyframes fill 
 	0% 
 		transform: rotate(0deg)
