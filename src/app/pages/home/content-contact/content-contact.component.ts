@@ -53,11 +53,17 @@ export class ContentContactComponent implements OnInit {
     if (validMail && validMessage && validName) {
       this.sending = true;
       this.apiService.sendMail(
-        (<HTMLInputElement>document.getElementById("email-input")).value,
-        (<HTMLInputElement>document.getElementById("name-input")).value,
-        (<HTMLInputElement>document.getElementById("message-input")).value)
+        this.email,
+        this.name,
+        this.message)
         .pipe(catchError((err) => { this.status = "error"; this.sending = false; return err; }))
-        .subscribe(r => { this.status = <string>r; this.sending = false; });
+        .subscribe(r => {
+          this.status = <string>r; 
+          this.sending = false; 
+          if (this.status == "success") {
+            this.email = ""; this.name = ""; this.message = "";
+          }
+        });
     }
   }
 }
