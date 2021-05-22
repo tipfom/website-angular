@@ -1,11 +1,8 @@
-import { ArticleFile } from './article-file';
+import { ArticleTranslation } from './article-translation';
 
 export interface ArticleEntry {
-    name: string;
-    creation_time: string;
-    title_de: string;
-    title_en: string;
-    description_de: string;
-    description_en: string;
-    files: ArticleFile[][];
+    spotlight: boolean;
+    translations: Map<string, ArticleTranslation>;
+    changelog: string[];
+    edited: Date;
 }

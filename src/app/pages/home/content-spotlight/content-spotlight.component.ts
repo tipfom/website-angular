@@ -11,10 +11,11 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ContentSpotlightComponent implements OnInit {
 
-  spotlightArticles : Observable<ArticleEntry[]>;
+  spotlightArticles : Observable<Map<string, ArticleEntry>>;
 
   constructor(private apiService: ApiService, public translateService: TranslateService) { 
-    this.spotlightArticles = apiService.getSpotlightArticles();
+    this.spotlightArticles = this.apiService.getAllArticles();
+    // this.spotlightArticles = apiService.getSpotlightArticles();
   }
 
   ngOnInit(): void {

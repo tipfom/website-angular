@@ -2,19 +2,19 @@
     <div class="contentdiv-small">
         <h2 translate>pages.home.spotlight.spotlight</h2>
         <table>
-            <tr *ngFor="let spotlightArticle of spotlightArticles | async">
-                <div>
-                    <a [href]="'article/' + spotlightArticle.name">
+            <tr *ngFor="let spotlightArticle of spotlightArticles | async | keyvalue">
+                <div *ngIf="spotlightArticle.value.spotlight">
+                    <a [href]="'article/' + spotlightArticle.key">
                         <div
                             *ngIf="translateService.currentLang == 'de' || (translateService.currentLang == undefined && translateService.defaultLang == 'de'); then germanBlock else englishBlock">
                         </div>
                         <ng-template #germanBlock>
-                            <h3> {{spotlightArticle.title_de}} </h3>
-                            <p>{{spotlightArticle.description_de}}</p>
+                            <h3> {{spotlightArticle.value.translations.de.title}} </h3>
+                            <p>{{spotlightArticle.value.translations.de.description}}</p>
                         </ng-template>
                         <ng-template #englishBlock>
-                            <h3> {{spotlightArticle.title_en}} </h3>
-                            <p>{{spotlightArticle.description_en}}</p>
+                            <h3> {{spotlightArticle.value.translations.en.title}} </h3>
+                            <p>{{spotlightArticle.value.translations.en.description}}</p>
                         </ng-template>
                     </a>
                 </div>

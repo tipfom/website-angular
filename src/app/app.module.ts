@@ -10,8 +10,6 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { AboutmeComponent } from './pages/aboutme/aboutme.component';
-import { AdminComponent } from './pages/admin/admin.component';
-import { CmsComponent } from './pages/admin/cms/cms.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { ContentAboutmeComponent } from './pages/home/content-aboutme/content-aboutme.component';
@@ -20,8 +18,6 @@ import { ContentSpotlightComponent } from './pages/home/content-spotlight/conten
 import { HomeNavigationBarComponent } from './pages/home/home-navigation-bar/home-navigation-bar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LandingPageComponent } from './pages/home/landing-page/landing-page.component';
-import { LoginComponent } from './pages/login/login.component';
-import { ResourceComponent } from './pages/resource/resource.component';
 import { LanguagePopupComponent } from './popups/language-popup/language-popup.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { CoronaComponent } from './pages/corona/corona.component';
@@ -32,6 +28,7 @@ import { RangeSliderComponent } from './pages/corona/range-slider/range-slider.c
 import { LocaleintPipe } from './pipes/localeint.pipe';
 import { LocaledeltaPipe } from './pipes/localedelta.pipe';
 import { SliderdatePipe } from './pipes/sliderdate.pipe';
+import { NgxDatePipe } from './pipes/ngx-date.pipe';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -46,10 +43,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
     AboutmeComponent,
     HomeComponent,
     NavigationBarComponent,
-    AdminComponent,
-    CmsComponent,
-    LoginComponent,
-    ResourceComponent,
     ArticleComponent,
     ContentSpotlightComponent,
     ArticlesComponent,
@@ -60,6 +53,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     LocaleintPipe,
     LocaledeltaPipe,
     SliderdatePipe,
+    NgxDatePipe,
   ],
   imports: [
     BrowserModule,

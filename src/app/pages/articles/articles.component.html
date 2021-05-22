@@ -4,21 +4,21 @@
         <div class="contentdiv-large">
             <h2 translate>pages.articles.title</h2>
             <table>
-                <tr *ngFor="let article of articles | async">
+                <tr *ngFor="let article of articles | async | keyvalue">
                     <div>
                         <div
                             *ngIf="translateService.currentLang == 'de' || (translateService.currentLang == undefined && translateService.defaultLang == 'de'); then germanBlock else englishBlock">
                         </div>
                         <ng-template #germanBlock>
-                            <a [href]="'article/' + article.name" >
-                                <h3>{{article.title_de}}<span>{{article.creation_time}}</span></h3>
-                                <p>{{article.description_de}}</p>
+                            <a [href]="'article/' + article.key">
+                                <h3>{{article.value.translations.de.title}}<span>{{article.value.edited | ngxDate}}</span></h3>
+                                <p>{{article.value.translations.de.description}}</p>
                             </a>
                         </ng-template>
                         <ng-template #englishBlock>
-                            <a [href]="'article/' + article.name" >
-                                <h3>{{article.title_en}}<span>{{article.creation_time}}</span></h3>
-                                <p>{{article.description_en}}</p>
+                            <a [href]="'article/' + article">
+                                <h3>{{article.value.translations.en.title}}<span>{{article.value.edited | ngxDate}}</span></h3>
+                                <p>{{article.value.translations.en.description}}</p>
                             </a>
                         </ng-template>
                     </div>

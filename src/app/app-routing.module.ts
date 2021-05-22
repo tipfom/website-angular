@@ -3,10 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AboutmeComponent } from './pages/aboutme/aboutme.component';
 import { HomeComponent } from './pages/home/home.component';
-import { AdminComponent } from './pages/admin/admin.component';
-import { LoginComponent } from './pages/login/login.component';
-import { AdminGuardService } from './services/admin-guard.service';
-import { ResourceComponent } from './pages/resource/resource.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { Error404Component } from './pages/error404/error404.component';
@@ -24,24 +20,7 @@ const routes: Routes = [
     component: AboutmeComponent
   },
   {
-    path: 'admin',
-    component: AdminComponent,
-    canActivate: [AdminGuardService]
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'res/:id',
-    component: ResourceComponent
-  },
-  {
     path: 'article/:name',
-    component: ArticleComponent
-  },
-  {
-    path: 'article/:name/:version',
     component: ArticleComponent
   },
   {

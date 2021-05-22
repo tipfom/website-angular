@@ -2,7 +2,6 @@ import { Component, OnInit, Version } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { ArticleFile } from 'src/app/structures/article-file';
 import { ArticleEntry } from 'src/app/structures/article-entry';
 import { AnchorService } from 'src/app/services/anchor.service';
 
@@ -13,29 +12,19 @@ import { AnchorService } from 'src/app/services/anchor.service';
 })
 export class ArticleComponent implements OnInit {
 
-  previousVersionHref: string;
-  newestVersionHref: string;
-  isOldVersion: boolean;
   article: ArticleEntry;
-  articleVersion: number;
   languageAvailable: boolean = true;
   articleContentUrl: string;
+  title: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService,
     public translateService: TranslateService, private anchorService: AnchorService) {
     const name = this.route.snapshot.paramMap.get('name');
-    this.newestVersionHref = "article/" + name;
+  
+    this.apiService.getAllArticles().subscribe(r => {
+      this.article = r[name];
 
-    this.apiService.getArticle(name).subscribe(r => {
-      this.article = r;
-
-      if (this.route.snapshot.paramMap.get('version') == undefined) this.articleVersion = this.article.files.length - 1;
-      else this.articleVersion = +this.route.snapshot.paramMap.get('version');
-
-      if (this.article.files[this.articleVersion - 1] != undefined)
-        this.previousVersionHref = "article/" + name + "/" + (this.articleVersion - 1);
-
-      this.isOldVersion = this.articleVersion != this.article.files.length - 1;
+      if (this.article == undefined) this.router.navigate(['404']);
 
       this.loadArticle(this.translateService.currentLang);
     }, (error) => this.router.navigate(['404']));
@@ -43,18 +32,26 @@ export class ArticleComponent implements OnInit {
     this.translateService.onLangChange.subscribe((e: LangChangeEvent) => this.loadArticle(e.lang));
   }
 
-  ngOnInit(): void {
+  loadArticle(lang) : void {
+    if (this.article == null) return;
+
+    this.languageAvailable = true;
+    if (this.article.translations[lang] == undefined || this.article.translations[lang].file == undefined) {
+      this.languageAvailable = false;
+      Object.keys(this.article.translations).forEach(k => {
+        if (this.article.translations[k].file != undefined) {
+          lang = k;
+        }
+      });
+    }
+    
+    this.title = this.article.translations[lang].title;
+    this.articleContentUrl = this.apiService.getArticleContentUrl(this.article.translations[lang].file);
   }
 
-  loadArticle(lang: string) {
-    if (this.article != undefined && this.article.files != undefined) {
-      let file = this.article.files[this.articleVersion].find(x => x.lang == lang);
-      this.languageAvailable = file != undefined;
-      if (!this.languageAvailable) file = this.article.files[this.articleVersion][0];
-      this.articleContentUrl = this.apiService.getArticleContentUrl(file.path);
-    }
+  ngOnInit(): void {
   }
-  
+ 
   onMarkdownLoad() {
     this.anchorService.scrollToAnchor();
   }
