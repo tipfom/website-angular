@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./articles.component.sass']
 })
 export class ArticlesComponent implements OnInit {
-  articles: Map<string, ArticleEntry>;
+  articles: Observable<Map<string, ArticleEntry>>;
 
   constructor(private apiService: ApiService, public translateService: TranslateService) { 
     this.articles = apiService.getAllArticles();
